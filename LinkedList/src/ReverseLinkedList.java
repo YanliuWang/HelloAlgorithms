@@ -15,13 +15,6 @@
  * @create 2020-10-16-13:29
  */
 public class ReverseLinkedList {
-    public class ListNode {
-      int val;
-      ListNode next;
-      ListNode(int x) { val = x; }
-
-    }
-
     public class Solution {
         public ListNode reverseList(ListNode head) {
             ListNode prevHead = null;
