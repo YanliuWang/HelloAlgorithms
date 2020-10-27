@@ -15,7 +15,7 @@
  * @create 2020-10-16-13:29
  */
 public class ReverseLinkedList {
-    public class Solution {
+    static class Solution {
         public ListNode reverseList(ListNode head) {
             ListNode prevHead = null;
 
