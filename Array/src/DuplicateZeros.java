@@ -32,9 +32,9 @@ public class DuplicateZeros {
                         arr[j] = arr[i];
                     }
                 }
+                j--;i--;
             }
 
-            j--;i--;
         }
     }
 }
