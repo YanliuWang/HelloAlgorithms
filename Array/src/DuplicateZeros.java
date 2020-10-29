@@ -33,6 +33,8 @@ public class DuplicateZeros {
                     }
                 }
             }
+
+            j--;i--;
         }
     }
 }
