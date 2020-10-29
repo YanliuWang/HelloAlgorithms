@@ -12,16 +12,16 @@ public class RemoveDuplicatesFromSortedArray {
             // store next new number's index
             int nextNew = 0;
 
-
             for (int i = 1; i < nums.length; i++) {
-                if (nums[i] == nums[i-1]) {
+                if (nums[i-1] == nums[i]) {
                     continue;
+
                 } else {
                     nextNew++;
+
                 }
 
                 nums[nextNew] = nums[i];
-
             }
 
             return nextNew + 1;
