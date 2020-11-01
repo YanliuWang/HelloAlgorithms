@@ -12,32 +12,32 @@ public class PreOrderTraversal {
 
         public List<Integer> preOrderTraversal(TreeNode root) {
             // iteration
-//            List<Integer> res = new ArrayList<>();
-//            Deque<TreeNode> stack = new ArrayDeque<>();
-//            TreeNode curr = root;
-//
-//            while (curr != null || stack.size() != 0) {
-//                if (curr != null) {
-//                    stack.addFirst(curr);
-//                    res.add(curr.val);
-//                    curr = curr.left;
-//
-//                } else {
-//                    curr = stack.removeFirst();
-//                    curr = curr.right;
-//                }
-//            }
-//
-//            return res;
-//
-//        }
-
-            // recursion
             List<Integer> res = new ArrayList<>();
+            Deque<TreeNode> stack = new ArrayDeque<>();
+            TreeNode curr = root;
 
-            _helper(root, res);
+            while (curr != null || stack.size() != 0) {
+                while (curr != null) {
+                    stack.addFirst(curr);
+                    res.add(curr.val);
+                    curr = curr.left;
+
+                }
+
+                curr = stack.removeFirst();
+                curr = curr.right;
+
+            }
 
             return res;
+
+
+            // recursion
+//            List<Integer> res = new ArrayList<>();
+//
+//            _helper(root, res);
+//
+//            return res;
 
         }
 
