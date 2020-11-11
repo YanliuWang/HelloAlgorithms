@@ -17,7 +17,8 @@ public class LevelOrderTraversal {
             }
 
             Queue<TreeNode> queue = new LinkedList<>();
-            queue.add(root);
+            // the difference between add() and offer()
+            queue.offer(root);
 
             while (!queue.isEmpty()) {
                 List<Integer> level = new ArrayList<>();
@@ -30,12 +31,10 @@ public class LevelOrderTraversal {
 
                     if (node.left != null) {
                         queue.offer(node.left);
-
                     }
 
                     if (node.right != null) {
                         queue.offer(node.right);
-
                     }
                 }
 
