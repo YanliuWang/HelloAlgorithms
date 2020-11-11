@@ -14,7 +14,6 @@ public class LevelOrderTraversal {
 
             if (root == null) {
                 return res;
-
             }
 
             Queue<TreeNode> queue = new LinkedList<>();
@@ -45,5 +44,6 @@ public class LevelOrderTraversal {
 
             return res;
         }
+
     }
 }
