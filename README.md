@@ -1,3 +1,3 @@
 # HelloAlgorithms
-This is my leetcode solutions repository. 
-All solutions are bug-free.
+This is my leetcode solutions and algorithm implementations repository. 
+All code is bug-free.
