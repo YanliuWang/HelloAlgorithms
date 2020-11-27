@@ -16,7 +16,7 @@
  */
 public class ReverseLinkedList {
     static class Solution {
-        public ListNode reverseList(ListNode head) {
+        public ListNode reverseIteration(ListNode head) {
             ListNode prevHead = null;
 
             while (head != null) {
@@ -28,6 +28,23 @@ public class ReverseLinkedList {
 
             return prevHead;
 
+        }
+
+        public ListNode reverseRecursion(ListNode head) {
+            if (head == null) {
+                return null;
+            }
+
+            if (head.next == null) {
+                return head;
+            }
+
+            ListNode last = reverseRecursion(head.next);
+
+            head.next.next = head;
+            head.next = null;
+
+            return last;
         }
     }
 }
