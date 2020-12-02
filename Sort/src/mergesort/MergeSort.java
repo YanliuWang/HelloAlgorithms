@@ -29,24 +29,24 @@ public class MergeSort {
     }
 
     private static void merge(Comparable[] arr, int left, int mid, int right) {
-        Comparable[] help = new Comparable[right - left + 1];
+        Comparable[] helper = new Comparable[right - left + 1];
 
         int i = 0, j = left, k = mid + 1;
 
         while (j <= mid && k <= right) {
-            help[i++] = SortUtils.less(arr[j], arr[k]) ? arr[j++] : arr[k++];
+            helper[i++] = SortUtils.less(arr[k], arr[j]) ? arr[k++] : arr[j++];
         }
 
         while (j <= mid) {
-            help[i++] = arr[j++];
+            helper[i++] = arr[j++];
         }
 
         while (k <= right) {
-            help[i++] = arr[k++];
+            helper[i++] = arr[k++];
         }
 
-        for (i = 0; i < help.length; i++) {
-            arr[left + i] = help[i];
+        for (i = 0; i < helper.length; i++) {
+            arr[i + left] = helper[i];
         }
 
     }
@@ -56,15 +56,11 @@ public class MergeSort {
             return;
         }
 
-        int left = 0, right = arr.length - 1;
+        int N = arr.length;
 
-        for (int currSize = 1; currSize <= right - left; currSize *= 2) {
-            for (int i = left; i < right; i = i + currSize * 2) {
-                int from = i;
-                int mid = Math.min(i + currSize - 1, right);
-                int to = Math.min(mid + currSize, right);
-
-                merge(arr, from, mid, to);
+        for (int currSize = 1; currSize < N; currSize *= 2) {
+            for (int lo = 0; lo < N - currSize; lo += currSize * 2) {
+                merge(arr, lo, lo + currSize - 1, Math.min(lo + currSize + currSize - 1, N - 1));
             }
         }
     }
