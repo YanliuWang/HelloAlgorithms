@@ -1,6 +1,7 @@
 /**
  * @author yanliu
  * @create 2020-12-08-23:48
+ * using preorder or postorder traverse module
  */
 public class InvertTree {
     static class Solution {
@@ -9,12 +10,11 @@ public class InvertTree {
                 return null;
             }
 
-            invertTree(root.left);
-
             TreeNode tmp = root.left;
             root.left = root.right;
             root.right = tmp;
 
+            invertTree(root.left);
             invertTree(root.right);
 
             return root;
