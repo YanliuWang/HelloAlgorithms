@@ -5,11 +5,43 @@
 public class PopulatingNextRightPointersInEachNodeFirst {
     static class Solution {
         /**
-         * recursion
+         * recursion1
          * @param root
          * @return
          */
-        public Node constructRecursion(Node root) {
+        public Node construct(Node root) {
+            if (root == null) {
+                return null;
+            }
+
+            constructRecursionFirst(root.left, root.right);
+
+            return root;
+        }
+
+        private void constructRecursionFirst(Node node1, Node node2) {
+            if (node1 == null || node2 == null) {
+                return;
+            }
+
+            // preorder traverse
+            // connect two nodes
+            node1.next = node2;
+
+            // connect two nodes with same root
+            constructRecursionFirst(node1.left, node1.right);
+            constructRecursionFirst(node2.left, node2.right);
+
+            // connect two nodes with different root
+            constructRecursionFirst(node1.right, node2.left);
+        }
+
+        /**
+         * recursion2
+         * @param root
+         * @return
+         */
+        public Node constructRecursionSecond(Node root) {
             if (root == null) {
                 return null;
             }
@@ -22,8 +54,8 @@ public class PopulatingNextRightPointersInEachNodeFirst {
                 root.right.next = root.next.left;
             }
 
-            constructRecursion(root.left);
-            constructRecursion(root.right);
+            constructRecursionSecond(root.left);
+            constructRecursionSecond(root.right);
 
             return root;
         }
@@ -33,7 +65,6 @@ public class PopulatingNextRightPointersInEachNodeFirst {
          * @param root
          * @return
          */
-
         public Node constructIteration(Node root) {
             if (root == null) {
                 return null;
@@ -61,7 +92,5 @@ public class PopulatingNextRightPointersInEachNodeFirst {
 
             return root;
         }
-
-
     }
 }
