@@ -8,7 +8,7 @@ import java.util.Queue;
  * @create 2020-11-01-13:22
  */
 public class LevelOrderTraversal {
-    static class Solution {
+    static class Solution1 {
         public List<List<Integer>> levelOrderTraversal(TreeNode root) {
             List<List<Integer>> res = new ArrayList<>();
 
@@ -44,5 +44,28 @@ public class LevelOrderTraversal {
             return res;
         }
 
+    }
+
+    static class Solution2 {
+        public void levelOrderTraverse(TreeNode root) {
+            if (root == null) {
+                return;
+            }
+
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.offer(root);
+
+            while (!queue.isEmpty()) {
+                TreeNode curr = queue.poll();
+
+                if (curr == null) {
+                    continue;
+                }
+
+                queue.offer(curr.left);
+                queue.offer(curr.right);
+            }
+
+        }
     }
 }
