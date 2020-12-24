@@ -1,5 +1,3 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Stack;
 
 /**
@@ -59,7 +57,7 @@ public class IsSymmetric {
                 return true;
             }
 
-            if (left != null || right != null) {
+            if (left != null && right == null || right != null && left == null) {
                 return false;
             }
 
