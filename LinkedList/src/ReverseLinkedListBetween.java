@@ -28,15 +28,15 @@
  * @create 2020-11-27-16:26
  */
 public class ReverseLinkedListBetween {
-    static class Solution {
+    static class Solution1 {
         ListNode successor = null;
 
-        public ListNode reverseBetweenRecursion(ListNode head, int m, int n) {
+        public ListNode reverseBetween(ListNode head, int m, int n) {
             if (m == 1) {
                 return reverseN(head, n);
             }
 
-            head.next = reverseBetweenRecursion(head.next, m - 1, n - 1);
+            head.next = reverseBetween(head.next, m - 1, n - 1);
 
             return head;
         }
@@ -56,9 +56,11 @@ public class ReverseLinkedListBetween {
 
             return last;
         }
+    }
 
 
-        public ListNode reverseBetweenIteration(ListNode head, int m, int n) {
+    static class Solution2 {
+        public ListNode reverseBetween(ListNode head, int m, int n) {
             if (head == null) {
                 return null;
             }
