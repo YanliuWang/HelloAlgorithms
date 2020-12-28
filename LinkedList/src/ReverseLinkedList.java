@@ -17,16 +17,16 @@
 public class ReverseLinkedList {
     static class Solution1 {
         public ListNode reverseLinkedList(ListNode head) {
-            ListNode prevHead = null;
+            ListNode pre = null, curr = head, next = null;
 
             while (head != null) {
-                ListNode recordNext = head.next;
-                head.next = prevHead;
-                prevHead = head;
-                head = recordNext;
+                next = curr.next;
+                curr.next = pre;
+                pre = curr;
+                curr = next;
             }
 
-            return prevHead;
+            return pre;
 
         }
     }
