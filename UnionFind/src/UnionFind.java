@@ -12,7 +12,7 @@ public class UnionFind {
     /**
      * store the weight of node i
      */
-    private int[] size;
+    private int[] weight;
 
     /**
      * store the count the connectivity
@@ -21,11 +21,11 @@ public class UnionFind {
 
     public UnionFind(int n) {
         parent = new int[n];
-        size = new int[n];
+        weight = new int[n];
 
         for (int i = 0; i < n; i++) {
             parent[i] = i;
-            size[i] = 1;
+            weight[i] = 1;
         }
 
         count = n;
@@ -39,13 +39,13 @@ public class UnionFind {
             return;
         }
 
-        if (size[rootP] > size[rootQ]) {
+        if (weight[rootP] > weight[rootQ]) {
             parent[rootQ] = rootP;
-            size[rootP] += size[rootQ];
+            weight[rootP] += weight[rootQ];
 
         } else {
             parent[rootP] = rootQ;
-            size[rootQ] += size[rootP];
+            weight[rootQ] += weight[rootP];
 
         }
 
