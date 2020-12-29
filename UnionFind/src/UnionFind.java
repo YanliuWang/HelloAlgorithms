@@ -31,7 +31,7 @@ public class UnionFind {
         count = n;
     }
 
-    private void union(int p, int q) {
+    public void union(int p, int q) {
         int rootP = find(p);
         int rootQ = find(q);
 
@@ -51,14 +51,15 @@ public class UnionFind {
 
         count--;
     }
-    public boolean connected(int p, int q) {
+
+    public boolean isConnected(int p, int q) {
         int rootP = find(p);
         int rootQ = find(q);
 
         return rootP == rootQ;
     }
 
-    private int find(int x) {
+    public int find(int x) {
         while (parent[x] != x) {
             // compress the path
             parent[x] = parent[parent[x]];
