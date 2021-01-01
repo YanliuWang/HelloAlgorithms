@@ -18,6 +18,7 @@ public class IsSymmetric {
                 return true;
             }
 
+            // for pushing null, we must use stack instead of deque
             Stack<TreeNode> stack = new Stack<>();
             stack.push(root.left);
             stack.push(root.right);
