@@ -5,13 +5,14 @@ import java.util.Stack;
  * @create 2020-11-02-16:01
  */
 public class IsSymmetric {
-    static class Solution {
+    static class Solution1 {
         /**
          * iteration
+         *
          * @param root
          * @return whether the tree is symmetric or not
          */
-        public boolean isSymmetricIteration(TreeNode root) {
+        public boolean isSymmetric(TreeNode root) {
             if (root == null) {
                 return true;
             }
@@ -41,29 +42,32 @@ public class IsSymmetric {
 
             return true;
         }
+    }
 
+    static class Solution2 {
         /**
          * recursion
+         *
          * @param root
          * @return whether the tree is symmetric or not
          */
-        public boolean isSymmetricRecursion(TreeNode root) {
-            return root == null || isSymmetric(root.left, root.right);
+        public boolean isSymmetric(TreeNode root) {
+            return root == null || helper(root.left, root.right);
 
         }
 
-        private boolean isSymmetric(TreeNode left, TreeNode right) {
+        private boolean helper(TreeNode left, TreeNode right) {
             if (left == null && right == null) {
                 return true;
             }
 
-            if (left != null && right == null || right != null && left == null) {
+            if ((left != null && right == null) || (right != null && left == null)) {
                 return false;
             }
 
             if (left.val == right.val) {
-                return isSymmetric(left.left, right.right)
-                        && isSymmetric(left.right, right.left);
+                return helper(left.left, right.right)
+                        && helper(left.right, right.left);
             } else {
                 return false;
             }
