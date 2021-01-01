@@ -62,7 +62,7 @@ public class IsSymmetric {
                 return true;
             }
 
-            if ((left != null && right == null) || (right != null && left == null)) {
+            if (left == null || right == null) {
                 return false;
             }
 
