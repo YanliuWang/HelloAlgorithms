@@ -53,11 +53,11 @@ public class IsSymmetric {
          * @return whether the tree is symmetric or not
          */
         public boolean isSymmetric(TreeNode root) {
-            return root == null || helper(root.left, root.right);
+            return root == null || isSymmetric(root.left, root.right);
 
         }
 
-        private boolean helper(TreeNode left, TreeNode right) {
+        private boolean isSymmetric(TreeNode left, TreeNode right) {
             if (left == null && right == null) {
                 return true;
             }
@@ -67,8 +67,8 @@ public class IsSymmetric {
             }
 
             if (left.val == right.val) {
-                return helper(left.left, right.right)
-                        && helper(left.right, right.left);
+                return isSymmetric(left.left, right.right)
+                        && isSymmetric(left.right, right.left);
             } else {
                 return false;
             }
