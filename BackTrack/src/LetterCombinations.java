@@ -31,26 +31,26 @@ public class LetterCombinations {
 
             LinkedList<Character> curr = new LinkedList<>();
 
-            dfs(curr, 0, digits);
+            dfs(curr, digits, 0);
 
             return res;
         }
 
-        private void dfs(LinkedList<Character> curr, int l, String digits) {
+        private void dfs(LinkedList<Character> curr, String digits, int start) {
             // 结束条件
-            if (l == digits.length()) {
+            if (start == digits.length()) {
                 res.add(listToString(curr));
                 return;
             }
 
-            String choice = mapping[Character.getNumericValue(digits.charAt(l))];
+            String choice = mapping[Character.getNumericValue(digits.charAt(start))];
 
             for (int i = 0; i < choice.length(); i++) {
                 // 做选择
                 curr.add(choice.charAt(i));
 
                 // 进入下一层决策
-                dfs(curr, l + 1, digits);
+                dfs(curr, digits, start + 1);
 
                 curr.removeLast();
 
