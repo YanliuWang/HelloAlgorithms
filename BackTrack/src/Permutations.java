@@ -1,13 +1,16 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * LC46
  * @author yanliu
  * @create 2021-01-26-16:19
  */
 public class Permutations {
-    static class Solution {
+    /**
+     * LC46
+     */
+    static class Solution1 {
         private List<List<Integer>> res = new LinkedList<>();
 
         public List<List<Integer>> permute(int[] nums) {
@@ -52,4 +55,47 @@ public class Permutations {
 
         }
     }
+
+    /**
+     * LC47
+     */
+    static class Solution2 {
+        private List<List<Integer>> res = new LinkedList<>();
+
+        public List<List<Integer>> permuteUnique(int[] nums) {
+            if (nums == null) {
+                return res;
+            }
+
+            List<Integer> tmp = new LinkedList<>();
+
+            Arrays.sort(nums);
+
+            backTrack(nums, tmp, new boolean[nums.length]);
+
+            return res;
+        }
+
+        private void backTrack(int[] nums, List<Integer> tmp, boolean[] used) {
+            if (tmp.size() == nums.length) {
+                res.add(new LinkedList<>(tmp));
+                return;
+            }
+
+            for (int i = 0; i < nums.length; i++) {
+                if (used[i] || i > 0 && nums[i] == nums[i-1] && !used[i-1]) {
+                    continue;
+                }
+
+                tmp.add(nums[i]);
+                used[i] = true;
+
+                backTrack(nums, tmp, used);
+
+                used[i] = false;
+                tmp.remove(tmp.size() - 1);
+            }
+        }
+    }
+
 }
