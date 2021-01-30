@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class CombinationSum {
     /**
-     * same element can be used repeatedly
+     * LC39:same element can be used repeatedly
      */
     static class Solution1 {
         private List<List<Integer>> res = new ArrayList<>();
@@ -53,7 +53,7 @@ public class CombinationSum {
     }
 
     /**
-     * same element cannot be used repeatedly
+     * LC40:same element cannot be used repeatedly
      */
     static class Solution2 {
         private List<List<Integer>> res = new ArrayList<>();
@@ -100,5 +100,40 @@ public class CombinationSum {
 
             }
         }
+    }
+
+    /**
+     * LC216
+     */
+    static class Solution3 {
+        private List<List<Integer>> res = new ArrayList<>();
+
+        public List<List<Integer>> combinationSum(int k, int n) {
+            List<Integer> tmp = new ArrayList<>();
+
+            backTrack(tmp, k, n, 1);
+
+            return res;
+        }
+
+        private void backTrack(List<Integer> tmp, int k, int remain, int start) {
+            if (tmp.size() > k) {
+                return;
+            }
+
+            if (tmp.size() == k && remain == 0) {
+                res.add(new LinkedList<>(tmp));
+                return;
+            }
+
+            for (int i = start; i <= remain && i<= 9; i++) {
+                tmp.add(i);
+
+                backTrack(tmp, k, remain - i, i + 1);
+
+                tmp.remove(tmp.size() - 1);
+            }
+        }
+
     }
 }
