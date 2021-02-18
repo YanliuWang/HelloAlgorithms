@@ -14,20 +14,18 @@ public class QuickSort {
         sort(arr, 0, arr.length - 1);
     }
 
-    public static void sort(Comparable[] arr, int lo, int hi) {
+    private static void sort(Comparable[] arr, int lo, int hi) {
         if (hi <= lo) {
             return;
         }
 
         int j = partition(arr, lo, hi);
-
         sort(arr, lo, j - 1);
         sort(arr, j + 1, hi);
     }
 
     private static int partition(Comparable[] arr, int lo, int hi) {
         int i = lo, j = hi + 1;
-
         Comparable v = arr[lo];
 
         while (true) {
@@ -50,14 +48,13 @@ public class QuickSort {
             SortUtils.swap(arr, i, j);
         }
 
-        SortUtils.swap(arr, j, lo);
+        SortUtils.swap(arr, lo, j);
 
         return j;
-
     }
 
     public static void main(String[] args) {
-        Double a[] = new Double[10];
+        Double[] a = new Double[10];
 
         for (int i = 0; i < a.length; i++) {
             a[i] = StdRandom.uniform();
