@@ -202,7 +202,7 @@ public class BinarySearch {
         public List<Integer> findKElements(int[] nums, int target, int k) {
             List<Integer> kElements = new ArrayList<>(k);
 
-            if (nums == null || nums.length == 0 || k > nums.length) {
+            if (nums == null || nums.length == 0 || k == 0 || k > nums.length) {
                 return kElements;
             }
 
