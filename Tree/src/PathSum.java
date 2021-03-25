@@ -17,8 +17,12 @@ public class PathSum {
                 return false;
             }
 
-            if (root.left == null && root.right == null && root.val == sum) {
-                return true;
+            if (root.left == null && root.right == null) {
+                if (root.val == sum) {
+                    return true;
+                }
+
+                return false;
             }
 
             return hasPathSum(root.left, sum - root.val)
@@ -43,6 +47,10 @@ public class PathSum {
         }
 
         private void _helper(TreeNode node, int target, List<Integer> curSeq, List<List<Integer>> res) {
+            if (node == null) {
+                return;
+            }
+
             curSeq.add(node.val);
 
             if (node.left == null && node.right == null && node.val == target) {
@@ -68,6 +76,7 @@ public class PathSum {
         public int pathSum(TreeNode root, int sum) {
             Map<Integer, Integer> prefixSumToFreq = new HashMap<>();
 
+            // why??
             // put pre-root pair
             prefixSumToFreq.put(0, 1);
 
