@@ -1,23 +1,27 @@
 /**
+ * LC110
  * @author yanliu
  * @create 2021-01-01-12:13
  */
 public class BalancedTree {
     static class Solution {
         public boolean isBalanced(TreeNode root) {
-            if (root == null) {
-                return true;
-            }
-
-            return Math.abs(height(root.left) - height(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+            return dfs(root) != -1;
         }
 
-        private int height(TreeNode root) {
+        private int dfs(TreeNode root) {
             if (root == null) {
                 return 0;
             }
 
-            return Math.max(height(root.left), height(root.right)) + 1;
+            int left = dfs(root.left);
+            int right = dfs(root.right);
+
+            if (left == -1 || right == -1 || Math.abs(left - right) > 1) {
+                return -1;
+            }
+
+            return Math.max(left, right) + 1;
         }
     }
 }
