@@ -13,41 +13,36 @@ public class CombinationSum {
      * LC39:same element can be used repeatedly
      */
     static class Solution1 {
-        private List<List<Integer>> res = new ArrayList<>();
+        public List<List<Integer>> combinationSum(int[] candidates, int target) {
+            List<List<Integer>> res = new ArrayList<>();
 
-        public List<List<Integer>> combinationSum(int[] nums, int target) {
-            if (nums == null) {
+            Arrays.sort(candidates);
+
+            if (candidates == null || candidates.length == 0) {
                 return res;
             }
 
-            List<Integer> tmp = new ArrayList<>();
-            Arrays.sort(nums);
-            backTrack(tmp, nums, target, 0);
+            dfs(candidates, new ArrayList<>(), res, 0, target);
 
             return res;
         }
 
-        private void backTrack(List<Integer> tmp, int[] nums, int remain, int start) {
-            // 结束条件
+        private void dfs(int[] candidates, List<Integer> curr, List<List<Integer>> res, int start, int remain) {
             if (remain == 0) {
-                res.add(new LinkedList<>(tmp));
+                res.add(new ArrayList<>(curr));
                 return;
             }
 
-            for (int i = start; i < nums.length; i++) {
-                // 剪枝
-                if (nums[i] > remain) {
+            for (int i = start; i < candidates.length; i++) {
+                if (candidates[i] > remain) {
                     return;
                 }
 
-                // 做选择
-                tmp.add(nums[i]);
+                curr.add(candidates[i]);
 
-                // 进入下一层决策层
-                backTrack(tmp, nums, remain - nums[i], i);
+                dfs(candidates, curr, res, i, remain - candidates[i]);
 
-                // 回退一个
-                tmp.remove(tmp.size() - 1);
+                curr.remove(curr.size() - 1);
             }
         }
     }

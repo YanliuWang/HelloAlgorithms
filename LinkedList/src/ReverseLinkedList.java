@@ -17,16 +17,16 @@
 public class ReverseLinkedList {
     static class Solution1 {
         public ListNode reverseLinkedList(ListNode head) {
-            ListNode pre = null, curr = head, next = null;
+            ListNode prev = null, curr = head, next      ;
 
-            while (head != null) {
+            while (curr != null) {
                 next = curr.next;
-                curr.next = pre;
-                pre = curr;
+                curr.next = prev;
+                prev = curr;
                 curr = next;
             }
 
-            return pre;
+            return prev;
 
         }
     }
@@ -41,12 +41,15 @@ public class ReverseLinkedList {
                 return head;
             }
 
-            ListNode last = reverseLinkedList(head.next);
+            ListNode newHead = reverseLinkedList(head.next);
 
+            // point to the current node
             head.next.next = head;
+
+            // current node as the final one
             head.next = null;
 
-            return last;
+            return newHead                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ;
         }
     }
 }

@@ -73,6 +73,7 @@ public class LetterCasePermutation {
 
             // 大小写转换
             currArray[start] ^= 1 << 5;
+
             dfs(currArray, start + 1);
 
             // 回退大小写转换

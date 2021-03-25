@@ -85,7 +85,7 @@ public class Permutations {
             for (int i = 0; i < nums.length; i++) {
                 //当前值用过了 或
                 //当前值等于前一个值： 两种情况：
-                //1 nums[i-1] 没用过 说明回溯到了同一层 此时接着用num[i] 则会与 同层用num[i-1] 重复
+                //1 nums[i-1] 没用过 说明回溯到了同一层 此时接着用num[i] 则会与同层用num[i-1] 重复
                 //2 nums[i-1] 用过了 说明此时在num[i-1]的下一层 相等不会重复
                 if (used[i] || (i > 0 && nums[i] == nums[i-1] && !used[i-1])) {
                     continue;

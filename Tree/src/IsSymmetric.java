@@ -58,6 +58,12 @@ public class IsSymmetric {
 
         }
 
+        /**
+         * hyper-function is used to judge pair relationship
+         * @param left
+         * @param right
+         * @return
+         */
         private boolean isSymmetric(TreeNode left, TreeNode right) {
             if (left == null && right == null) {
                 return true;
@@ -76,4 +82,5 @@ public class IsSymmetric {
         }
 
     }
+
 }

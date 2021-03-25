@@ -12,6 +12,10 @@ public class NQueens {
         private List<List<String>> res = new LinkedList<>();
 
         public List<List<String>> solveNQueens(int n) {
+            if (n <= 0) {
+                return res;
+            }
+
             char[][] board = new char[n][n];
 
             // build the board

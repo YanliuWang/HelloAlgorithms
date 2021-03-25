@@ -78,4 +78,8 @@ public class Subset {
             }
         }
     }
+
+    public static void main(String[] args) {
+        new Solution2().subsetsWithDup(new int[]{1, 2, 2});
+    }
 }

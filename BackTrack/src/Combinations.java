@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,6 +35,37 @@ public class Combinations {
                 backTrack(tmp, n, remain-1, i+1);
 
                 tmp.remove(tmp.size() - 1);
+            }
+        }
+    }
+
+    static class Solution2 {
+        public List<List<Integer>> combine(int[] nums) {
+            List<List<Integer>> results = new ArrayList<>();
+            combination(results, nums, 0, new ArrayList<Integer>());
+            return results;
+        }
+
+        public void combination(List<List<Integer>> results,
+                                       int[] nums, int index,
+                                       ArrayList<Integer> items) {
+            if (index == nums.length) {
+                results.add(new ArrayList<Integer>(items));
+                return;
+            }
+            for (int i = index; i < nums.length; i++) {
+                items.add(nums[i]);
+                combination(results, nums, i+1, items);
+                items.remove(items.size()-1);
+            }
+            combination(results, nums, nums.length, items);
+        }
+
+        public static void main(String[] args) {
+            List<List<Integer>> combine = new Solution2().combine(new int[]{2, 6, 8});
+
+            for (List<Integer> list : combine) {
+                System.out.println(list);
             }
         }
     }
