@@ -14,25 +14,27 @@ public class SelectionSort {
             return;
         }
 
-        int global;
+        StdRandom.shuffle(arr);
 
-        // outer loop : how many iterations
-        for (int i = 0; i < arr.length - 1; i++) {
-            global = i;
+        int N = arr.length;
 
-            // inner loop : find the global min from the rest elements
-            for (int j = i + 1; j < arr.length; j++) {
-                if (SortUtils.less(arr[j], arr[global])) {
-                    // record the index of the smallest element
-                    global = j;
+        // store the index of global min value
+        int globalMin = 0;
+
+        for (int i = 0; i < N - 1; i++) {
+            globalMin = i;
+
+            for (int j = i + 1; j < N; j++) {
+                if (SortUtils.less(arr[j], arr[globalMin])) {
+                    globalMin = j;
                 }
             }
 
-            if (global != i) {
-                // swap the global min with a[i]
-                SortUtils.swap(arr, global, i);
+            if (globalMin != i) {
+                SortUtils.swap(arr, globalMin, i);
             }
         }
+
     }
 
     public static void main(String[] args) {
