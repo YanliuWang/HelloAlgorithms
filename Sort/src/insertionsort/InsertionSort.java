@@ -13,13 +13,15 @@ public class InsertionSort {
             return;
         }
 
-        for (int i = 1; i < arr.length; i++) {
-            Comparable key = arr[i];
+        int N = arr.length;
 
+        for (int i = 1; i < N; i++) {
+            Comparable key = arr[i];
             int j;
 
             for (j = i - 1; j >= 0 && SortUtils.less(key, arr[j]); j--) {
                 arr[j + 1] = arr[j];
+
             }
 
             arr[j + 1] = key;
