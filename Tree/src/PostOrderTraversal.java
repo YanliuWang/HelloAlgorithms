@@ -6,27 +6,8 @@ import java.util.*;
  * @create 2020-11-01-10:26
  */
 public class PostOrderTraversal {
-    static class Solution {
+    static class Solution1 {
         public List<Integer> postOrderTraversal(TreeNode root) {
-            // iteration
-//            LinkedList<Integer> res = new LinkedList<>();
-//            Deque<TreeNode> stack = new ArrayDeque<>();
-//            TreeNode curr = root;
-//
-//            while (curr != null || stack.size() != 0) {
-//                while (curr != null) {
-//                    stack.addFirst(curr);
-//                    res.addFirst(curr.val);
-//                    curr = curr.right;
-//
-//                }
-//
-//                curr = stack.removeFirst();
-//                curr = curr.left;
-//            }
-//
-//            return res;
-
             // recursion
             List<Integer> res = new ArrayList<>();
 
@@ -49,6 +30,119 @@ public class PostOrderTraversal {
 
                 res.add(root.val);
             }
+        }
+    }
+
+    static class Solution2 {
+        static class TreeNodeWithFlag {
+            TreeNode node;
+
+            /**
+             * whether the right child of the node is visited
+             */
+            boolean flag;
+
+            public TreeNodeWithFlag(TreeNode node, boolean flag) {
+                this.node = node;
+                this.flag = flag;
+            }
+        }
+
+        public static List<Integer> postOrderTraverse(TreeNode root) {
+            List<Integer> res = new ArrayList<>();
+
+            if (root == null) {
+                return res;
+            }
+
+            Deque<TreeNodeWithFlag> stack = new ArrayDeque<>();
+            TreeNode curr = root;
+            TreeNodeWithFlag newNode;
+
+            while (!stack.isEmpty() || curr != null) {
+                while (curr != null) {
+                    newNode = new TreeNodeWithFlag(curr, false);
+                    stack.push(newNode);
+                    curr = curr.left;
+                }
+
+                newNode = stack.pop();
+                curr = newNode.node;
+
+                if (!newNode.flag) {
+                    newNode.flag = true;
+                    stack.push(newNode);
+                    curr = curr.right;
+                } else {
+                    res.add(curr.val);
+                    curr = null;
+                }
+            }
+
+            return res;
+        }
+    }
+
+    static class Solution3 {
+        public static List<Integer> postorderTraversal(TreeNode root) {
+            List<Integer> res = new ArrayList<>();
+
+            if (root == null) {
+                return res;
+            }
+
+            Deque<TreeNode> stack = new ArrayDeque<>();
+            Set<TreeNode> rightChildVisited = new HashSet<>();
+            TreeNode curr = root;
+
+            while (!stack.isEmpty() || curr != null) {
+                while (curr != null) {
+                    stack.push(curr);
+                    curr = curr.left;
+                }
+
+                curr = stack.pop();
+
+                if (!rightChildVisited.contains(curr)) {
+                    rightChildVisited.add(curr);
+                    stack.push(curr);
+                    curr = curr.right;
+
+                } else {
+                    res.add(curr.val);
+                    curr = null;
+
+                }
+            }
+
+            return res;
+
+        }
+    }
+
+    static class Solution4 {
+        public List<Integer> postorderTraversal(TreeNode root) {
+            LinkedList<Integer> res = new LinkedList<>();
+
+            if (root == null) {
+                return res;
+            }
+
+            Deque<TreeNode> stack = new ArrayDeque<>();
+            TreeNode curr = root;
+
+            while (!stack.isEmpty() || curr != null) {
+                while (curr != null) {
+                    res.addFirst(curr.val);
+                    stack.push(curr);
+                    curr = curr.right;
+                }
+
+                curr = stack.pop();
+                curr = curr.left;
+            }
+
+            return res;
         }
     }
 }
