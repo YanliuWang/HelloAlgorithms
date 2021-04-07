@@ -1,5 +1,25 @@
-package PACKAGE_NAME;/**
+/**
+ * LC938
  * @author yanliu
  * @create 2021-04-07-8:45
- */public class RangeSumBST {
+ */
+public class RangeSumBST {
+    static class Solution {
+        public int rangeSumBST(TreeNode root, int low, int high) {
+            if (root == null) {
+                return 0;
+            }
+
+            if (root.val < low) {
+                return rangeSumBST(root.right, low, high);
+            }
+
+            if (root.val > high) {
+                return rangeSumBST(root.left, low, high);
+            }
+
+            return root.val + rangeSumBST(root.left, low, high)
+                    + rangeSumBST(root.right, low, high);
+        }
+    }
 }
