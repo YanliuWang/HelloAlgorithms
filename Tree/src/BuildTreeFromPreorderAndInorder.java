@@ -1,41 +1,43 @@
 /**
+ * LC105
  * @author yanliu
  * @create 2020-11-08-21:56
  */
 public class BuildTreeFromPreorderAndInorder {
     static class Solution {
-        public TreeNode buildTree(int[] preOrder, int[] inOrder) {
-            if (preOrder == null || inOrder == null || preOrder.length != inOrder.length) {
-                return null;
+            public TreeNode buildTree(int[] preorder, int[] inorder) {
+                if (preorder == null || inorder == null || preorder.length != inorder.length) {
+                    return null;
+                }
+
+                int preStart = 0, preEnd = preorder.length - 1;
+                int inStart = 0, inEnd = inorder.length - 1;
+
+                return buildTree(preorder, preStart, preEnd, inorder, inStart, inEnd);
             }
 
-            return _helper(preOrder, inOrder, 0, 0, preOrder.length);
-        }
+            private TreeNode buildTree(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd) {
+                if (preStart > preEnd || inStart > inEnd) {
+                    return null;
+                }
 
-        private TreeNode _helper(int[] preOrder, int[] inOrder,
-                                 int preOrderStart, int inOrderStart, int size) {
-            if (size == 0) {
-                return null;
+                int rootVal = preorder[preStart];
+                TreeNode root = new TreeNode(rootVal);
+
+                int inorderRootIdx = 0;
+                for (int i = inStart; i <= inEnd; i++) {
+                    if (inorder[i] == rootVal) {
+                        inorderRootIdx = i;
+                        break;
+                    }
+                }
+
+                root.left = buildTree(preorder, preStart + 1, preStart + inorderRootIdx - inStart, inorder, inStart, inorderRootIdx - 1);
+                root.right = buildTree(preorder, preStart + inorderRootIdx - inStart + 1, preEnd, inorder, inorderRootIdx + 1, inEnd);
+
+                return root;
+
             }
-
-            int inorderRootIdx = inOrderStart;
-
-            while (inOrder[inorderRootIdx] != preOrder[preOrderStart]) {
-                inorderRootIdx++;
-            }
-
-            int leftSize = inorderRootIdx - inOrderStart;
-            int rightSize = size - leftSize - 1;
-
-            TreeNode root = new TreeNode(preOrder[preOrderStart]);
-
-            root.left = _helper(preOrder, inOrder,
-                    preOrderStart+1, inOrderStart, leftSize);
-            root.right = _helper(preOrder, inOrder,
-                    preOrderStart+leftSize+1, inorderRootIdx+1, rightSize);
-
-            return root;
-
         }
     }
 }
