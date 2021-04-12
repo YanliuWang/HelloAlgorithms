@@ -1,5 +1,5 @@
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -7,79 +7,96 @@ import java.util.List;
  * @create 2021-01-29-15:41
  */
 public class Subset {
-    /**
-     * LC78
-     */
     static class Solution1 {
-        private List<List<Integer>> res = new LinkedList<>();
-
+        /**
+         * LintCode17-subSets
+         * @param nums: A set of numbers
+         * @return: A list of lists
+         */
         public List<List<Integer>> subsets(int[] nums) {
+            List<List<Integer>> results = new ArrayList<>();
+
             if (nums == null) {
-                return res;
+                return results;
             }
 
-            List<Integer> tmp = new LinkedList<>();
-
-            backTrack(tmp, nums, 0);
-
-            return res;
-        }
-
-        private void backTrack(List<Integer> tmp, int[] nums, int start) {
-            res.add(new LinkedList<>(tmp));
-
-            for (int i = start; i < nums.length; i++) {
-                // do choice
-                tmp.add(nums[i]);
-
-                // to the next level
-                backTrack(tmp, nums, i+1);
-
-                // back to previous level and do another choice
-                tmp.remove(tmp.size() - 1);
-
+            if (nums.length == 0) {
+                results.add(new ArrayList<>());
+                return results;
             }
-        }
-    }
-
-    /**
-     * LC90
-     */
-    static class Solution2 {
-        private List<List<Integer>> res = new LinkedList<>();
-
-        public List<List<Integer>> subsetsWithDup(int[] nums) {
-            if (nums == null) {
-                return res;
-            }
-
-            List<Integer> tmp = new LinkedList<>();
 
             Arrays.sort(nums);
 
-            backTrack(tmp, nums, 0);
+            getSubsets(nums, 0, new ArrayList<>(), results);
 
-            return res;
+            return results;
         }
 
-        private void backTrack(List<Integer> tmp, int[] nums, int start) {
-            res.add(new LinkedList<>(tmp));
+        /**
+         * select the num from nums array after startIndex
+         * put it into the list of subset
+         * put the subSet into the results list
+         * @param nums
+         * @param startIdx:used to remove duplicates like [1, 2] and [2, 1]
+         * @param subset
+         * @param results
+         */
+        private void getSubsets(int[] nums, int startIdx, List<Integer> subset, List<List<Integer>> results) {
+            results.add(new ArrayList<>(subset));
 
-            for (int i = start; i < nums.length; i++) {
-                if (i > start && nums[i] == nums[i-1]) {
+            for (int i = startIdx; i < nums.length; i++) {
+                subset.add(nums[i]);
+
+                getSubsets(nums, i + 1, subset, results);
+
+                subset.remove(subset.size() - 1);
+            }
+        }
+
+    }
+
+    static class Solution2 {
+        /**
+         * LintCode18
+         * @param nums: A set of numbers.
+         * @return: A list of lists. All valid subsets.
+         */
+        public List<List<Integer>> subsetsWithDup(int[] nums) {
+            // write your code here
+            List<List<Integer>> results = new ArrayList<>();
+
+            if (nums == null) {
+                return results;
+            }
+
+            if (nums.length == 0) {
+                results.add(new ArrayList<>());
+                return results;
+            }
+
+            Arrays.sort(nums);
+
+            getSubsets(nums, 0, new ArrayList<>(), results);
+
+            return results;
+        }
+
+        private void getSubsets(int[] nums, int startIdx, List<Integer> subset, List<List<Integer>> results) {
+            results.add(new ArrayList<>(subset));
+
+            for (int i = startIdx; i < nums.length; i++) {
+                // at the same depth, among the same values
+                // only the first one can be used
+                if (i > startIdx && nums[i] == nums[i - 1]) {
                     continue;
                 }
 
-                tmp.add(nums[i]);
+                subset.add(nums[i]);
 
-                backTrack(tmp, nums, i+1);
+                getSubsets(nums, i + 1, subset, results);
 
-                tmp.remove(tmp.size()-1);
+                subset.remove(subset.size() - 1);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new Solution2().subsetsWithDup(new int[]{1, 2, 2});
     }
 }
