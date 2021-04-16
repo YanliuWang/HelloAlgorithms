@@ -8,59 +8,58 @@ import utils.SortUtils;
  * @create 2020-11-28-10:20
  */
 public class MergeSort {
-    /**
-     * recursion merge sort
-     * top down
-     * @param arr
-     */
-    private static Comparable[] helper;
-
     public static void sortRecursion(Comparable[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
 
-        helper = new Comparable[arr.length];
+        Comparable[] aux = new Comparable[arr.length];
 
-        sort(arr, 0, arr.length - 1);
+        sort(arr, aux, 0, arr.length - 1);
     }
 
-    private static void sort(Comparable[] arr, int lo, int hi) {
-        if (lo == hi) {
+    private static void sort(Comparable[] arr, Comparable[] aux, int lo, int hi) {
+        if (hi <= lo) {
             return;
         }
 
         int mid = lo + (hi - lo) / 2;
-        sort(arr, lo, mid);
-        sort(arr, mid + 1, hi);
-        merge(arr, lo, mid, hi);
+        sort(arr, aux, lo, mid);
+        sort(arr, aux, mid + 1, hi);
+
+        if (SortUtils.less(arr[mid], arr[mid + 1])) {
+            return;
+        }
+
+        merge(arr, aux, lo, mid, hi);
     }
 
-    private static void merge(Comparable[] arr, int lo, int mid, int hi) {
+    private static void merge(Comparable[] arr, Comparable[] aux, int lo, int mid, int hi) {
         int i = lo, j = mid + 1;
 
         // move all elements in arr to helper
         for (int k = lo; k <= hi; k++) {
-            helper[k] = arr[k];
+            aux[k] = arr[k];
         }
 
         // merge
         for (int k = lo; k <= hi; k++) {
             if (i > mid) {
-                // the left side elements are all used
-                // put the right side elements to arr
-                arr[k] = helper[j++];
+                // the left halve elements are all used
+                // put the right halve elements to arr
+                arr[k] = aux[j++];
 
             } else if (j > hi) {
-                // the right side elements are all used
-                // put the left side elements to arr
-                arr[k] = helper[i++];
+                // the right halve elements are all used
+                // put the left halve elements to arr
+                arr[k] = aux[i++];
 
-            } else if (SortUtils.less(helper[j], helper[i])) {
-                arr[k] = helper[j++];
+            } else if (SortUtils.less(aux[j], aux[i])) {
+                // maintain stability
+                arr[k] = aux[j++];
 
             } else {
-                arr[k] = helper[i++];
+                arr[k] = aux[i++];
             }
 
         }
@@ -73,19 +72,13 @@ public class MergeSort {
      * @param arr
      */
     public static void sortIteration(Comparable[] arr) {
-        if (arr == null || arr.length < 2) {
-            return;
-        }
-
         int N = arr.length;
 
-        helper = new Comparable[N];
+        Comparable[] aux = new Comparable[N];
 
-        // from bottom up to increase the sort sequence size
         for (int currSize = 1; currSize < N; currSize *= 2) {
-            // lo < N-currSize makes sure mid can be cover the last element
             for (int lo = 0; lo < N - currSize; lo += currSize * 2) {
-                merge(arr, lo, lo + currSize - 1, Math.min(lo + currSize + currSize - 1, N - 1));
+                merge(arr, aux, lo, lo + currSize - 1, Math.min(lo + currSize + currSize - 1, N - 1));
             }
         }
     }
@@ -105,10 +98,6 @@ public class MergeSort {
         } else {
             System.out.println("sort failed");
 
-        }
-
-        for (int i = 0; i < a.length; i++) {
-            System.out.println(a[i]);
         }
     }
 }

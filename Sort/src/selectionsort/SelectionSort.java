@@ -24,6 +24,7 @@ public class SelectionSort {
         for (int i = 0; i < N - 1; i++) {
             globalMin = i;
 
+            // find the minimum index
             for (int j = i + 1; j < N; j++) {
                 if (SortUtils.less(arr[j], arr[globalMin])) {
                     globalMin = j;

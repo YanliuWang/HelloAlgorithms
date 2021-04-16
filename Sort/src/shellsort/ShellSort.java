@@ -13,24 +13,18 @@ public class ShellSort {
             return;
         }
 
-        int h = 1;
         int N = arr.length;
 
-        while (h < 3 / N) {
+        int h = 1;
+        while (h < N / 3) {
             h = 3 * h + 1;
         }
 
         while (h >= 1) {
             for (int i = h; i < N; i++) {
-                Comparable key = arr[i];
-
-                int j;
-
-                for (j = i - h; j >= 0 && SortUtils.less(key, arr[j]); j -= h) {
-                    arr[j + h] = arr[j];
+                for (int j = i; j >= h && SortUtils.less(arr[j], arr[j - h]); j -= h) {
+                    SortUtils.swap(arr, j, j - h);
                 }
-
-                arr[j + h] = key;
             }
 
             h = h / 3;

@@ -13,18 +13,14 @@ public class InsertionSort {
             return;
         }
 
+        StdRandom.shuffle(arr);
+
         int N = arr.length;
 
         for (int i = 1; i < N; i++) {
-            Comparable key = arr[i];
-            int j;
-
-            for (j = i - 1; j >= 0 && SortUtils.less(key, arr[j]); j--) {
-                arr[j + 1] = arr[j];
-
+            for (int j = i; j >= 1 && SortUtils.less(j, j - 1); j--) {
+                    SortUtils.swap(arr, j, j - 1);
             }
-
-            arr[j + 1] = key;
         }
     }
 
@@ -45,20 +41,5 @@ public class InsertionSort {
 
         }
     }
-
-    // search for the right index to insert the element
-    // we have no idea about whether there is left or right bound
-//    private static int binarySearchIndex(Comparable[] arr, int left, int right, Comparable key) {
-//        while (left <= right) {
-//            int mid = left + (right - left) / 2;
-//
-//            if (SortUtils.less(arr[mid], key)) {
-//                right = mid - 1;
-//            } else if (SortUtils.less(key, arr[mid]) {
-//                left = mid + 1;
-//            }
-//
-//        }
-//    }
 
 }
