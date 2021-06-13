@@ -131,4 +131,46 @@ public class CombinationSum {
         }
 
     }
+
+
+    /**
+     * LC216
+     */
+    static class Solution4 {
+        public List<List<Integer>> combinationSum3(int k, int n) {
+            List<List<Integer>> res = new ArrayList<>();
+
+            backtrack(k, n, 0, new ArrayList<>(), res, 1);
+
+            return res;
+        }
+
+        private void backtrack(int k, int targetSum, int currentSum, List<Integer> path, List<List<Integer>> res, int start) {
+            // pruning condition
+            if (currentSum > targetSum) {
+                return;
+            }
+
+            if (path.size() == k) {
+                // end condition
+                if (currentSum == targetSum) {
+                    res.add(new ArrayList<>(path));
+                }
+
+                return;
+            }
+
+            for (int i = start; i <= 9 - (k - path.size()) + 1; i++) {
+                path.add(i);
+                currentSum += i;
+
+                backtrack(k, targetSum, currentSum, path, res, i + 1);
+
+                path.remove(path.size() - 1);
+                currentSum -= i;
+
+            }
+
+        }
+    }
 }
