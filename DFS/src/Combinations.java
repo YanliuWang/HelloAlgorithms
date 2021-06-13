@@ -69,4 +69,43 @@ public class Combinations {
             }
         }
     }
+
+    static class Solution3 {
+        public List<List<Integer>> combine(int n, int k) {
+            // store the final results
+            List<List<Integer>> res = new ArrayList<>();
+
+            // store the current result
+            List<Integer> path = new ArrayList<>();
+
+            // do backtrack
+            backtrack(n, k, res, path, 1);
+
+            return res;
+
+        }
+
+        private void backtrack(int n, int k, List<List<Integer>> res, List<Integer> path, int start) {
+            // end condition
+            if (path.size() == k) {
+                // add the current result to the final results
+                res.add(new ArrayList<>(path));
+                return;
+            }
+
+            // for-loop select current layer
+            // i 为开始遍历的初始位置
+            // i 至多从 n - (k - path.size()) + 1 开始遍历
+            for (int i = start; i <= n - (k - path.size()) + 1; i++) {
+                path.add(i);
+
+                backtrack(n, k, res, path, i + 1);
+
+                path.remove(path.size() - 1);
+            }
+
+
+
+        }
+    }
 }
