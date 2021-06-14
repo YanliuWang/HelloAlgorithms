@@ -12,7 +12,7 @@ public class LetterCombinations {
      * DFS/backTrack
      */
     static class Solution1 {
-        private String[] mapping = new String[]{"0", "1",
+        private final String[] mapping = new String[]{"0", "1",
                 "abc",
                 "def",
                 "ghi",
@@ -108,6 +108,55 @@ public class LetterCombinations {
             }
 
             return res;
+        }
+    }
+
+    static class Solution3 {
+        private final String[] numToLetters = new String[]{"0", "1",
+                "abc",
+                "def",
+                "ghi",
+                "jkl",
+                "mno",
+                "pqrs",
+                "tuv",
+                "wxyz"};
+
+        public List<String> letterCombinations(String digits) {
+            List<String> res = new ArrayList<>();
+
+            if (digits == null || digits.length() == 0) {
+                return res;
+            }
+
+            backtrack(digits, new StringBuilder(), res, 0);
+
+            return res;
+        }
+
+        private void backtrack(String digits, StringBuilder path, List<String> res, int start) {
+            // end condition
+            if (start == digits.length()) {
+                res.add(new String(path));
+                return;
+            }
+
+            // get the choice
+            char digit = digits.charAt(start);
+            int index = digit - '0';
+            String choice = numToLetters[index];
+
+            for (int i = 0; i < choice.length(); i++) {
+                // process
+                path.append(choice.charAt(i));
+
+                // recursive rule
+                backtrack(digits, path, res, start + 1);
+
+                // backtrack
+                path.deleteCharAt(path.length() - 1);
+            }
+
         }
     }
 }
