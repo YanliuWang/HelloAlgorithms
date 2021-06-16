@@ -6,6 +6,9 @@ import java.util.*;
  * @create 2020-11-01-10:26
  */
 public class PostOrderTraversal {
+    /**
+     * recursive way
+     */
     static class Solution1 {
         public List<Integer> postOrderTraversal(TreeNode root) {
             // recursion
@@ -33,18 +36,21 @@ public class PostOrderTraversal {
         }
     }
 
+    /**
+     *  iterative way with flag
+     */
     static class Solution2 {
-        static class TreeNodeWithFlag {
+        public static class TreeNodeWithFlag {
             TreeNode node;
 
             /**
              * whether the right child of the node is visited
              */
-            boolean flag;
+            boolean isRightChildVisited;
 
-            public TreeNodeWithFlag(TreeNode node, boolean flag) {
+            public TreeNodeWithFlag(TreeNode node, boolean isRightChildVisited) {
                 this.node = node;
-                this.flag = flag;
+                this.isRightChildVisited = isRightChildVisited;
             }
         }
 
@@ -61,6 +67,8 @@ public class PostOrderTraversal {
 
             while (!stack.isEmpty() || curr != null) {
                 while (curr != null) {
+                    // first visit the node
+                    // the right child is not visited
                     newNode = new TreeNodeWithFlag(curr, false);
                     stack.push(newNode);
                     curr = curr.left;
@@ -69,12 +77,16 @@ public class PostOrderTraversal {
                 newNode = stack.pop();
                 curr = newNode.node;
 
-                if (!newNode.flag) {
-                    newNode.flag = true;
+                if (!newNode.isRightChildVisited) {
                     stack.push(newNode);
                     curr = curr.right;
+
+                    // visit the right child
+                    newNode.isRightChildVisited = true;
+
                 } else {
                     res.add(curr.val);
+                    // curr parent node is already visited
                     curr = null;
                 }
             }
