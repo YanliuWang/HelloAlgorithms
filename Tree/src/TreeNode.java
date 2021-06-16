@@ -2,7 +2,7 @@
  * @author yanliu
  * @create 2020-11-01-10:27
  */
-class TreeNode {
+public class TreeNode {
     int val;
     TreeNode left;
     TreeNode right;
