@@ -22,7 +22,6 @@ public class PreOrderTraversal {
                     stack.addFirst(curr);
                     res.add(curr.val);
                     curr = curr.left;
-
                 }
 
                 curr = stack.removeFirst();
