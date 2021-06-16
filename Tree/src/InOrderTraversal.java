@@ -1,4 +1,6 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -7,50 +9,35 @@ import java.util.List;
  * @create 2020-11-01-10:27
  */
 public class InOrderTraversal {
-    static class Solution {
-        public List<Integer> inOrderTraversal(TreeNode root) {
-            // iteration
-//            List<Integer> res = new ArrayList<>();
-//            Deque<TreeNode> stack = new ArrayDeque<>();
-//            TreeNode curr = root;
-//
-//            while (curr != null || stack.size() != 0) {
-//                while (curr != null) {
-//                    stack.addFirst(curr);
-//                    curr = curr.left;
-//                }
-//
-//                curr = stack.removeFirst();
-//
-//                res.add(curr.val);
-//
-//                curr = curr.right;
-//
-//            }
-//
-//            return res;
-
-            // recursion
+    static class Solution1 {
+        public List<Integer> inorderTraversal(TreeNode root) {
             List<Integer> res = new ArrayList<>();
 
-            _helper(root, res);
+            if (root == null) {
+                return res;
+            }
+
+            // use deque to implement stack
+            Deque<TreeNode> stack = new ArrayDeque<>();
+
+            TreeNode curr = root;
+
+            while (!stack.isEmpty() || curr != null) {
+                while (curr != null) {
+                    // push the parent and left nodes to stack
+                    stack.push(curr);
+                    curr = curr.left;
+                }
+
+                // get the parent node
+                curr = stack.pop();
+                res.add(curr.val);
+
+                // visit or push the right node
+                curr = curr.right;
+            }
 
             return res;
-
-        }
-
-        private void _helper(TreeNode root, List<Integer> res) {
-            if (root != null) {
-                if (root.left != null) {
-                    _helper(root.left, res);
-                }
-
-                res.add(root.val);
-
-                if (root.right != null) {
-                    _helper(root.right, res);
-                }
-            }
         }
     }
 }
