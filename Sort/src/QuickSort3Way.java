@@ -1,7 +1,4 @@
-package quicksort;
-
 import edu.princeton.cs.algs4.StdRandom;
-import utils.SortUtils;
 
 /**
  * @author yanliu

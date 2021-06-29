@@ -1,7 +1,4 @@
-package mergesort;
-
 import edu.princeton.cs.algs4.StdRandom;
-import utils.SortUtils;
 
 /**
  * @author yanliu
@@ -18,48 +15,49 @@ public class MergeSort {
         sort(arr, aux, 0, arr.length - 1);
     }
 
-    private static void sort(Comparable[] arr, Comparable[] aux, int lo, int hi) {
-        if (hi <= lo) {
+    private static void sort(Comparable[] arr, Comparable[] aux, int start, int end) {
+        if (start >= end) {
             return;
         }
 
-        int mid = lo + (hi - lo) / 2;
-        sort(arr, aux, lo, mid);
-        sort(arr, aux, mid + 1, hi);
+        int mid = start + (end - start) / 2;
+        sort(arr, aux, start, mid);
+        sort(arr, aux, mid + 1, end);
 
+        // the array is already sorted, we end the recursion
         if (SortUtils.less(arr[mid], arr[mid + 1])) {
             return;
         }
 
-        merge(arr, aux, lo, mid, hi);
+        merge(arr, aux, start, mid, end);
     }
 
-    private static void merge(Comparable[] arr, Comparable[] aux, int lo, int mid, int hi) {
-        int i = lo, j = mid + 1;
+    private static void merge(Comparable[] arr, Comparable[] aux, int start, int mid, int end) {
+        int leftIdx = start, rightIdx = mid + 1;
 
         // move all elements in arr to helper
-        for (int k = lo; k <= hi; k++) {
+        for (int k = start; k <= end; k++) {
             aux[k] = arr[k];
         }
 
         // merge
-        for (int k = lo; k <= hi; k++) {
-            if (i > mid) {
+        for (int k = start; k <= end; k++) {
+            if (leftIdx > mid) {
                 // the left halve elements are all used
                 // put the right halve elements to arr
-                arr[k] = aux[j++];
+                arr[k] = aux[rightIdx++];
 
-            } else if (j > hi) {
+            } else if (rightIdx > end) {
                 // the right halve elements are all used
                 // put the left halve elements to arr
-                arr[k] = aux[i++];
+                arr[k] = aux[leftIdx++];
 
-            } else if (SortUtils.less(aux[j], aux[i])) {
-                // maintain stability
-                arr[k] = aux[j++];
+            } else if (SortUtils.less(aux[rightIdx], aux[leftIdx])) {
+                arr[k] = aux[rightIdx++];
 
             } else {
-                arr[k] = aux[i++];
+                // maintain the stability
+                arr[k] = aux[leftIdx++];
             }
 
         }

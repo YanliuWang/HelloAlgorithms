@@ -1,7 +1,6 @@
-package quicksort;
-
 import edu.princeton.cs.algs4.StdRandom;
-import utils.SortUtils;
+
+import java.util.Comparator;
 
 /**
  * @author yanliu
@@ -17,41 +16,44 @@ public class QuickSort {
 
     }
 
-    private static void sort(Comparable[] arr, int lo, int hi) {
-        if (lo < hi) {
-            int j = partition(arr, lo, hi);
-
-            sort(arr, lo, j - 1);
-            sort(arr, j + 1, hi);
-        }
-    }
-
-    private static int partition(Comparable[] arr, int lo, int hi) {
-        int pivot = lo;
-
-        int i = lo + 1;
-        int j = hi;
-
-        while (i <= j) {
-            while (i <= j && SortUtils.less(arr[i], arr[pivot])) {
-                i++;
-            }
-
-            while (i <= j && SortUtils.less(arr[pivot], arr[j])) {
-                j--;
-            }
-
-            if (i <= j) {
-                SortUtils.swap(arr, i, j);
-                i++;
-                j--;
-            }
+    private static void sort(Comparable[] arr, int start, int end) {
+        if (start >= end) {
+            return;
         }
 
-        SortUtils.swap(arr, pivot, j);
+        int left = start, right = end;
 
-        return j;
+        // key point 1 : pivot is the value instead of index
+        // we choose the middle value trying to divide the array uniformly
+        Comparable pivot = arr[(start + end) / 2];
+
+        // key point 2 : left <= right to avoid endless recursion
+        while (left <= right) {
+            // arr[left] >= pivot exit while loop
+            while (left <= right && SortUtils.less(arr[left], pivot)){
+                left++;
+            }
+
+            // arr[right] <= pivot exit while loop
+            while (left <= right && SortUtils.less(pivot, arr[right])) {
+                right--;
+            }
+
+            // swap the arr[left] and arr[right]
+            if (left <= right) {
+                SortUtils.swap(arr, left, right);
+                left++;
+                right--;
+            }
+
+        }
+
+        sort(arr, start, right);
+        sort(arr, left, end);
+
     }
+
+
 
     public static void main(String[] args) {
         Double[] a = new Double[10];
