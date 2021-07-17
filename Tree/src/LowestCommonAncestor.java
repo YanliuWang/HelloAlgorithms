@@ -1,4 +1,5 @@
 /**
+ * LintCode 88
  * @author yanliu
  * @create 2020-12-14-14:1
  * using postOrder traverse the binary tree
