@@ -86,6 +86,7 @@ public class Permutations {
             return results;
         }
 
+        // 1.递归的定义：找到以 permutation 为开头的所有排列
         private void getPermutations(int[] nums,
                                      List<Integer> permutation,
                                      List<List<Integer>> results,
