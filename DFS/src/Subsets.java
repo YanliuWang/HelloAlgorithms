@@ -38,10 +38,13 @@ public class Subsets {
             results.add(new ArrayList<>(subset));
 
             for (int i = startIdx; i < nums.length; i++) {
+                // [1] -> [1, 2]
                 subset.add(nums[i]);
 
+                // 寻找以 [1, 2] 开头的所有子集
                 getSubsets(nums, i + 1, subset, results);
 
+                // [1, 2] -> [1]
                 subset.remove(subset.size() - 1);
             }
         }
@@ -50,7 +53,7 @@ public class Subsets {
 
     static class Solution2 {
         /**
-         * LintCode18
+         * LintCode18 subsets remove duplicates
          * @param nums: A set of numbers.
          * @return: A list of lists. All valid subsets.
          */
@@ -59,11 +62,6 @@ public class Subsets {
             List<List<Integer>> results = new ArrayList<>();
 
             if (nums == null) {
-                return results;
-            }
-
-            if (nums.length == 0) {
-                results.add(new ArrayList<>());
                 return results;
             }
 
@@ -80,7 +78,8 @@ public class Subsets {
             for (int i = startIdx; i < nums.length; i++) {
                 // at the same depth, among the same values
                 // only the first one can be used
-                if (i > startIdx && nums[i] == nums[i - 1]) {
+                // we select duplicate numbers consecutively
+                if (i > 0 && nums[i] == nums[i - 1] && i > startIdx) {
                     continue;
                 }
 
