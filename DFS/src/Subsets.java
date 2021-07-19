@@ -6,7 +6,7 @@ import java.util.List;
  * @author yanliu
  * @create 2021-01-29-15:41
  */
-public class Subset {
+public class Subsets {
     static class Solution1 {
         /**
          * LintCode17-subSets
@@ -19,13 +19,6 @@ public class Subset {
             if (nums == null) {
                 return results;
             }
-
-            if (nums.length == 0) {
-                results.add(new ArrayList<>());
-                return results;
-            }
-
-            Arrays.sort(nums);
 
             getSubsets(nums, 0, new ArrayList<>(), results);
 
