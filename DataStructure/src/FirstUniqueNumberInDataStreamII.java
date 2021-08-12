@@ -21,7 +21,7 @@ public class FirstUniqueNumberInDataStreamII {
             }
         }
 
-        // dummy node is used to lead the linked list
+        // dummy node is the previous node of head
         ListNode dummy;
 
         // tail node is used to insert node to the linked list
@@ -62,7 +62,9 @@ public class FirstUniqueNumberInDataStreamII {
             }
 
             // if we secondly meet the num
+            // remove the number from linked list
             remove(num);
+            // add the number to duplicates set
             duplicates.add(num);
 
             return;
@@ -77,18 +79,19 @@ public class FirstUniqueNumberInDataStreamII {
 
         private void remove(int num) {
             ListNode prev = numToPrev.get(num);
-            prev.next = prev.next.next;
+            ListNode next = prev.next.next;
+            prev.next = next;
 
             numToPrev.remove(num);
 
             // if we remove the tail node
-            if (prev.next == null) {
+            if (next == null) {
                 tail = prev;
             } else {
                 // if we remove the mid node
                 // we need to update the next node map pair
                 // the next node needs to point to the previous node
-                numToPrev.put(prev.next.val, prev);
+                numToPrev.put(next.val, prev);
             }
 
         }
@@ -144,18 +147,20 @@ public class FirstUniqueNumberInDataStreamII {
          */
         public void add(int num) {
             // write your code here
+            // 如果已经出现两次了
             if (duplicates.contains(num)) {
                 return;
             }
 
-            // if num appears twice
+            // 如果这个数字是第二次出现
             if (numToNode.containsKey(num)) {
                 // remove the node from linked list and map
                 remove(num);
-                // add the num to dplicates Set
+                // add the num to duplicates Set
                 duplicates.add(num);
 
             } else {
+                // 如果这个数字是第一次出现
                 addToListTail(num);
 
             }
@@ -198,4 +203,5 @@ public class FirstUniqueNumberInDataStreamII {
             return -1;
         }
     }
+
 }
