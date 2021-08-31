@@ -69,21 +69,18 @@ public class LongestPalindrome {
 
         /**
          * return the palindrome whose centers are s[l] and s[r]
-         * @param s
-         * @param l
-         * @param r
+         * @param str
+         * @param left
+         * @param right
          * @return
          */
-        private String getLongestPalindrome(String s, int l, int r) {
-            while (l >= 0 && r < s.length()) {
-                if (s.charAt(l) != s.charAt(r)) {
-                    break;
-                }
-
-                l--; r++;
+        private String getLongestPalindrome(String str, int left, int right) {
+            while (left >= 0 && right < str.length() && str.charAt(left) == str.charAt(right)) {
+                left--;
+                right++;
             }
 
-            return s.substring(l + 1, r);
+            return str.substring(left + 1, right);
         }
     }
 
@@ -130,5 +127,9 @@ public class LongestPalindrome {
 
             return s.substring(start, start + longest);
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("sou");
     }
 }

@@ -1,162 +1,112 @@
 import java.util.HashMap;
-
+import java.util.Map;
+ 
 /**
+ * LintCode 124 LRU Cache
  * @author yanliu
- * @create 2020-12-31-10:13
+ * @create 2021-08-13-11:49
  */
 public class LRUCache {
-    private HashMap<Integer, Node> map;
-    private DoubleList cache;
-    private int cap;
+    class ListNode {
+        public int key, val;
+        public ListNode next;
 
-    public LRUCache(int cap) {
-        this.cap = cap;
-        map = new HashMap<>();
-        cache = new DoubleList();
+        public ListNode(int key, int val) {
+            this.key = key;
+            this.val = val;
+        }
     }
 
-    /**
-     * 根据 key 获取 val
-     * @param key
-     * @return
+    // cache capacity
+    private int capacity;
+    // key to previous node
+    private Map<Integer, ListNode> numToPrev;
+    // dummy is the previou node of head
+    private ListNode dummy;
+    // tail is used to insert entry to linked list
+    private ListNode tail;
+    /*
+     * @param capacity: An integer
+     */public LRUCache(int capacity) {
+        // do intialization if necessary
+        this.capacity = capacity;
+        this.numToPrev = new HashMap<>();
+        dummy = new ListNode(-1, -1);
+        tail = dummy;
+    }
+
+    /*
+     * @param key: An integer
+     * @return: An integer
      */
     public int get(int key) {
-        if (!map.containsKey(key)) {
+        // write your code here
+        if (!numToPrev.containsKey(key)) {
             return -1;
         }
 
-        makeRecentlyUsed(key);
-        return map.get(key).val;
+        // move to tail when it is recently used
+        moveToTail(key);
+
+        return tail.val;
     }
 
-    public void put(int key, int val) {
-        if (map.containsKey(key)) {
-            deleteKey(key);
 
-        } else {
-            if (cap == cache.size()) {
-                removeLeastRecently();
-            }
-
+    /*
+     * @param key: An integer
+     * @param value: An integer
+     * @return: nothing
+     */
+    public void set(int key, int value) {
+        // write your code here
+        // the key is on the map
+        if (numToPrev.containsKey(key)) {
+            moveToTail(key);
+            tail.val = value;
+            return;
         }
 
-        addRecently(key, val);
+        // the key is not on the map
+        pushToTail(new ListNode(key, value));
 
-    }
-
-    /**
-     * 将某个 key 提升为最近使用
-     * @param key
-     */
-    private void makeRecentlyUsed(int key) {
-        Node x = map.get(key);
-        cache.remove(x);
-        cache.addLast(x);
-    }
-
-    /**
-     * 添加 node 到最近使用的
-     * @param key
-     * @param val
-     */
-    private void addRecently(int key, int val) {
-        Node x = new Node(key, val);
-        map.put(key, x);
-        cache.addLast(x);
-    }
-
-    /**
-     * 根据 key 删除节点
-     * @param key
-     */
-    private void deleteKey(int key) {
-        Node x = map.get(key);
-        cache.remove(x);
-        map.remove(key);
-    }
-
-    /**
-     * 删除最久未使用的节点
-     */
-    private void removeLeastRecently() {
-        Node x = cache.removeFirst();
-        // 根据 key 去 map 删除元素，所以节点中需要存储 key
-        map.remove(x.key);
-    }
-
-}
-
-class Node {
-    public int key, val;
-    public Node prev, next;
-
-    public Node(int k, int v) {
-        key = k;
-        val = v;
-    }
-}
-
-class DoubleList {
-    private Node head, tail;
-    private int size;
-
-    public DoubleList() {
-        head = new Node(0, 0);
-        tail = new Node(0, 0);
-        head.next = tail;
-        tail.prev = head;
-
-    }
-
-    /**
-     * add the node x to the end of the list
-     * Time Complexity is O(1)
-     * @param x
-     */
-    public void addLast(Node x) {
-        x.prev = tail.prev;
-        x.next = tail;
-        tail.prev.next = x;
-        tail.prev = x;
-        size++;
-    }
-
-    /**
-     * delete the node x in the list
-     * because the list is Double LinkedList
-     * Time Complexity is O(1)
-     * @param x
-     */
-    public void remove(Node x) {
-        x.prev.next = x.next;
-        x.next.prev = x.prev;
-        x.prev = null;
-        x.next = null;
-        size--;
-    }
-
-    /**
-     * remove the first node and return it
-     * @return
-     */
-    public Node removeFirst() {
-        // the list is empty
-        if (head.next == tail) {
-            return null;
+        if (numToPrev.size() > capacity) {
+            popFromFront();
         }
 
-        Node first = head.next;
-        remove(first);
+    }
 
-        return first;
+    private void moveToTail(int key) {
+        ListNode prev = numToPrev.get(key);
+        ListNode deletedNode = prev.next;
+
+        // the deleted node in at the tail
+        if (deletedNode.next == null) {
+            return;
+        }
+
+        // delete the target node
+        prev.next = deletedNode.next;
+        // update num to prev map
+        numToPrev.put(prev.next.key, prev);
+        deletedNode.next = null;
+
+        pushToTail(deletedNode);
 
     }
 
-    /**
-     * get the size of the linked list
-     * * @return
-     */
-    public int size() {
-        return size;
+    private void pushToTail(ListNode node) {
+        tail.next = node;
+        numToPrev.put(node.key, tail);
+
+        tail = node;
+    }
+
+    private void popFromFront() {
+        ListNode head = dummy.next;
+        dummy.next = head.next;
+
+        numToPrev.remove(head.key);
+
+        numToPrev.put(dummy.next.key, dummy);
     }
 }
