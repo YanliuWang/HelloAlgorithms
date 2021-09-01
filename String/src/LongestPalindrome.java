@@ -105,7 +105,7 @@ public class LongestPalindrome {
             }
 
             // length is 2
-            for (int i = 0; i < n -1; i++) {
+            for (int i = 0; i < n - 1; i++) {
                 isPalindrome[i][i + 1] = s.charAt(i) == s.charAt(i + 1);
 
                 if (isPalindrome[i][i + 1]) {
@@ -114,7 +114,7 @@ public class LongestPalindrome {
                 }
             }
 
-            for (int i = n - 1; i >= 0; i--) {
+            for (int i = n - 3; i >= 0; i--) {
                 for (int j = i + 2; j < n; j++) {
                     isPalindrome[i][j] = isPalindrome[i + 1][j - 1] && s.charAt(i) == s.charAt(j);
 
