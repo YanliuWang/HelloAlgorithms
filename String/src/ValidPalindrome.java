@@ -21,14 +21,16 @@ public class ValidPalindrome {
 
             while (left < right) {
                 while (left < right && !isValid(s.charAt(left))) {
+                    // get the left valid character
                     left++;
                 }
 
                 while (left < right && !isValid(s.charAt(right))) {
+                    // get the right valid character
                     right--;
                 }
 
-                if (left < right &&  !isEqual(s.charAt(left), s.charAt(right))) {
+                if (left < right && !isEqual(s.charAt(left), s.charAt(right))) {
                     return false;
                 }
 
@@ -71,6 +73,7 @@ public class ValidPalindrome {
                 return true;
             }
 
+            // find the first difference position
             Pair pair = findDifference(s, 0, s.length() - 1);
 
             if (pair.left >= pair.right) {

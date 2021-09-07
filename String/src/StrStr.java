@@ -57,57 +57,66 @@ public class StrStr {
          */
         public int strStr2(String source, String target) {
             // write your code here
+
+            // except boundary situations
             if (source == null || target == null) {
                 return -1;
             }
 
-            // record target length
-            int m = target.length();
-            if (m == 0) {
+            int sourceLength = source.length();
+            int targetLength = target.length();
+
+            if (targetLength == 0) {
                 return 0;
             }
 
-            // get 31 ^ m
-            int power = 1;
-            for (int i = 0; i < m; i++) {
-                power = (power * 31) % BASE;
+            if (sourceLength < targetLength) {
+                return -1;
             }
 
-            // get target string hashcode
+            // get target hashcode
             int targetHashCode = 0;
-            for (int i = 0; i < m; i++) {
+            for (int i = 0; i < targetLength; i++) {
                 targetHashCode = (targetHashCode * 31 + target.charAt(i)) % BASE;
             }
 
-            // get source hashCode
+            // get power for removing
+            int power = 1;
+            for (int i = 0; i < targetLength; i++) {
+                power = (power * 31) % BASE;
+            }
+
+            // get source hashcode
             int sourceHashCode = 0;
-            for (int i = 0; i < source.length(); i++) {
+            for (int i = 0; i < sourceLength; i++) {
                 sourceHashCode = (sourceHashCode * 31 + source.charAt(i)) % BASE;
 
-                // length < m
-                if (i < m - 1) {
+                // the included string length is less than target Length
+                // continue to calculate the hashcode
+                if (i < targetLength - 1) {
                     continue;
                 }
 
-                // length > m
-                // move the first char
-                if (i >= m) {
-                    sourceHashCode = sourceHashCode - (source.charAt(i - m) * power) % BASE;
+                // the included string length is more than target length
+                // remove the first character hashcode
+                if (i >= targetLength) {
+                    sourceHashCode = sourceHashCode - (source.charAt(i - targetLength) * power) % BASE;
 
                     if (sourceHashCode < 0) {
                         sourceHashCode += BASE;
                     }
                 }
 
-                // length == m
+                // the included string length is as same as the target length
                 if (targetHashCode == sourceHashCode) {
-                    if (source.substring(i - m + 1, i + 1).equals(target)) {
-                        return i - m + 1;
+                    if (source.substring(i - targetLength + 1, i + 1).equals(target)) {
+                        return i - targetLength + 1;
                     }
                 }
             }
 
             return -1;
+
         }
     }
 }
