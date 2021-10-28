@@ -19,20 +19,31 @@ public class BinarySearch {
                 return -1;
             }
 
-            int left = 0, right = nums.length - 1;
+            int start = 0, end = nums.length - 1;
 
-            while (left <= right) {
-                int mid = left + (right - left) / 2;
+            // start + 1 < end to avoid endless loop
+            while (start + 1 < end) {
+                int mid = start + (end - start) / 2;
 
-                if (target < nums[mid]) {
-                    right = mid - 1;
-
-                } else if (target > nums[mid]) {
-                    left = mid + 1;
-
-                } else {
+                if (nums[mid] == target) {
                     return mid;
                 }
+
+                if (target < nums[mid]) {
+                    end = mid - 1;
+
+                } else {
+                    start = mid + 1;
+
+                }
+            }
+
+            if (nums[start] == target) {
+                return start;
+            }
+
+            if (nums[end] == target) {
+                return end;
             }
 
             return -1;
@@ -91,10 +102,13 @@ public class BinarySearch {
 
                 if (target == nums[mid]) {
                     return mid;
+
                 } else if (target < nums[mid]) {
                     left = mid;
+
                 } else {
                     right = mid;
+
                 }
             }
 
@@ -110,40 +124,38 @@ public class BinarySearch {
 
     static class Solution4 {
         /**
-         * find the index of the first occurrence of an element
-         * @param nums
-         * @param target
-         * @return
+         * @param nums: The integer array.
+         * @param target: Target to find.
+         * @return: The first position of target. Position starts from 0.
          */
-        public static int leftBound(int[] nums, int target) {
+        public int binarySearch(int[] nums, int target) {
+            // write your code here
             if (nums == null || nums.length == 0) {
                 return -1;
             }
 
-            int left = 0, right = nums.length - 1;
+            int start = 0, end = nums.length - 1;
 
-            // if left neighbors right -> terminate
-            while (left + 1 < right) {
-                int mid = left + (right - left) / 2;
+            while (start + 1 < end) {
+                int mid = start + (end - start) / 2;
 
                 if (target == nums[mid]) {
-                    right = mid;
+                    end = mid;
 
                 } else if (target < nums[mid]) {
-                    right = mid - 1;
+                    end = mid - 1;
 
                 } else {
-                    left = mid + 1;
-
+                    start = mid + 1;
                 }
             }
 
-            if (nums[left] == target) {
-                return left;
+            if (nums[start] == target) {
+                return start;
             }
 
-            if (nums[right] == target) {
-                return right;
+            if (nums[end] == target) {
+                return end;
             }
 
             return -1;
@@ -152,94 +164,103 @@ public class BinarySearch {
 
     static class Solution5 {
         /**
-         * find the index of the last occurrence of an element
-         * @param nums
-         * @param target
-         * @return
+         * @param nums: An integer array sorted in ascending order
+         * @param target: An integer
+         * @return: An integer
          */
-        public int rightBound(int[] nums, int target) {
+        public int lastPosition(int[] nums, int target) {
+            // write your code here
             if (nums == null || nums.length == 0) {
                 return -1;
             }
 
-            int left = 0, right = nums.length - 1;
+            int start = 0, end = nums.length - 1;
 
-            // if left neighbors right -> terminate
-            while (left + 1 < right) {
-                int mid = left + (right - left) / 2;
+            while (start + 1 < end) {
+                int mid = start + (end - start) / 2;
 
-                if (target < nums[mid]) {
-                    right = mid - 1;
+                if (target == nums[mid]) {
+                    start = mid;
 
                 } else if (target > nums[mid]) {
-                    left = mid + 1;
+                    start = mid + 1;
 
                 } else {
-                    left = mid;
+                    end = mid - 1;
                 }
             }
 
-            if (nums[right] == target) {
-                return right;
+            if (nums[end] == target) {
+                return end;
             }
 
-            if (nums[left] == target) {
-                return left;
+            if (nums[start] == target) {
+                return start;
             }
 
             return -1;
-
         }
     }
 
     static class Solution6 {
-        /**
-         * find k elements that are closest to target
-         * @param nums
-         * @param target
-         * @return
-         */
-        public List<Integer> findKElements(int[] nums, int target, int k) {
-            List<Integer> kElements = new ArrayList<>(k);
-
-            if (nums == null || nums.length == 0 || k == 0 || k > nums.length) {
-                return kElements;
-            }
-
-            int left = 0, right = nums.length - 1;
-
-            while (left + 1 < right) {
-                int mid = left + (right - left) / 2;
-
-                if (target <= nums[mid]) {
-                    right = mid;
-                } else if (target > nums[mid]) {
-                    left = mid;
-                }
-            }
-
-            while (k-- >= 0 && left >= 0 && right < nums.length) {
-                if (Math.abs(nums[left] - target) < Math.abs(nums[right] - target)) {
-                    kElements.add(nums[left]);
-                } else {
-                    kElements.add(nums[right]);
+        public class Solution {
+            /**
+             * @param A: an integer array
+             * @param target: An integer
+             * @param k: An integer
+             * @return: an integer array
+             */
+            public int[] kClosestNumbers(int[] A, int target, int k) {
+                // write your code here
+                if (A == null || A.length == 0 || k <= 0 || k > A.length) {
+                    return new int[0];
                 }
 
-                left--;
-                right++;
-            }
+                List<Integer> res = new ArrayList<>();
 
-            while (k-- >= 0 && left >= 0) {
-                kElements.add(nums[left]);
-                left--;
-            }
+                int start = 0, end = A.length - 1;
 
-            while (k-- >= 0 && right < nums.length) {
-                kElements.add(nums[right]);
-                right++;
-            }
+                while (start + 1 < end) {
+                    int mid = start + (end - start) / 2;
 
-            return kElements;
+                    if (target <= A[mid]) {
+                        end = mid;
+
+                    } else {
+                        start = mid;
+
+                    }
+                }
+
+                while (k > 0 && start >= 0 && end < A.length) {
+                    if (Math.abs(A[start] - target) <= Math.abs(A[end] - target)) {
+                        res.add(A[start]);
+                        start--;
+
+                    } else {
+                        res.add(A[end]);
+                        end++;
+
+                    }
+
+                    k--;
+
+                }
+
+                while (k > 0 && start >= 0) {
+                    res.add(A[start]);
+                    start--;
+                    k--;
+                }
+
+                while (k > 0 && end < A.length) {
+                    res.add(A[end]);
+                    end++;
+                    k--;
+                }
+
+                return res.stream().mapToInt(i->i).toArray();
+            }
         }
     }
 }

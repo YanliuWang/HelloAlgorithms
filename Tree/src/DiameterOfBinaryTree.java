@@ -3,27 +3,31 @@
  * @create 2021-01-25-20:52
  */
 public class DiameterOfBinaryTree {
-    static class Solution {
-        private int res = 0;
-
+    public class Solution {
+        /**
+         * @param root: a root of binary tree
+         * @return: return a integer
+         */
         public int diameterOfBinaryTree(TreeNode root) {
-            getMaxDiameter(root);
+            // write your code here
+            return DFS(root)[0];
 
-            return res;
         }
 
-        // the max diameter of left and right subtree rooted in node
-        private int getMaxDiameter(TreeNode node) {
-            if (node == null) {
-                return 0;
+        // get the TreeNode int[0] max diameter and int[1] max chain
+        private int[] DFS(TreeNode root) {
+            if (root == null) {
+                return new int[]{0, 0};
             }
 
-            int left = getMaxDiameter(node.left);
-            int right = getMaxDiameter(node.right);
+            int[] left = DFS(root.left);
+            int[] right = DFS(root.right);
 
-            res = Math.max(res, left + right);
+            // get the left max diameter or right max diameter or get the max chain
+            int maxDiameter = Math.max(Math.max(left[0], right[0]), left[1] + right[1]);
+            int maxChain = 1 + Math.max(left[1], right[1]);
 
-            return Math.max(left, right) + 1;
+            return new int[]{maxDiameter, maxChain};
         }
     }
 }

@@ -5,6 +5,8 @@ import java.util.Comparator;
 /**
  * @author yanliu
  * @create 2020-12-02-10:18
+ * average time complexity is T(n) = 2T(n / 2) + O(n)
+ * worst time complexity is T(n) = T(0) + T(n - 1) + O(n)
  */
 public class QuickSort {
     public static void sort(Comparable[] arr) {
@@ -72,5 +74,58 @@ public class QuickSort {
 
         }
 
+    }
+
+    public class Solution {
+        /**
+         * @param A: an integer array
+         * @return: nothing
+         */
+        public void sortIntegers2(int[] A) {
+            // write your code here
+            if (A == null || A.length < 2) {
+                return;
+            }
+
+            quickSort(A, 0, A.length - 1);
+        }
+
+        private void quickSort(int[] A, int start, int end) {
+            if (start >= end) {
+                return;
+            }
+
+            int left = start, right = end;
+
+            // 1. select the middle number as the pivot
+            int pivot = A[start + (end - start) / 2];
+
+            // 2. left <= right not left < right
+            while (left <= right) {
+                // 3. A[left] < pivot not <=
+                while (left <= right && A[left] < pivot) {
+                    left++;
+                }
+
+                while (left <= right && A[right] > pivot) {
+                    right--;
+                }
+
+                if (left <= right) {
+                    swap(A, left, right);
+                    left++;
+                    right--;
+                }
+            }
+
+            quickSort(A, start, right);
+            quickSort(A, left, end);
+        }
+
+        private void swap(int[] A, int index1, int index2) {
+            int temp = A[index1];
+            A[index1] = A[index2];
+            A[index2] = temp;
+        }
     }
 }

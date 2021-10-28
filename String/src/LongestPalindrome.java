@@ -69,12 +69,14 @@ public class LongestPalindrome {
 
         /**
          * return the palindrome whose centers are s[l] and s[r]
+         * 回文串中心点在 l/r 中间，或者 l/r 之上
          * @param str
          * @param left
          * @param right
          * @return
          */
         private String getLongestPalindrome(String str, int left, int right) {
+            // from center to left and right move
             while (left >= 0 && right < str.length() && str.charAt(left) == str.charAt(right)) {
                 left--;
                 right++;
