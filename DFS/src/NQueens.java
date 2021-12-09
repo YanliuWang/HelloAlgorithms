@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * LC51git
+ * LeetCode51
  * @author yanliu
  * @create 2021-01-26-16:40
  */
@@ -88,6 +88,9 @@ public class NQueens {
             }
 
             return true;
+
         }
     }
+
+
 }

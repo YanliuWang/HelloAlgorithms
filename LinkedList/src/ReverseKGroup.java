@@ -5,6 +5,7 @@
 public class ReverseKGroup {
     static class Solution {
         public ListNode reverseKGroup(ListNode head, int k) {
+            // base case 1
             if (head == null) {
                 return null;
             }
@@ -12,8 +13,10 @@ public class ReverseKGroup {
             ListNode a, b;
             a = b = head;
 
+            // base case 2
+            // [a, b) is not multiple of k
+            // return as it is
             for (int i = 0; i < k; i++) {
-                // base case (the number of left nodes less than k)
                 if (b == null) {
                     return head;
                 }
@@ -34,9 +37,7 @@ public class ReverseKGroup {
          * @return
          */
         private ListNode reverseBetween(ListNode a, ListNode b) {
-            ListNode pre, curr, next;
-
-            pre = null; curr = a; next = null;
+            ListNode pre = null, curr = a, next = null;
 
             while (curr != b) {
                 next = curr.next;

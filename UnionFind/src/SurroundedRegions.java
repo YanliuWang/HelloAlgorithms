@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
+ * leetcode 130
  * @author yanliu
  * @create 2020-12-29-13:51
  */
@@ -25,7 +26,7 @@ public class SurroundedRegions {
             UnionFind uf = new UnionFind(rows * cols + 1);
             int dummy = rows * cols;
 
-            // union the special 'O' to dummy
+            // union the special 'O' on the bounder to dummy
             // (x, y) -> x * cols + y
             for (int i = 0; i < rows; i++) {
                 if (board[i][0] == 'O') {
@@ -37,6 +38,7 @@ public class SurroundedRegions {
                 }
             }
 
+            // union the special '0' on the bounder to dummy
             for (int j = 0; j < cols; j++) {
                 if (board[0][j] == 'O') {
                     uf.union(dummy, j);
@@ -76,60 +78,76 @@ public class SurroundedRegions {
         }
     }
 
+    /**
+     * use dfs to solve the problem
+     */
     static class Solution2 {
-        /**
-         * using recursive dfs to solve the problem
-         * @param board
-         */
-        public void solve(int[][] board) {
-            if (board == null || board.length == 0) {
+        private final int[] dx = new int[]{-1, 1, 0, 0};
+        private final int[] dy = new int[]{0, 0, -1, 1};
+
+        public void solve(char[][] board) {
+            if (board == null || board.length == 0
+                    || board[0] == null || board[0].length == 0) {
                 return;
             }
 
-            int rows = board.length;
-            int cols = board[0].length;
+            int row = board.length;
+            int col = board[0].length;
 
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    // search from the edge
-                    boolean isEdge = i == 0 || i == rows - 1 || j == 0 || j == cols - 1;
+            // find the '0' which connects to the edge '0'
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    boolean isEdge = i == 0 || i == row - 1 || j == 0 || j == col - 1;
 
                     if (isEdge && board[i][j] == 'O') {
+                        // if 'O' is on the border edge
+                        // enter the dfs to find its adjacent 'O'
+                        // label the adjacent 'O' to '#'
                         dfs(board, i, j);
                     }
                 }
             }
 
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; i < cols; j++) {
+            // flip
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
                     if (board[i][j] == 'O') {
                         board[i][j] = 'X';
-
                     } else if (board[i][j] == '#') {
                         board[i][j] = 'O';
-
                     }
-
                 }
             }
 
         }
 
-        private void dfs(int[][] board, int i, int j) {
-            int rows = board.length;
-            int cols = board[0].length;
+        private void dfs(char[][] board, int x, int y) {
+            // label the 'O' which connects to the edge 'O' to '#'
+            board[x][y] = '#';
 
-            if (i < 0 || i >= rows || j < 0 || j >= cols || board[i][j] == '#') {
-                return;
+            for (int DIRECTION = 0; DIRECTION < 4; DIRECTION++) {
+                int nextX = x + dx[DIRECTION];
+                int nextY = y + dy[DIRECTION];
+
+                if (!isValid(nextX, nextY, board)) {
+                    continue;
+                }
+
+                if (board[nextX][nextY] != 'O' || board[nextX][nextY] == '#') {
+                    continue;
+                }
+
+                dfs(board, nextX, nextY);
             }
 
-            board[i][j] = '#';
+        }
 
-            dfs(board, i - 1, j);
-            dfs(board, i + 1, j);
-            dfs(board, i, j - 1);
-            dfs(board, i, j + 1);
+        private boolean isValid(int x, int y, char[][] board) {
+            if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
+                return false;
+            }
 
+            return true;
         }
     }
 

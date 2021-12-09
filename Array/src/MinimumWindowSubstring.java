@@ -2,67 +2,66 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * LeetCode 76
  * @author yanliu
  * @create 2021-10-16-3:48 PM
  */
 public class MinimumWindowSubstring {
-    public class Solution {
-        /**
-         * @param source : A string
-         * @param target: A string
-         * @return: A string denote the minimum window, return "" if there is no such a string
-         */
-        public String minWindow(String source , String target) {
-            // write your code here
-            if (source.length() == 0 || target.length() == 0) {
-                return "";
+    static class Solution {
+        public String minWindow(String s, String t) {
+            Map<Character, Integer> need = new HashMap<>();
+            Map<Character, Integer> window = new HashMap<>();
+
+            // construct need map
+            for (int i = 0; i < t.length(); i++) {
+                char ch = t.charAt(i);
+                need.put(ch, need.getOrDefault(ch, 0) + 1);
             }
 
-            // get the target Character to number set
-            Map<Character, Integer> targetCounter = new HashMap<>();
-            for (int i = 0; i < target.length(); i++) {
-                int numOfChar = targetCounter.getOrDefault(target.charAt(i), 0);
-                targetCounter.put(target.charAt(i), numOfChar + 1);
-            }
-
-            Map<Character, Integer> subCounter = new HashMap<>();
-            int n = source.length();
-            int matchedChars = 0;
-            int minSubstrLen = Integer.MAX_VALUE;
-            int right = 0;
+            // the number of satisfied matches
+            int valid = 0;
+            int left = 0, right = 0;
+            int len = s.length() + 1;
             int start = 0;
-            for (int left = 0; left < n; left++) {
-                while (right < n && matchedChars < targetCounter.size()) {
-                    subCounter.put(source.charAt(right), subCounter.getOrDefault(source.charAt(right), 0) + 1);
 
-                    if (subCounter.get(source.charAt(right)).equals(targetCounter.get(source.charAt(right)))) {
-                        matchedChars++;
+            while (right < s.length()) {
+                char in = s.charAt(right);
+                right++;
+
+                // update when window extends to right
+                if (need.containsKey(in)) {
+                    window.put(in, window.getOrDefault(in, 0) + 1);
+
+                    if ((window.get(in)).equals(need.get(in))) {
+                        valid++;
                     }
-
-                    right++;
                 }
 
-                if (matchedChars == targetCounter.size()) {
-                    if (minSubstrLen > right - left) {
-                        minSubstrLen = right - left;
+                // shrink the window left
+                while (valid == need.size()) {
+                    char out = s.charAt(left);
+
+                    // get the len of substring
+                    if (right - left < len) {
                         start = left;
+                        len = right - left;
+                    }
+
+                    left++;
+
+                    if (need.containsKey(out)) {
+                        if ((need.get(out)).equals(window.get(out))) {
+                            valid--;
+                        }
+
+                        window.put(out, window.get(out) - 1);
                     }
                 }
 
-                // remove the left character
-                int numOfChar = subCounter.getOrDefault(source.charAt(left), 0);
-                subCounter.put(source.charAt(left), numOfChar - 1);
-
-                if (subCounter.get(source.charAt(left)).equals(targetCounter.getOrDefault(source.charAt(left), 0) - 1)) {
-                    matchedChars--;
-                }
             }
+            // System.out.println(len);
 
-            if (minSubstrLen == Integer.MAX_VALUE) {
-                return "";
-            }
-
-            return source.substring(start, start + minSubstrLen);
+            return len == s.length() + 1 ? "" : s.substring(start, start + len);
         }
     }
 }

@@ -1,4 +1,6 @@
-/**LintCode 1359
+/**
+ * LintCode 1359
+ * LeetCode 108
  * @author yanliu
  * @create 2021-04-11-12:32
  */
@@ -8,7 +10,7 @@ public class ConvertSortedArrayToBinarySearchTree {
          * @param nums: the sorted array
          * @return: the root of the tree
          */
-        public TreeNode convertSortedArraytoBinarySearchTree(int[] nums) {
+        public TreeNode convertSortedArrayToBinarySearchTree(int[] nums) {
             if (nums == null || nums.length == 0) {
                 return null;
             }

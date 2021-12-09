@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * LC77
+ * LeetCode77
  * @author yanliu
  * @create 2021-01-26-21:29
  */
@@ -53,11 +53,13 @@ public class Combinations {
                 results.add(new ArrayList<Integer>(items));
                 return;
             }
+
             for (int i = index; i < nums.length; i++) {
                 items.add(nums[i]);
                 combination(results, nums, i+1, items);
                 items.remove(items.size()-1);
             }
+
             combination(results, nums, nums.length, items);
         }
 

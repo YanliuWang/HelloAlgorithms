@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * LC17
+ * LeetCode17
  * @author yanliu
  * @create 2021-01-26-17:37
  */
@@ -29,6 +29,7 @@ public class LetterCombinations {
                 return res;
             }
 
+            // curr is the path
             LinkedList<Character> curr = new LinkedList<>();
 
             dfs(curr, digits, 0);
@@ -43,6 +44,7 @@ public class LetterCombinations {
                 return;
             }
 
+            // 选择列表
             String choice = mapping[Character.getNumericValue(digits.charAt(start))];
 
             for (int i = 0; i < choice.length(); i++) {

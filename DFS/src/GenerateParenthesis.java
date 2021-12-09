@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * LeetCode22
  * @author yanliu
  * @create 2021-02-07-15:06
  */
@@ -14,31 +15,34 @@ public class GenerateParenthesis {
                 return res;
             }
 
-            StringBuilder sb = new StringBuilder();
-
-            backTrack(sb, res, 0, 0, n);
+            dfs(n, n, new StringBuilder(), res);
 
             return res;
         }
 
-        private void backTrack(StringBuilder sb, List<String> res, int open, int close, int max) {
-            if (open == max && close == max) {
-                res.add(sb.toString());
+        private void dfs(int left, int right, StringBuilder path, List<String> res) {
+            if (left > right) {
                 return;
             }
 
-            if (open < max) {
-                sb.append('(');
-                backTrack(sb, res, open+1, close, max);
-                sb.deleteCharAt(sb.length() - 1);
+            if (left < 0 || right < 0) {
+                return;
             }
 
-            if (close < open) {
-                sb.append(')');
-                backTrack(sb, res, open, close+1, max);
-                sb.deleteCharAt(sb.length() - 1);
+            if (left == 0 && right == 0) {
+                res.add(path.toString());
+                return;
             }
+
+            // append open bracket firstly
+            path.append("(");
+            dfs(left - 1, right, path, res);
+            path.deleteCharAt(path.length() - 1);
+
+            // append closed bracket secondly
+            path.append(")");
+            dfs(left, right - 1, path, res);
+            path.deleteCharAt(path.length() - 1);
         }
-
     }
 }

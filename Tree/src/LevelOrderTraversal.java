@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
+ * LeetCode 102
  * @author yanliu
  * @create 2020-11-01-13:22
  */
@@ -45,26 +46,50 @@ public class LevelOrderTraversal {
 
     }
 
+    /**
+     * using two queue
+     */
     static class Solution2 {
-        public void levelOrderTraverse(TreeNode root) {
+        public List<List<Integer>> levelOrder(TreeNode root) {
+            List<List<Integer>> res = new ArrayList<>();
+
             if (root == null) {
-                return;
+                return res;
             }
 
-            Queue<TreeNode> queue = new LinkedList<>();
-            queue.offer(root);
+            List<TreeNode> queue = new ArrayList<>();
+            queue.add(root);
 
             while (!queue.isEmpty()) {
-                TreeNode curr = queue.poll();
+                res.add(toIntegerList(queue));
+                List<TreeNode> nextQueue = new ArrayList<>();
 
-                if (curr == null) {
-                    continue;
+                for (int i = 0; i < queue.size(); i++) {
+                    TreeNode curr = queue.get(i);
+
+                    if (curr.left != null) {
+                        nextQueue.add(curr.left);
+                    }
+
+                    if (curr.right != null) {
+                        nextQueue.add(curr.right);
+                    }
                 }
 
-                queue.offer(curr.left);
-                queue.offer(curr.right);
+                queue = nextQueue;
             }
 
+            return res;
+        }
+
+        private List<Integer> toIntegerList(List<TreeNode> queue) {
+            List<Integer> res = new LinkedList<>();
+
+            for (TreeNode node : queue) {
+                res.add(node.val);
+            }
+
+            return res;
         }
     }
 }

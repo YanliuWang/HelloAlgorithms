@@ -54,6 +54,7 @@ public class KthLargestElement {
                 return quickSelect(nums, i, end, k - (i - start));
             }
 
+            // if the partition element is the k-th element
             return nums[j + 1];
         }
     }

@@ -1,45 +1,35 @@
-//将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
-//
-//
-//
-// 示例：
-//
-// 输入：1->2->4, 1->3->4
-//输出：1->1->2->3->4->4
-//
-// Related Topics 链表
-// 👍 1323 👎 0
-
-
 /**
+ * LeetCode 21
  * @author yanliu
  * @create 2020-10-16-15:28
  */
 public class MergeSortedList {
     static class Solution {
         public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-            if (l1 == null) {
-                return l2;
-            } else if (l2 == null) {
-                return l1;
-            }
-
-            ListNode dummy = new ListNode(0);
+            ListNode dummy = new ListNode(-1);
             ListNode tail = dummy;
+            ListNode p1 = l1, p2 = l2;
 
-            while (l1 != null && l2 != null) {
-                if (l1.val < l2.val) {
-                    tail.next = l1;
-                    l1 = l1.next;
+            while (p1 != null && p2 != null) {
+                if (p1.val < p2.val) {
+                    tail.next = p1;
+                    p1 = p1.next;
+
                 } else {
-                    tail.next = l2;
-                    l2 = l2.next;
+                    tail.next = p2;
+                    p2 = p2.next;
                 }
 
                 tail = tail.next;
             }
 
-            tail.next = l1 == null ? l2 : l1;
+            if (p1 != null) {
+                tail.next = p1;
+            }
+
+            if (p2 != null) {
+                tail.next = p2;
+            }
 
             return dummy.next;
         }

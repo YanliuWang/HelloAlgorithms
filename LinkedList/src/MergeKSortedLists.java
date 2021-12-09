@@ -2,6 +2,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
+ * LeetCode 23
  * @author yanliu
  * @create 2021-03-09-18:20
  */
@@ -61,34 +62,29 @@ public class MergeKSortedLists {
                 return lists[0];
             }
 
-            PriorityQueue<ListNode> heap = new PriorityQueue<>(lists.length, new Comparator<ListNode>() {
+            PriorityQueue<ListNode> minHeap = new PriorityQueue<>(lists.length, new Comparator<ListNode>() {
                 @Override
                 public int compare(ListNode o1, ListNode o2) {
-                    if (o1.val < o2.val) {
-                        return -1;
-                    } else if (o1.val == o2.val) {
-                        return 0;
-                    } else {
-                        return 1;
-                    }
+                    return o1.val - o2.val;
                 }
             });
 
             for (ListNode node : lists) {
                 if (node != null) {
-                    heap.add(node);
+                    minHeap.add(node);
                 }
             }
 
             ListNode dummy = new ListNode(0);
             ListNode tail = dummy;
 
-            while (!heap.isEmpty()) {
-                tail.next = heap.poll();
+            while (!minHeap.isEmpty()) {
+                ListNode next = minHeap.poll();
+                tail.next = next;
                 tail = tail.next;
 
-                if (tail.next != null) {
-                    heap.offer(tail.next);
+                if (next.next != null) {
+                    minHeap.offer(next.next);
                 }
 
             }

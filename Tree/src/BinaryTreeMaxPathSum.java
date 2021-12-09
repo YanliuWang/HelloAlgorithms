@@ -12,7 +12,7 @@ public class BinaryTreeMaxPathSum {
                 return Integer.MIN_VALUE;
             }
 
-            getMaxBranchSum(root);
+            oneSideSum(root);
 
             return maxSum;
         }
@@ -24,19 +24,19 @@ public class BinaryTreeMaxPathSum {
          * @param root
          * @return
          */
-        private int getMaxBranchSum(TreeNode root) {
+        private int oneSideSum(TreeNode root) {
             if (root == null) {
                 return 0;
             }
 
-            int left = getMaxBranchSum(root.left);
-            int right = getMaxBranchSum(root.right);
+            // abandon the negative value
+            int leftSide = Math.max(0, oneSideSum(root.left));
+            int rightSide = Math.max(0, oneSideSum(root.right));
 
-            int maxBranchSum = root.val + Math.max(0, Math.max(left, right));
+            // update the maxSum if it is necessary
+            maxSum = Math.max(maxSum, leftSide + rightSide + root.val);
 
-            maxSum = Math.max(maxSum, Math.max(maxBranchSum, root.val + left + right));
-
-            return maxBranchSum;
+            return Math.max(leftSide, rightSide) + root.val;
         }
     }
 }

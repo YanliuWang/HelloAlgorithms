@@ -159,9 +159,10 @@ public class SerializeAndDeserialize {
             Queue<String> dataQueue = new LinkedList<>(Arrays.asList(data.split(SEP)));
             Queue<TreeNode> treeQueue = new LinkedList<>();
 
-            if (dataQueue.isEmpty()) {
+            if (dataQueue.isEmpty() || NULL.equals(dataQueue.peek())) {
                 return null;
             }
+
 
             TreeNode root = new TreeNode(Integer.parseInt(dataQueue.poll()));
             treeQueue.offer(root);

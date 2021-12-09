@@ -7,9 +7,11 @@ import java.util.List;
  * @create 2021-01-26-16:19
  */
 public class Permutations {
+    /**
+     * LeetCode46
+     */
     static class Solution1 {
         /**
-         * LintCode15
          * @param nums: A list of integers.
          * @return: A list of permutations.
          */
@@ -59,9 +61,11 @@ public class Permutations {
         }
     }
 
+    /**
+     * LeetCode47
+     */
     static class Solution2 {
         /**
-         * LintCode16
          * @param nums: A list of integers.
          * @return: A list of permutations.
          */

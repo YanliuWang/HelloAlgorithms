@@ -1,5 +1,3 @@
-import edu.princeton.cs.algs4.StdRandom;
-
 /**
  * @author yanliu
  * @create 2020-11-28-10:20
@@ -81,30 +79,12 @@ public class MergeSort {
         }
     }
 
-    public static void main(String[] args) {
-        Double[] a = new Double[10];
-
-        for (int i = 0; i < a.length; i++) {
-            a[i] = StdRandom.uniform();
-        }
-
-        sortRecursion(a);
-
-        if (SortUtils.isSorted(a)) {
-            System.out.println("sort succeeded");
-
-        } else {
-            System.out.println("sort failed");
-
-        }
-    }
-
     public class Solution {
         /**
          * @param A: an integer array
          * @return: nothing
          */
-        public void sortIntegers2(int[] A) {
+        public void sortIntegers(int[] A) {
             // write your code here
             if (A == null || A.length < 2) {
                 return;

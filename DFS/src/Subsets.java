@@ -7,9 +7,11 @@ import java.util.List;
  * @create 2021-01-29-15:41
  */
 public class Subsets {
+    /**
+     * LeetCode 78
+     */
     static class Solution1 {
         /**
-         * LintCode17-subSets
          * @param nums: A set of numbers
          * @return: A list of lists
          */
@@ -51,9 +53,11 @@ public class Subsets {
 
     }
 
+    /**
+     * LeetCode 90
+     */
     static class Solution2 {
         /**
-         * LintCode18 subsets remove duplicates
          * @param nums: A set of numbers.
          * @return: A list of lists. All valid subsets.
          */
@@ -76,9 +80,8 @@ public class Subsets {
             results.add(new ArrayList<>(subset));
 
             for (int i = startIdx; i < nums.length; i++) {
-                // at the same depth, among the same values
-                // only the first one can be used
-                // we select duplicate numbers consecutively
+                // only the number that we first time meet can be used
+                // the second time we meet it, we ignore
                 if (i > 0 && nums[i] == nums[i - 1] && i > startIdx) {
                     continue;
                 }

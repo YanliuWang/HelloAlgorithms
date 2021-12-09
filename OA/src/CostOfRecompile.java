@@ -71,9 +71,5 @@ public class CostOfRecompile {
             depend.put(key, res);
             return res;
         }
-
-
-
-
     }
 }

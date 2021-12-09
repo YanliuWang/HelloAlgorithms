@@ -1,84 +1,67 @@
 /**
- * LC37
+ * LeetCode37
  * @author yanliu
  * @create 2021-03-28-19:56
  */
 public class Sudoku {
     static class Solution {
-        private boolean[][] rowUsed = new boolean[9][10];
-        private boolean[][] colUsed = new boolean[9][10];
-        private boolean[][] boxUsed = new boolean[9][10];
-
         public void solveSudoku(char[][] board) {
-            if (board == null || board.length != 9 || board[0].length != 9) {
-                return;
-            }
+            int row = board.length;
+            int col = board[0].length;
 
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[0].length; j++) {
-                    char ch = board[i][j];
-
-                    if (ch =='.') {
-                        continue;
-                    }
-
-                    int num = ch - '0';
-                    int row = i / 3;
-                    int col = j / 3;
-
-                    rowUsed[i][num] = true;
-                    colUsed[j][num] = true;
-                    boxUsed[row * 3 + col][num] = true;
-
-                }
-            }
-
-            fillBoard(board, 0, 0);
-
+            dfs(board, 0, 0, row, col);
         }
 
-        private boolean fillBoard(char[][] board, int row, int col) {
-            if (col == board[0].length) {
-                // get the next coordinate
-                col = 0;
-                row++;
-
-                if (row == board.length) {
-                    return true;
-                }
+        private boolean dfs(char[][] board, int currRow, int currCol, int row, int col) {
+            if (currRow == row) {
+                return true;
             }
 
-            if (board[row][col] != '.') {
-                return fillBoard(board, row, col + 1);
+            if (currCol == col) {
+                return dfs(board, currRow + 1, 0, row, col);
+            }
 
-            } else {
-                for (int num = 1; num <= 9; num++) {
-                    int boxRow = row / 3;
-                    int boxCol = col / 3;
+            if (board[currRow][currCol] != '.') {
+                return dfs(board, currRow, currCol + 1, row, col);
+            }
 
-                    if (!rowUsed[row][num] && !colUsed[col][num] && !boxUsed[boxRow * 3 + boxCol][num]) {
-                        rowUsed[row][num] = true;
-                        colUsed[col][num] = true;
-                        boxUsed[boxRow * 3 + boxCol][num] = true;
-
-                        board[row][col] = (char)(num + '0');
-
-                        if (fillBoard(board, row, col + 1)) {
-                            return true;
-                        }
-
-                        rowUsed[row][num] = false;
-                        colUsed[col][num] = false;
-                        boxUsed[boxRow * 3 + boxCol][num] = false;
-
-                        board[row][col] = '.';
-                    }
+            for (char ch = '1'; ch <= '9'; ch++) {
+                if (!isValid(board, currRow, currCol, ch)) {
+                    continue;
                 }
+
+                board[currRow][currCol] = ch;
+
+                if (dfs(board, currRow, currCol + 1, row, col)) {
+                    return true;
+                }
+
+                board[currRow][currCol] = '.';
             }
 
             return false;
+
         }
 
+        private boolean isValid(char[][] board, int currRow, int currCol, char ch) {
+            int rowRegion = currRow / 3;
+            int colRegion = currCol / 3;
 
+            for (int i = 0; i < 9; i++) {
+                if (board[currRow][i] == ch) {
+                    return false;
+                }
+
+                if (board[i][currCol] == ch) {
+                    return false;
+                }
+
+                if (board[rowRegion * 3 + i / 3][colRegion * 3 + i % 3] == ch) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

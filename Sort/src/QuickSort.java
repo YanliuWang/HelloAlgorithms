@@ -1,6 +1,3 @@
-import edu.princeton.cs.algs4.StdRandom;
-
-import java.util.Comparator;
 
 /**
  * @author yanliu
@@ -9,6 +6,7 @@ import java.util.Comparator;
  * worst time complexity is T(n) = T(0) + T(n - 1) + O(n)
  */
 public class QuickSort {
+
     public static void sort(Comparable[] arr) {
         if (arr == null || arr.length < 2) {
             return;
@@ -16,6 +14,10 @@ public class QuickSort {
 
         sort(arr, 0, arr.length - 1);
 
+    }
+
+    public static void main(String[] args) {
+        sort(new Integer[3]);
     }
 
     private static void sort(Comparable[] arr, int start, int end) {
@@ -55,28 +57,7 @@ public class QuickSort {
 
     }
 
-
-
-    public static void main(String[] args) {
-        Double[] a = new Double[10];
-
-        for (int i = 0; i < a.length; i++) {
-            a[i] = StdRandom.uniform();
-        }
-
-        sort(a);
-
-        if (SortUtils.isSorted(a)) {
-            System.out.println("sort succeeded");
-
-        } else {
-            System.out.println("sort failed");
-
-        }
-
-    }
-
-    public class Solution {
+    public class Solution1 {
         /**
          * @param A: an integer array
          * @return: nothing

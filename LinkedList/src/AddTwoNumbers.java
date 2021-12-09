@@ -1,5 +1,5 @@
 /**
- * LC2
+ * LeetCode2
  * @author yanliu
  * @create 2021-03-08-17:29
  */

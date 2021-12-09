@@ -3,7 +3,7 @@
  * @create 2020-12-27-15:28
  */
 public class SwapPairs {
-    static class Solution {
+    static class Solution1 {
         public ListNode swapPairs(ListNode head) {
             if (head == null) {
                 return null;
@@ -44,6 +44,22 @@ public class SwapPairs {
             }
 
             return pre;
+        }
+    }
+
+    static class Solution2 {
+        public ListNode swapPairs(ListNode head) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+
+            ListNode firstNode = head;
+            ListNode secondNode = head.next;
+
+            firstNode.next = swapPairs(secondNode.next);
+            secondNode.next = firstNode;
+
+            return secondNode;
         }
     }
 

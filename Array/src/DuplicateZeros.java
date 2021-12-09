@@ -21,6 +21,7 @@ public class DuplicateZeros {
                     if (j < arr.length) {
                         arr[j] = arr[i];
                     }
+
                 } else {
                     if (j < arr.length) {
                         arr[j] = arr[i];
