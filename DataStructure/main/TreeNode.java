@@ -1,11 +1,12 @@
+
 /**
  * @author yanliu
  * @create 2020-11-01-10:27
  */
 class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
 
     public TreeNode() {}
 

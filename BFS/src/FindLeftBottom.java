@@ -2,11 +2,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
+ * LeetCode513
  * @author yanliu
  * @create 2021-03-24-23:12
  */
 public class FindLeftBottom {
-    static class Solution {
+    /**
+     * using bfs
+     */
+    static class Solution1 {
         public int findBottomLeftValue(TreeNode root) {
             // judge whether the current node is the first node
             boolean isFirst = false;
@@ -39,6 +43,34 @@ public class FindLeftBottom {
             }
 
             return leftValue;
+        }
+    }
+
+    /**
+     * using dfs
+     */
+    static class Solution2 {
+        private int maxDepth = 0;
+        private int value = 0;
+
+        public int findBottomLeftValue(TreeNode root) {
+            dfs(root, 1);
+
+            return value;
+        }
+
+        private void dfs(TreeNode root, int depth) {
+            if (root == null) {
+                return;
+            }
+
+            if (depth > maxDepth) {
+                value = root.val;
+                maxDepth = depth;
+            }
+
+            dfs(root.left, depth + 1);
+            dfs(root.right, depth + 1);
         }
     }
 }

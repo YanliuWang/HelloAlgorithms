@@ -24,6 +24,7 @@
  */
 
 /**
+ * LeetCode92
  * @author yanliu
  * @create 2020-11-27-16:26
  */
@@ -70,7 +71,7 @@ public class ReverseLinkedListBetween {
 
             ListNode prev = dummy;
 
-            for (int i = 0; i < m -1; i++) {
+            for (int i = 0; i < m - 1; i++) {
                 prev = prev.next;
             }
 
@@ -92,5 +93,46 @@ public class ReverseLinkedListBetween {
 
         }
 
+    }
+
+    static class Solution3 {
+        public ListNode reverseBetween(ListNode head, int left, int right) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+
+            ListNode curr = head;
+            ListNode prev = null, next = null;
+
+            while (left > 1) {
+                prev = curr;
+                curr = curr.next;
+                left--;
+                right--;
+            }
+
+
+            ListNode con = prev, tail = curr;
+
+            while (right > 0) {
+                next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+                right--;
+            }
+
+            if (con != null) {
+                con.next = prev;
+
+            } else {
+                head = prev;
+            }
+
+            tail.next = curr;
+
+            return head;
+
+        }
     }
 }

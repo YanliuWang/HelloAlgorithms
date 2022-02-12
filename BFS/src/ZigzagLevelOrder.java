@@ -1,14 +1,12 @@
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 /**
+ * LeetCode103
  * @author yanliu
  * @create 2021-03-24-23:13
  */
 public class ZigzagLevelOrder {
-    static class Solution {
+    static class Solution1 {
         public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
             List<List<Integer>> res = new ArrayList<>();
             boolean isOdd = true;
@@ -52,6 +50,49 @@ public class ZigzagLevelOrder {
                 stack = subStack;
                 isOdd = !isOdd;
                 res.add(level);
+            }
+
+            return res;
+        }
+    }
+
+    static class Solution2 {
+        public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+            List<List<Integer>> res = new ArrayList<>();
+
+            if (root == null) {
+                return res;
+            }
+
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.offer(root);
+            boolean isOdd = true;
+
+            while (!queue.isEmpty()) {
+                LinkedList<Integer> subRes = new LinkedList<>();
+                int size = queue.size();
+
+                for (int i = 0; i < size; i++) {
+                    TreeNode curr = queue.poll();
+
+                    if (isOdd) {
+                        subRes.add(curr.val);
+
+                    } else {
+                        subRes.addFirst(curr.val);
+                    }
+
+                    if (curr.left != null) {
+                        queue.offer(curr.left);
+                    }
+
+                    if (curr.right != null) {
+                        queue.offer(curr.right);
+                    }
+                }
+
+                isOdd = !isOdd;
+                res.add(subRes);
             }
 
             return res;

@@ -3,7 +3,7 @@
  * @create 2021-04-07-15:09
  */
 public class BinarySearchTree {
-    public static boolean find(TreeNode root, int target) {
+    private boolean find(TreeNode root, int target) {
         TreeNode curr = root;
 
         while (curr != null) {
@@ -22,7 +22,7 @@ public class BinarySearchTree {
         return false;
     }
 
-    public static boolean add(TreeNode root, int value) {
+    private boolean add(TreeNode root, int value) {
         if (root == null) {
             root = new TreeNode(value);
             return true;
@@ -31,7 +31,7 @@ public class BinarySearchTree {
         TreeNode curr = root;
 
         while (curr != null) {
-            if (value < root.val) {
+            if (value < curr.val) {
                 if (curr.left == null) {
                     curr.left = new TreeNode(value);
                     return true;
@@ -39,7 +39,7 @@ public class BinarySearchTree {
 
                 curr = curr.left;
 
-            } else if (value > root.val) {
+            } else if (value > curr.val) {
                 if (curr.right == null) {
                     curr.right = new TreeNode(value);
                     return true;
@@ -55,7 +55,7 @@ public class BinarySearchTree {
         return false;
     }
 
-    public static boolean remove(TreeNode root, int target) {
+    private boolean remove(TreeNode root, int target) {
         if (root == null) {
             return false;
         }
@@ -103,7 +103,7 @@ public class BinarySearchTree {
      * @param node
      * @return
      */
-    private static TreeNode removeNode(TreeNode node) {
+    private TreeNode removeNode(TreeNode node) {
         if (node.left == null && node.right == null) {
             return null;
 
@@ -120,7 +120,7 @@ public class BinarySearchTree {
         }
     }
 
-    private static int removeNodeWithTwoChildren(TreeNode node) {
+    private int removeNodeWithTwoChildren(TreeNode node) {
         int result = 0;
 
         if (node.left.right == null) {

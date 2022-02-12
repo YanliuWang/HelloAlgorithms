@@ -4,7 +4,7 @@
  * @create 2021-12-02-10:18 PM
  */
 public class NumberOfIslands {
-    static class Solution {
+    static class Solution1 {
         public int numIslands(char[][] grid) {
             if (grid == null || grid.length == 0
                     || grid[0] == null || grid[0].length == 0) {

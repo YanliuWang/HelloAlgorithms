@@ -161,4 +161,43 @@ public class LetterCombinations {
 
         }
     }
+
+    static class Solution4 {
+        private final String[] map = new String[]{"", "",
+                "abc", "def", "ghi", "jkl",
+                "mno", "pqrs", "tuv", "wxyz"};
+
+        public List<String> letterCombinations(String digits) {
+            List<String> res = new ArrayList<>();
+
+            if (digits == null || digits.length() == 0) {
+                return res;
+            }
+
+            dfs(digits, 0, new StringBuilder(), res);
+
+            return res;
+        }
+
+        private void dfs(String digits, int start,
+                         StringBuilder curr, List<String> res) {
+            if (start == digits.length()) {
+                res.add(curr.toString());
+                return;
+            }
+
+            char[] choice = map[digits.charAt(start) - '0'].toCharArray();
+
+            for (int i = 0; i < choice.length; i++) {
+                curr.append(choice[i]);
+
+                dfs(digits, start + 1, curr, res);
+
+                curr.deleteCharAt(curr.length() - 1);
+
+            }
+
+
+        }
+    }
 }
