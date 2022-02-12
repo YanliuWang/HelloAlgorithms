@@ -34,38 +34,35 @@ public class PathSum {
      * LC113 : path sum II
      */
     static class Solution2 {
-        public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
             List<List<Integer>> res = new ArrayList<>();
 
             if (root == null) {
                 return res;
             }
 
-            _helper(root, sum, new ArrayList<>(), res);
+            dfs(root, targetSum, new ArrayList<>(), res);
 
             return res;
         }
 
-        private void _helper(TreeNode node, int target, List<Integer> curSeq, List<List<Integer>> res) {
-            if (node == null) {
-                return;
+        private void dfs(TreeNode root, int targetSum,
+                         List<Integer> curr, List<List<Integer>> res) {
+            curr.add(root.val);
+
+            if (root.left == null && root.right == null && root.val == targetSum) {
+                res.add(new ArrayList<>(curr));
             }
 
-            curSeq.add(node.val);
-
-            if (node.left == null && node.right == null && node.val == target) {
-                res.add(new ArrayList<>(curSeq));
+            if (root.left != null) {
+                dfs(root.left, targetSum - root.val, curr, res);
             }
 
-            if (node.left != null) {
-                _helper(node.left, target-node.val, curSeq, res);
+            if (root.right != null) {
+                dfs(root.right, targetSum - root.val, curr, res);
             }
 
-            if (node.right != null) {
-                _helper(node.right, target-node.val, curSeq, res);
-            }
-
-            curSeq.remove(curSeq.size()-1);
+            curr.remove(curr.size() - 1);
         }
     }
 
@@ -73,42 +70,34 @@ public class PathSum {
      * LC437 : path sum III
      */
     static class Solution3 {
-        public int pathSum(TreeNode root, int sum) {
-            Map<Integer, Integer> prefixSumToFreq = new HashMap<>();
+        private int res = 0;
+        private Map<Integer, Integer> sumToFreq = new HashMap<>();
 
-            // why??
-            // put pre-root pair
-            prefixSumToFreq.put(0, 1);
-
-            return _helper(root, prefixSumToFreq, 0, sum);
-        }
-
-        private int _helper(TreeNode root, Map<Integer, Integer> prefixSumToFreq, int currSum, int target) {
-            // 1.递归终止条件
-            if (root == null) {
-                return 0;
-            }
-
-            // 2.本层要做的事
-            // 当前路径上的和
-            currSum += root.val;
-
-            // 看看root到当前节点这条路上是否存在节点前缀和加target为currSum的路径
-            // 当前节点->root节点反推，有且仅有一条路径，如果此前有和为currSum-target,而当前的和又为currSum,两者的差就肯定为target了
-            // currSum-target相当于找路径的起点，起点的sum+target=currSum，当前点到起点的距离就是target
-            int res = prefixSumToFreq.getOrDefault(currSum - target, 0);
-
-            // 更新路径上当前节点前缀和的个数
-            prefixSumToFreq.put(currSum, prefixSumToFreq.getOrDefault(currSum, 0) + 1);
-
-            // 3.下探到下一层
-            res += _helper(root.left, prefixSumToFreq, currSum, target)
-                    + _helper(root.right, prefixSumToFreq, currSum, target);
-
-            // 4.回到本层，恢复状态，去除当前节点的前缀和数量
-            prefixSumToFreq.put(currSum, prefixSumToFreq.get(currSum) - 1);
+        public int pathSum(TreeNode root, int targetSum) {
+            dfs(root, 0, targetSum);
 
             return res;
+        }
+
+        private void dfs(TreeNode root, int currSum, int targetSum) {
+            if (root == null) {
+                return;
+            }
+
+            currSum += root.val;
+
+            if (currSum == targetSum) {
+                res++;
+            }
+
+            res += sumToFreq.getOrDefault(currSum - targetSum, 0);
+
+            sumToFreq.put(currSum, sumToFreq.getOrDefault(currSum, 0) + 1);
+
+            dfs(root.left, currSum, targetSum);
+            dfs(root.right, currSum, targetSum);
+
+            sumToFreq.put(currSum, sumToFreq.get(currSum) - 1);
         }
     }
 }

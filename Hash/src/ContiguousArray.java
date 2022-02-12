@@ -28,6 +28,7 @@ public class ContiguousArray {
                 count = count + (nums[i] == 0 ? -1 : 1);
 
                 if (countToIdx.containsKey(count)) {
+                    // means there is same '0' and '1' between index
                     maxLen = Math.max(maxLen, i - countToIdx.get(count));
 
                 } else {

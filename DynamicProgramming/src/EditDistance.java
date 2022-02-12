@@ -27,7 +27,7 @@ public class EditDistance {
                     } else {
                         // dp[i - 1][j] <=> delete char[i] from word1 <=> insert char[i] to word2
                         // dp[i - 1][j - 1] <=> replace i with j <=> replace j with i
-                        // dp[i][j - 1] <=> insert char[j] to word2 <=> delete
+                        // dp[i][j - 1] <=> insert char[j] to word 1 <=> delete char[j] from word2
                         dp[i][j] = Math.min(dp[i - 1][j],
                                 Math.min(dp[i - 1][j - 1], dp[i][j - 1])) + 1;
                     }
@@ -37,4 +37,6 @@ public class EditDistance {
             return dp[len1][len2];
         }
     }
+
+
 }

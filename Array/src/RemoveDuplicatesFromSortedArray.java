@@ -1,9 +1,10 @@
 /**
+ * LeetCode26
  * @author yanliu
  * @create 2020-10-16-14:26
  */
 public class RemoveDuplicatesFromSortedArray {
-    static class Solution {
+    static class Solution1 {
         public int removeDuplicates(int[] nums) {
             if (nums == null || nums.length == 0) {
                 return 0;
@@ -25,6 +26,25 @@ public class RemoveDuplicatesFromSortedArray {
             }
 
             return nextNew + 1;
+        }
+    }
+
+    static class Solution2 {
+        public int removeDuplicates(int[] nums) {
+            int slow = 0;
+            int fast = 0;
+
+            while (fast < nums.length) {
+                if (nums[fast] != nums[slow]) {
+                    slow++;
+
+                    nums[slow] = nums[fast];
+                }
+
+                fast++;
+            }
+
+            return slow + 1;
         }
     }
 }

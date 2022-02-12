@@ -2,16 +2,15 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
+ * LeetCode104
  * @author yanliu
  * @create 2020-11-02-10:49
  */
 public class MaxDepth {
-    static class Solution {
-        /**
-         * iteration
-         * @param root
-         * @return max depth of the binary tree
-         */
+    /**
+     * iteration
+     */
+    static class Solution1 {
         public int maxDepthIteration(TreeNode root) {
             if (root == null) {
                 return 0;
@@ -46,12 +45,12 @@ public class MaxDepth {
 
             return max;
         }
+    }
 
-        /**
-         * bottom-up recursion
-         * @param root
-         * @return max depth of the binary tree
-         */
+    /**
+     * bottom-up recursion
+     */
+    static class Solution2 {
         public int maxDepthBottomUp(TreeNode root) {
             if (root == null) {
                 return 0;
@@ -63,13 +62,14 @@ public class MaxDepth {
             return Math.max(leftDepth, rightDepth) + 1;
 
         }
+    }
 
-        /**
-         * top-down recursion
-         * @param root
-         * @return max depth of the binary tree
-         */
+    /**
+     * top-down recursion
+     */
+    static class solution3 {
         private int res;
+
         public int maxDepthTopDown(TreeNode root) {
             getMaxDepth(root, 1);
             return res;
@@ -85,9 +85,10 @@ public class MaxDepth {
                 res = Math.max(res, depth);
             }
 
-            getMaxDepth(root.left, depth+1);
-            getMaxDepth(root.right, depth+1);
+            getMaxDepth(root.left, depth + 1);
+            getMaxDepth(root.right, depth + 1);
         }
 
     }
+
 }

@@ -1,4 +1,5 @@
 /**
+ * LeetCode215
  * @author yanliu
  * @create 2021-10-10-12:15 PM
  */
@@ -25,37 +26,37 @@ public class KthLargestElement {
                 return nums[start];
             }
 
-            int i = start, j = end;
+            int left = start, right = end;
             int pivot = nums[start + (end - start) / 2];
 
-            while (i <= j) {
-                while (i <= j && nums[i] > pivot) {
-                    i++;
+            while (left <= right) {
+                while (left <= right && nums[left] > pivot) {
+                    left++;
                 }
 
-                while (i <= j && nums[j] < pivot) {
-                    j--;
+                while (left <= right && nums[right] < pivot) {
+                    right--;
                 }
 
-                if (i <= j) {
-                    int temp = nums[i];
-                    nums[i] = nums[j];
-                    nums[j] = temp;
-                    i++;
-                    j--;
+                if (left <= right) {
+                    int temp = nums[left];
+                    nums[left] = nums[right];
+                    nums[right] = temp;
+                    left++;
+                    right--;
                 }
             }
 
-            if (start + k - 1 <= j) {
-                return quickSelect(nums, start, j, k);
+            if (start + k - 1 <= right) {
+                return quickSelect(nums, start, right, k);
             }
 
-            if (start + k - 1 >= i) {
-                return quickSelect(nums, i, end, k - (i - start));
+            if (start + k - 1 >= left) {
+                return quickSelect(nums, left, end, k - (left - start));
             }
 
             // if the partition element is the k-th element
-            return nums[j + 1];
+            return nums[right + 1];
         }
     }
 }

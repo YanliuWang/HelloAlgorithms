@@ -6,7 +6,7 @@ import java.util.Deque;
  * @create 2021-11-09-7:42 PM
  */
 public class RecoverBinarySearchTree {
-    class Solution {
+    static class Solution1 {
         public void recoverTree(TreeNode root) {
             if (root == null) {
                 return;
@@ -26,15 +26,15 @@ public class RecoverBinarySearchTree {
                 curr = stack.pop();
 
                 if (pred != null && pred.val > curr.val) {
-                    // find the two swapped nodes
+                    // record the last violation
                     y = curr;
 
                     if (x == null) {
-                        // assign the x node to pred
+                        // record the first violation
                         x = pred;
 
                     } else {
-                        // x is already assigned to pred
+                        // the first violation is recorded
                         break;
                     }
                 }
@@ -50,6 +50,45 @@ public class RecoverBinarySearchTree {
             int tmp = x.val;
             x.val = y.val;
             y.val = tmp;
+        }
+    }
+
+    static class Solution2 {
+        private TreeNode first, second, prev;
+
+        public void recoverTree(TreeNode root) {
+            if (root == null) {
+                return;
+            }
+
+            inorderRecover(root);
+
+            int tmp = first.val;
+            first.val = second.val;
+            second.val = tmp;
+        }
+
+        private void inorderRecover(TreeNode root) {
+            if (root == null) {
+                return;
+            }
+
+            inorderRecover(root.left);
+
+            if (prev != null && root.val < prev.val) {
+                second = root;
+
+                if (first == null) {
+                    first = prev;
+
+                } else {
+                    return;
+                }
+            }
+
+            prev = root;
+
+            inorderRecover(root.right);
         }
     }
 }

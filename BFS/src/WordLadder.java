@@ -9,10 +9,11 @@ public class WordLadder {
     /**
      * word ladder 1
      */
-    class Solution1 {
+    static class Solution1 {
         public int ladderLength(String beginWord, String endWord, List<String> wordList) {
             // convert list to set
             Set<String> dict = new HashSet<>(wordList);
+
             Queue<String> queue = new LinkedList<>();
             // record visited words
             Set<String> visited = new HashSet<>(wordList.size());
@@ -65,7 +66,7 @@ public class WordLadder {
                     // replace i-th char in currWord to ch
                     String word = replace(currWord, i, ch);
 
-                    if (wordList.contains(word)) {
+                    if (!wordList.contains(word)) {
                         continue;
                     }
 
@@ -88,9 +89,93 @@ public class WordLadder {
     }
 
     /**
+     * word ladder1
+     * using bi-directional queue
+     */
+    static class Solution2 {
+        public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+            Set<String> dict = new HashSet<>(wordList);
+            if (!dict.contains(endWord)) {
+                return 0;
+            }
+
+            Queue<String> firstQueue = new LinkedList<>();
+            Queue<String> secondQueue = new LinkedList<>();
+            Set<String> firstSet = new HashSet<>();
+            Set<String> secondSet = new HashSet<>();
+
+            int firstStep = 0, secondStep = 0;
+            firstQueue.offer(beginWord); firstSet.add(beginWord);
+            secondQueue.offer(endWord); secondSet.add(endWord);
+
+            while (!firstQueue.isEmpty()) {
+                int size = firstQueue.size();
+
+                for (int i = 0; i < size; i++) {
+                    String curr = firstQueue.poll();
+
+                    if (firstSet.contains(curr) && secondSet.contains(curr)) {
+                        return firstStep + secondStep + 1;
+                    }
+
+                    List<String> nextWords = getNextWords(curr, dict);
+
+                    for (String nextWord : nextWords) {
+                        if (firstSet.contains(nextWord)) {
+                            continue;
+                        }
+
+                        firstQueue.offer(nextWord);
+                        firstSet.add(nextWord);
+                    }
+                }
+
+                firstStep++;
+
+                Queue<String> tempQueue = firstQueue; firstQueue = secondQueue; secondQueue = tempQueue;
+                Set<String> tempSet = firstSet; firstSet = secondSet; secondSet = tempSet;
+                int tempStep = firstStep; firstStep = secondStep; secondStep = tempStep;
+
+            }
+
+            return 0;
+
+        }
+
+        private List<String> getNextWords(String curr, Set<String> dict) {
+            List<String> words = new ArrayList<>();
+
+            for (char ch = 'a'; ch <= 'z'; ch++) {
+                for (int i = 0; i < curr.length(); i++) {
+                    if (curr.charAt(i) == ch) {
+                        continue;
+                    }
+
+                    String word = replace(curr, i, ch);
+
+                    if (!dict.contains(word)) {
+                        continue;
+                    }
+
+                    words.add(word);
+                }
+            }
+
+            return words;
+        }
+
+        private String replace(String curr, int pos, char ch) {
+            char[] arr = curr.toCharArray();
+            arr[pos] = ch;
+
+            return new String(arr);
+        }
+    }
+
+    /**
      * word ladder 2
      */
-    class Solution2 {
+    static class Solution3 {
         public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
             Map<String, Integer> distanceToStart = new HashMap<>();
             Set<String> dict = new HashSet<>(wordList);
@@ -134,7 +219,8 @@ public class WordLadder {
 
                         if (distanceToStart.containsKey(nextWord)) {
                             if (distanceToStart.get(nextWord) != distanceToStart.get(currWord) + 1) {
-                                // abondon it because it is not the shorest path
+                                // abandon it because it is not the shortest path
+                                // keep the shortest path
                                 nextWordsIterator.remove();
                             }
 
@@ -199,6 +285,7 @@ public class WordLadder {
 
         }
 
-
     }
+
+
 }

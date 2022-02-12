@@ -7,7 +7,81 @@ import java.util.List;
  * @create 2021-03-20-16:32
  */
 public class CoinsChange {
+    /**
+     * LeetCode322
+     */
     static class Solution1 {
+        private int min = Integer.MAX_VALUE;
+
+        public int coinChange(int[] coins, int amount) {
+            if (amount == 0) {
+                return 0;
+            }
+
+            Arrays.sort(coins);
+
+            dfs(coins, coins.length - 1, 0, amount);
+
+            return min == Integer.MAX_VALUE ? -1 : min;
+        }
+
+        private boolean dfs(int[] coins, int index, int count, int remain) {
+            if (remain == 0) {
+                if (count < min) {
+                    min = count;
+                }
+
+                return true;
+            }
+
+            if (index < 0 || remain < 0) {
+                return false;
+            }
+
+            if (count >= min) {
+                return false;
+            }
+
+            boolean res = false;
+
+            for (int i = remain / coins[index]; i >= 0; i--) {
+                if (dfs(coins, index - 1, count + i, remain - i * coins[index])) {
+                    res = true;
+                }
+            }
+
+            return res;
+        }
+    }
+
+    /**
+     * LeetCode322
+     */
+    static class Solution2 {
+        public int coinChange(int[] coins, int amount) {
+            if (amount == 0) {
+                return 0;
+            }
+
+            int[] dp = new int[amount + 1];
+
+            Arrays.fill(dp, amount + 1);
+            dp[0] = 0;
+
+            for (int i = 1; i <= amount; i++) {
+                for (int j = 0; j < coins.length; j++) {
+                    if (i >= coins[j]) {
+                        dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                    }
+                }
+            }
+
+            return dp[amount] > amount ? -1 : dp[amount];
+        }
+    }
+
+
+    static class Solution3 {
         private List<List<Integer>> res = new ArrayList<>();
 
         public List<List<Integer>> change(int amount, int[] coins) {
@@ -48,14 +122,6 @@ public class CoinsChange {
             }
 
             return res;
-        }
-
-        public static void main(String[] args) {
-            List<List<Integer>> lists = new Solution1().change(5, new int[]{1, 2, 5});
-
-            for (List<Integer> list : lists) {
-                System.out.println(list);
-            }
         }
     }
 }

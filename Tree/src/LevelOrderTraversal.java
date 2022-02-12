@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * LeetCode 102
@@ -90,6 +87,37 @@ public class LevelOrderTraversal {
             }
 
             return res;
+        }
+    }
+
+    static class Solution3 {
+        public List<List<Integer>> levelOrderBottom(TreeNode root) {
+            List<List<Integer>> res = new ArrayList<>();
+
+            if (root == null) {
+                return res;
+            }
+
+            dfs(root, 0, res);
+
+            return res;
+
+        }
+
+        private void dfs(TreeNode root, int level, List<List<Integer>> res) {
+            if (level == res.size()) {
+                res.add(new ArrayList<>());
+            }
+
+            res.get(level).add(root.val);
+
+            if (root.left != null) {
+                dfs(root.left, level + 1, res);
+            }
+
+            if (root.right != null) {
+                dfs(root.right, level + 1, res);
+            }
         }
     }
 }

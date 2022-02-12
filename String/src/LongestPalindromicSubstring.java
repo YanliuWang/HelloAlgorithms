@@ -2,7 +2,7 @@
  * @author yanliu
  * @create 2020-12-08-22:51
  */
-public class LongestPalindrome {
+public class LongestPalindromicSubstring {
     /**
      * brute force method
      */

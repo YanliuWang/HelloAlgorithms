@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -58,6 +59,39 @@ public class FindMedianFromDataStream {
 
             }
 
+        }
+    }
+
+    static class MedianFinder {
+        private PriorityQueue<Integer> maxHeap;
+        private PriorityQueue<Integer> minHeap;
+        private boolean even;
+
+        public MedianFinder() {
+            maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+            minHeap = new PriorityQueue<>();
+            even = true;
+        }
+
+        public void addNum(int num) {
+            if (even) {
+                minHeap.offer(num);
+                maxHeap.offer(minHeap.poll());
+            } else {
+                maxHeap.offer(num);
+                minHeap.offer(maxHeap.poll());
+            }
+
+            even = !even;
+        }
+
+        public double findMedian() {
+            if (even) {
+                return (maxHeap.peek() + minHeap.peek()) / 2.0;
+
+            } else {
+                return maxHeap.peek() * 1.0;
+            }
         }
     }
 
