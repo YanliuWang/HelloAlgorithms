@@ -53,9 +53,11 @@ public class MyStack {
         public int pop() {
             int size = queue.size();
 
-            for (int i = 0; i < size - 1; i++) {
+            while (size > 1) {
                 top = queue.poll();
                 queue.offer(top);
+
+                size--;
             }
 
             return queue.poll();

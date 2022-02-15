@@ -41,7 +41,7 @@ public class SerializeAndDeserialize {
         // Decodes your encoded data to tree.
 
         public TreeNode deserialize(String data){
-            return deserialize(new LinkedList<String>(Arrays.asList(data.split(SEP))));
+            return deserialize(new LinkedList<>(Arrays.asList(data.split(SEP))));
         }
 
         public TreeNode deserialize(LinkedList<String> data) {
