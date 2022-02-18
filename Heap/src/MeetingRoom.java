@@ -15,13 +15,14 @@ public class MeetingRoom {
                 return Integer.MAX_VALUE;
             }
 
-            // sort the intervals based on the start time
+            // sort the meetings based on the starting time
             Arrays.sort(intervals, new Comparator<int[]>() {
                 public int compare(int[] a, int[] b) {
                     return a[0] - b[0];
                 }
             });
 
+            // using the min heap to get the earliest ending time
             PriorityQueue<Integer> minHeap = new PriorityQueue<>(intervals.length,
                     new Comparator<Integer>() {
                         public int compare(Integer a, Integer b) {
@@ -29,7 +30,7 @@ public class MeetingRoom {
                         }
                     });
 
-            // put the earliest start time to min heap
+            // put the first start meeting's ending time to min heap
             minHeap.add(intervals[0][1]);
 
             for (int i = 1; i < intervals.length; i++) {
