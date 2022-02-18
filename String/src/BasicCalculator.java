@@ -1,5 +1,7 @@
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @author yanliu
@@ -11,76 +13,38 @@ public class BasicCalculator {
      */
     static class Solution1 {
         public int calculate(String s) {
-            int N = s.length();
-            Deque<Object> stack = new ArrayDeque<>();
-            int n = 0, operand = 0;
-
-            // calculate the expression in reverse order
-            for (int i = N - 1; i >= 0; i--) {
-                char ch = s.charAt(i);
-
-                if (Character.isDigit(ch)) {
-                    operand = (int) Math.pow(10, n) * (ch - '0') + operand;
-                    n++;
-
-                } else if (ch != ' ') {
-                    // the character is not digit
-                    // update previous operand
-                    if (n != 0) {
-                        stack.push(operand);
-                        n = 0;
-                        operand = 0;
-
-                    }
-
-                    if (ch == '(') {
-                        // get the result
-                        int res = evaluateExpr(stack);
-
-                        // pop the ')' on the stack
-                        stack.pop();
-
-                        // put the result for future calculation
-                        stack.push(res);
-
-                    } else {
-                        stack.push(ch);
-
-                    }
-                }
-
-            }
-
-            // add the last operand to stack
-            if (n != 0) {
-                stack.push(operand);
-            }
-
-            return evaluateExpr(stack);
+            return calculate(s, 0)[1];
         }
 
-        private int evaluateExpr(Deque<Object> stack) {
-            // make sure that the top of stack is an integer
-            if (stack.isEmpty() || !(stack.peek() instanceof Integer)) {
-                stack.push(0);
-            }
+        private int[] calculate(String s, int start) {
+            int result = 0;
+            int operand = 0;
+            int sign = 1;
+            int i = start;
 
-            int res = (int) stack.pop();
+            while (i < s.length()) {
+                char ch = s.charAt(i++);
 
-            // get the result
-            while (!stack.isEmpty() && ((char) stack.peek() != ')')) {
-                // make sure that the top is sign character
-                char sign = (char) stack.pop();
+                if (ch == ' ' || Character.isDigit(ch)) {
+                    operand = ch == ' ' ? operand : operand * 10 + (ch - '0');
 
-                if (sign == '+') {
-                    res += (int) stack.pop();
+                } else if (ch == '(') {
+                    int[] subRes = calculate(s, i);
+                    i = subRes[0];
+                    operand = subRes[1];
+
+                } else if (ch == ')') {
+                    break;
 
                 } else {
-                    res -= (int) stack.pop();
+                    result += sign * operand;
+                    operand = 0;
+                    sign = ch == '+' ? 1 : -1;
+
                 }
             }
 
-            return res;
+            return new int[]{i, result + sign * operand};
         }
     }
 
@@ -89,38 +53,41 @@ public class BasicCalculator {
      */
     static class Solution2 {
         public int calculate(String s) {
-            int N = s.length();
             Deque<Integer> stack = new ArrayDeque<>();
-            int res = 0;
-            char operation = '+';
-            int currNumber = 0;
 
+            int operand = 0;
+            char operator = '+';
+            int res = 0;
+            int N = s.length();
 
             for (int i = 0; i < N; i++) {
-                char currChar = s.charAt(i);
+                char ch = s.charAt(i);
 
-                if (Character.isDigit(currChar)) {
-                    currNumber = currNumber * 10 + (currChar - '0');
+                if (Character.isDigit(ch)) {
+                    operand = operand * 10 + (ch - '0');
 
                 }
 
-                if (!Character.isDigit(currChar) && !Character.isWhitespace(currChar) || i == N - 1) {
-                    if (operation == '+') {
-                        stack.push(currNumber);
+                // meet new operator
+                // calcuate pervious operand
+                if (!Character.isDigit(ch) && ch != ' '
+                        || i == N - 1) {
+                    if (operator == '+') {
+                        stack.push(operand);
 
-                    } else if (operation == '-') {
-                        stack.push(-currNumber);
+                    } else if (operator == '-') {
+                        stack.push(-operand);
 
-                    } else if (operation == '*') {
-                        stack.push(stack.pop() * currNumber);
+                    } else if (operator == '*') {
+                        stack.push(stack.pop() * operand);
 
-                    } else if (operation == '/') {
-                        stack.push(stack.pop() / currNumber);
+                    } else if (operator == '/') {
+                        stack.push(stack.pop() / operand);
 
                     }
 
-                    operation = currChar;
-                    currNumber = 0;
+                    operator = ch;
+                    operand = 0;
                 }
             }
 
@@ -133,6 +100,72 @@ public class BasicCalculator {
     }
 
     /**
-     * LeetCode772
+     * Leetcode772
      */
+    static class Solution3 {
+        public int calculate(String s) {
+            Queue<Character> str = new LinkedList<>();
+
+            for (int i = 0; i < s.length(); i++) {
+                char ch = s.charAt(i);
+
+                if (ch != ' ') {
+                    str.offer(ch);
+                }
+            }
+
+            return calculate(str);
+        }
+
+        private int calculate(Queue<Character> str) {
+            Deque<Integer> stack = new ArrayDeque<>();
+            int res = 0;
+            int operand = 0;
+            char operator = '+';
+
+            while (!str.isEmpty()) {
+                char ch = str.poll();
+
+                if (ch == ' ' || Character.isDigit(ch)) {
+                    operand = ch == ' ' ? operand : operand * 10 + (ch - '0');
+
+                }
+
+                if (ch == '(') {
+                    operand = calculate(str);
+
+                }
+
+                if (!Character.isDigit(ch) || str.isEmpty()) {
+                    if (operator == '+') {
+                        stack.push(operand);
+
+                    } else if (operator == '-') {
+                        stack.push(-operand);
+
+                    } else if (operator == '*') {
+                        stack.push(stack.pop() * operand);
+
+                    } else if (operator == '/') {
+                        stack.push(stack.pop() / operand);
+
+                    }
+
+                    operator = ch;
+                    operand = 0;
+                }
+
+                if (ch == ')') {
+                    break;
+                }
+            }
+
+            while (!stack.isEmpty()) {
+                res += stack.pop();
+            }
+
+            return res;
+        }
+    }
+
 }

@@ -6,16 +6,17 @@
 public class StringToInteger {
     class Solution {
         public int myAtoi(String s) {
-            // discard all whitespaces
             int index = 0;
             int sign = 1;
             int res = 0;
             int len = s.length();
 
+            // discard all whitespaces
             while (index < len && s.charAt(index) == ' ') {
                 index++;
             }
 
+            // get the sign
             if (index < len && s.charAt(index) == '-') {
                 sign = -1;
                 index++;
@@ -25,6 +26,7 @@ public class StringToInteger {
                 index++;
             }
 
+            // calculate the final result
             while (index < len && isDigit(s.charAt(index))) {
                 int digit = s.charAt(index) - '0';
 
