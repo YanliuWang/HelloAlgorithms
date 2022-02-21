@@ -6,7 +6,7 @@ import java.util.Queue;
  * @author yanliu
  * @create 2021-03-24-23:12
  */
-public class FindLeftBottom {
+public class FindBottomLeftTreeValue {
     /**
      * using bfs
      */
@@ -64,6 +64,10 @@ public class FindLeftBottom {
                 return;
             }
 
+            // first meet max depth
+            // record the value
+            // can not return
+            // continue to calculate the max depth
             if (depth > maxDepth) {
                 value = root.val;
                 maxDepth = depth;

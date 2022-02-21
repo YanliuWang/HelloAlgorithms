@@ -60,10 +60,12 @@ public class BinaryTreeMaxPathSum {
 
             int leftSum = Math.max(0, maxBranchSum(root.left));
             int rightSum = Math.max(0, maxBranchSum(root.right));
+
+            // max branch sum is less that or equal to the root.val + leftSum + rightSum
             int maxBranchSum = root.val + Math.max(leftSum, rightSum);
 
             maxSum = Math.max(maxSum,
-                    Math.max(maxBranchSum, root.val + leftSum + rightSum));
+                    root.val + leftSum + rightSum);
 
             return maxBranchSum;
 

@@ -49,6 +49,7 @@ public class BinarySearchTree {
 
             } else {
                 return false;
+
             }
         }
 

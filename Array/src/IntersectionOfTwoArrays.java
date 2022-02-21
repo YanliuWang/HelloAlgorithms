@@ -1,6 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * LeetCode350
@@ -8,7 +6,7 @@ import java.util.Map;
  * @create 2021-12-07-11:02 AM
  */
 public class IntersectionOfTwoArrays {
-    static class Solution {
+    static class Solution1 {
         public int[] intersect(int[] nums1, int[] nums2) {
             Map<Integer, Integer> map = new HashMap<>();
 
@@ -36,6 +34,49 @@ public class IntersectionOfTwoArrays {
             }
 
             return Arrays.copyOfRange(intersection, 0, index);
+        }
+    }
+
+    static class Solution2 {
+        public int[] intersection(int[] nums1, int[] nums2) {
+            if (nums1 == null || nums2 == null) {
+                return new int[0];
+            }
+
+            Arrays.sort(nums1);
+            Arrays.sort(nums2);
+            int one = 0, two = 0;
+            List<Integer> list = new ArrayList<>();
+
+            while (one < nums1.length && two < nums2.length) {
+                while (one < nums1.length - 1 && nums1[one] == nums1[one + 1]) {
+                    // one < nums1.length - 1 to make sure that 'one' is in the bound
+                    one++;
+                }
+                while (two < nums2.length - 1 && nums2[two] == nums2[two + 1]) {
+                    // two < nums2.length - 1 && nums2[two] == nums2[two + 1] to make sure that 'two' in bound
+                    two++;
+                }
+                if (nums1[one] == nums2[two]) {
+                    list.add(nums1[one]);
+                    one++;
+                    two++;
+                }
+                else if (nums1[one] > nums2[two]) {
+                    two++;
+                }
+                else {
+                    one++;
+                }
+            }
+
+            int[] res = new int[list.size()];
+            int i = 0;
+            for (int each : list) {
+                res[i] = each;
+                i++;
+            }
+            return res;
         }
     }
 }
