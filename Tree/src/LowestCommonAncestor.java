@@ -38,24 +38,24 @@ public class LowestCommonAncestor {
 
     static class Solution2 {
         public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-            Map<TreeNode, TreeNode> parentToNode = new HashMap<>();
+            Map<TreeNode, TreeNode> nodeToParent = new HashMap<>();
             Set<TreeNode> ancestors = new HashSet<>();
             Deque<TreeNode> stack = new ArrayDeque<>();
 
-            parentToNode.put(root, null);
+            nodeToParent.put(root, null);
             ancestors.add(root);
             stack.push(root);
 
-            while (!parentToNode.containsKey(p) || !parentToNode.containsKey(q)) {
+            while (!nodeToParent.containsKey(p) || !nodeToParent.containsKey(q)) {
                 TreeNode curr = stack.pop();
 
                 if (curr.left != null) {
-                    parentToNode.put(curr.left, curr);
+                    nodeToParent.put(curr.left, curr);
                     stack.push(curr.left);
                 }
 
                 if (curr.right != null) {
-                    parentToNode.put(curr.right, curr);
+                    nodeToParent.put(curr.right, curr);
                     stack.push(curr.right);
                 }
             }
@@ -64,13 +64,13 @@ public class LowestCommonAncestor {
             while (p != null) {
                 ancestors.add(p);
                 // to the parent node
-                p = parentToNode.get(p);
+                p = nodeToParent.get(p);
             }
 
 
             while (!ancestors.contains(q)) {
                 ancestors.add(q);
-                q = parentToNode.get(q);
+                q = nodeToParent.get(q);
             }
 
             return q;

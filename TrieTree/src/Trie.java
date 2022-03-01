@@ -9,7 +9,11 @@ import java.util.Map;
 public class Trie {
     class TrieNode {
         public boolean isWord;
-        public Map<Character, TrieNode> childrenMap = new HashMap<>();
+        public Map<Character, TrieNode> childrenMap;
+
+        public TrieNode() {
+            childrenMap = new HashMap<>();
+        }
     }
 
     private TrieNode root;

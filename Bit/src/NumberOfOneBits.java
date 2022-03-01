@@ -4,7 +4,7 @@
  * @create 2021-12-16-10:35 AM
  */
 public class NumberOfOneBits {
-    static class Solution {
+    static class Solution1 {
         // you need to treat n as an unsigned value
         public int hammingWeight(int n) {
             int res = 0;
@@ -17,6 +17,24 @@ public class NumberOfOneBits {
 
             return res;
 
+        }
+    }
+
+    static class Solution2 {
+        // you need to treat n as an unsigned value
+        public int hammingWeight(int n) {
+            int mask = 1;
+            int bits = 0;
+
+            for (int i = 0; i < 32; i++) {
+                if ((n & mask) != 0) {
+                    bits++;
+                }
+
+                mask <<= 1;
+            }
+
+            return bits;
         }
     }
 }

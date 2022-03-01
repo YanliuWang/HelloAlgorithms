@@ -63,4 +63,32 @@ public class SwapPairs {
         }
     }
 
+    static class Solution3 {
+        public ListNode swapPairs(ListNode head) {
+            if (head == null || head.next == null) {
+                return head;
+            }
+
+            ListNode dummy = new ListNode(-1);
+            dummy.next = head;
+
+            ListNode curr = head;
+            ListNode prev = dummy;
+
+            while (curr != null && curr.next != null) {
+                ListNode first = curr;
+                ListNode second = curr.next;
+
+                prev.next = second;
+                first.next = second.next;
+                second.next = first;
+
+                prev = first;
+                curr = first.next;
+            }
+
+            return dummy.next;
+        }
+    }
+
 }

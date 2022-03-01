@@ -1,10 +1,12 @@
 /**
- * LeetCode 654
  * @author yanliu
  * @create 2021-11-10-4:44 PM
  */
 public class MaximumBinaryTree {
-    class Solution {
+    /**
+     * LeetCode654
+     */
+    static class Solution1 {
         public TreeNode constructMaximumBinaryTree(int[] nums) {
             if (nums == null || nums.length == 0) {
                 return null;
@@ -37,6 +39,27 @@ public class MaximumBinaryTree {
             }
 
             return maxIdx;
+        }
+    }
+
+    /**
+     * LeetCode998
+     */
+    static class Solution2 {
+        public TreeNode insertIntoMaxTree(TreeNode root, int val) {
+            if (root == null) {
+                return new TreeNode(val);
+            }
+
+            if (val > root.val) {
+                TreeNode newRoot = new TreeNode(val);
+                newRoot.left = root;
+                return newRoot;
+            }
+
+            root.right = insertIntoMaxTree(root.right, val);
+
+            return root;
         }
     }
 }

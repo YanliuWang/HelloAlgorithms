@@ -55,9 +55,9 @@ public class SubarraySumEqualsK {
                     count++;
 
                 // situation 2:
-                // number of times the curr_sum − k has occured already,
+                // number of times the curr_sum − k has occurred already,
                 // determines the number of times a subarray with sum k
-                // has occured upto the current index
+                // has occurred up to the current index
                 count += h.getOrDefault(currSum - k, 0);
 
                 // add the current sum
@@ -78,6 +78,8 @@ public class SubarraySumEqualsK {
             int sum1 = 0;
 
             Map<Integer, Integer> numToFreq = new HashMap<>();
+            // record the subarray sum
+            // starts from the beginning of the array
             numToFreq.put(0, 1);
 
             for (int i = 0; i < nums.length; i++) {

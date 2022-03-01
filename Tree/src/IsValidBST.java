@@ -1,3 +1,6 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * LeetCode98
  * @author yanliu
@@ -32,5 +35,35 @@ public class IsValidBST {
         }
 
 
+    }
+
+    static class Solution2 {
+        public boolean isValidBST(TreeNode root) {
+            if (root == null) {
+                return true;
+            }
+
+            Deque<TreeNode> stack = new ArrayDeque<>();
+            TreeNode curr = root;
+            Integer prev = null;
+
+            while (!stack.isEmpty() || curr != null) {
+                while (curr != null) {
+                    stack.push(curr);
+                    curr = curr.left;
+                }
+
+                curr = stack.pop();
+
+                if (prev != null && curr.val <= prev) {
+                    return false;
+                }
+
+                prev = curr.val;
+                curr = curr.right;
+            }
+
+            return true;
+        }
     }
 }
