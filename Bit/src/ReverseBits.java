@@ -10,6 +10,7 @@ public class ReverseBits {
             int res = 0;
 
             for (int i = 0; i < 32; i++) {
+                // prep room for current potential '1' placement
                 res <<= 1;
 
                 // if the last bit of n is '1'

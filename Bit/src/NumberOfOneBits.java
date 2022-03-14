@@ -11,7 +11,7 @@ public class NumberOfOneBits {
 
             while (n != 0) {
                 res++;
-                // remove the last '1'
+                // make the last '1' in n become '0'
                 n = n & (n - 1);
             }
 

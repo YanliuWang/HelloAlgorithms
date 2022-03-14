@@ -118,4 +118,129 @@ public class CourseSchedule {
 
         }
     }
+
+    /**
+     * LeetCode630
+     */
+    static class Solution3_1 {
+        public int scheduleCourse(int[][] courses) {
+            // sort the courses in ascending order
+            // based on the last day
+            Arrays.sort(courses, new Comparator<>() {
+                public int compare(int[] a, int[] b) {
+                    return a[1] - b[1];
+                }
+            });
+
+            // construct the memo array
+            int[][] memo =
+                    new int[courses.length][courses[courses.length - 1][1] + 1];
+            for (int[] arr : memo) {
+                Arrays.fill(arr, -1);
+            }
+
+            return scheduleCourse(courses, 0, 0, memo);
+
+        }
+
+        private int scheduleCourse(int[][] courses, int curr,
+                                   int time, int[][] memo) {
+            int n = courses.length;
+
+            if (curr == courses.length) {
+                return 0;
+            }
+
+            if (memo[curr][time] != -1) {
+                return memo[curr][time];
+            }
+
+            int taken = 0;
+            if (courses[curr][0] + time <= courses[curr][1]) {
+                taken = 1 + scheduleCourse(courses, curr + 1, time + courses[curr][0], memo);
+            }
+
+            int notTaken = scheduleCourse(courses, curr + 1, time, memo);
+
+            memo[curr][time] = Math.max(taken, notTaken);
+
+            return memo[curr][time];
+        }
+    }
+
+    static class Solution3_2 {
+        public int scheduleCourse(int[][] courses) {
+            Arrays.sort(courses, new Comparator<>() {
+                public int compare(int[] a, int[] b) {
+                    return a[1] - b[1];
+                }
+            });
+
+
+            int time = 0;
+            int count = 0;
+
+            for (int i = 0; i < courses.length; i++) {
+                if (time + courses[i][0] <= courses[i][1]) {
+                    // current course can be taken
+                    time += courses[i][0];
+                    count++;
+
+                } else {
+                    // current course cannot be taken
+
+                    // find the previous course with maximum duration
+                    int maxPrev = i;
+
+                    for (int j = 0; j < i; j++) {
+                        if (courses[j][0] > courses[maxPrev][0]) {
+                            maxPrev = j;
+                        }
+                    }
+
+                    if (courses[maxPrev][0] > courses[i][0]) {
+                        // replace the max previous course with current course
+                        time -= courses[maxPrev][0] - courses[i][0];
+                    }
+
+                    courses[maxPrev][0] = -1;
+
+                }
+            }
+
+            return count;
+
+        }
+    }
+
+    static class Solution3_3co {
+        public int scheduleCourse(int[][] courses) {
+            Arrays.sort(courses, new Comparator<>() {
+                public int compare(int[] a, int[] b) {
+                    return a[1] - b[1];
+                }
+            });
+
+            PriorityQueue<Integer> maxHeap = new PriorityQueue<>(
+                    new Comparator<Integer>() {
+                        public int compare(Integer o1, Integer o2) {
+                            return o2 - o1;
+                        }
+                    });
+
+            int time = 0;
+            for (int[] course : courses) {
+                if (course[0] + time <= course[1]) {
+                    time += course[0];
+                    maxHeap.offer(course[0]);
+
+                } else if (!maxHeap.isEmpty() && maxHeap.peek() > course[0]) {
+                    time -= maxHeap.poll() - course[0];
+                    maxHeap.offer(course[0]);
+                }
+            }
+
+            return maxHeap.size();
+        }
+    }
 }

@@ -4,7 +4,7 @@
  * @create 2021-11-15-4:12 PM
  */
 public class MaxProductSubarray {
-    static class Solution {
+    static class Solution1 {
         public int maxProduct(int[] nums) {
             // the max product end with i-th index
             int currMax = 1;
@@ -31,6 +31,34 @@ public class MaxProductSubarray {
             }
 
             return max;
+        }
+    }
+
+    static class Solution2 {
+        public int maxProduct(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int maxSoFar = 1;
+            int minSoFar = 1;
+            int res = Integer.MIN_VALUE;
+
+            for (int i = 0; i < nums.length; i++) {
+                int curr = nums[i];
+
+                int maxTemp = Math.max(curr, Math.max(curr * maxSoFar, curr * minSoFar));
+
+                minSoFar = Math.min(curr, Math.min(curr * maxSoFar, curr * minSoFar));
+
+                maxSoFar = maxTemp;
+
+                res = Math.max(res, maxSoFar);
+            }
+
+            return res;
+
+
         }
     }
 }
