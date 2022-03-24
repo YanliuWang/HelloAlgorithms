@@ -1,50 +1,54 @@
 /**
+ * LeetCode117
  * @author yanliu
  * @create 2020-11-11-14:58
  */
 public class PopulatingNextRightPointersInEachNodeSecond {
-    static class Solution {
-        public Node construct(Node root) {
+    /**
+     * iterative solution
+     */
+    static class Solution1 {
+        public Node connect(Node root) {
             if (root == null) {
                 return null;
             }
 
-            Node firstNodeAtLevel = root;
+            Node firstNode = root;
 
-            while (firstNodeAtLevel != null) {
-                Node currentNodeAtLevel = firstNodeAtLevel;
+            while (firstNode != null) {
+                Node currNodeAtLevel = firstNode;
 
-                while (currentNodeAtLevel != null) {
-                    if (currentNodeAtLevel.left != null) {
-                        if (currentNodeAtLevel.right != null) {
-                            currentNodeAtLevel.left.next = currentNodeAtLevel.right;
+                while (currNodeAtLevel != null) {
+                    if (currNodeAtLevel.left != null) {
+                        if (currNodeAtLevel.right != null) {
+                            currNodeAtLevel.left.next = currNodeAtLevel.right;
+
                         } else {
-                            currentNodeAtLevel.left.next = findClosestChildNode(currentNodeAtLevel);
+                            currNodeAtLevel.left.next = getClosestChild(currNodeAtLevel.next);
+
                         }
                     }
 
-                    if (currentNodeAtLevel.right != null) {
-                        currentNodeAtLevel.right.next = findClosestChildNode(currentNodeAtLevel);
+                    if (currNodeAtLevel.right != null) {
+                        currNodeAtLevel.right.next = getClosestChild(currNodeAtLevel.next);
+
                     }
 
-                    currentNodeAtLevel = currentNodeAtLevel.next;
+                    currNodeAtLevel = currNodeAtLevel.next;
 
                 }
 
-                firstNodeAtLevel = findNextLevelFirstNode(firstNodeAtLevel);
+                firstNode = getNextFirstNode(firstNode);
 
             }
 
             return root;
         }
 
-        private Node findClosestChildNode(Node node) {
+        private Node getClosestChild(Node node) {
             if (node == null) {
                 return null;
             }
-
-            // looking for the node from next one
-            node = node.next;
 
             while (node != null) {
                 if (node.left != null) {
@@ -61,15 +65,16 @@ public class PopulatingNextRightPointersInEachNodeSecond {
             return null;
         }
 
-
-        private Node findNextLevelFirstNode(Node node) {
+        private Node getNextFirstNode(Node node) {
             while (node != null) {
                 if (node.left != null) {
                     return node.left;
+
                 }
 
                 if (node.right != null) {
                     return node.right;
+
                 }
 
                 node = node.next;

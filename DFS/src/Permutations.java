@@ -121,4 +121,55 @@ public class Permutations {
             }
         }
     }
+
+    /**
+     * LeetCode47
+     */
+    static class Solution3 {
+        public List<List<Integer>> permuteUnique(int[] nums) {
+            List<List<Integer>> res = new ArrayList<>();
+
+            if (nums == null || nums.length == 0) {
+                return res;
+            }
+
+            Arrays.sort(nums);
+
+            boolean[] isVisited = new boolean[nums.length];
+
+            dfs(nums, isVisited, new ArrayList<>(), res);
+
+            return res;
+        }
+
+        private void dfs(int[] nums, boolean[] isVisited, List<Integer> curr, List<List<Integer>> res) {
+            if (curr.size() == nums.length) {
+                res.add(new ArrayList<>(curr));
+                return;
+            }
+
+            int preNum = nums[0] - 1;
+
+            for (int i = 0; i < nums.length; i++) {
+                if (isVisited[i]) {
+                    continue;
+                }
+
+                if (nums[i] == preNum) {
+                    continue;
+                }
+
+                preNum = nums[i];
+
+                isVisited[i] = true;
+                curr.add(nums[i]);
+
+                dfs(nums, isVisited, curr, res);
+
+                isVisited[i] = false;
+                curr.remove(curr.size() - 1);
+            }
+
+        }
+    }
 }
