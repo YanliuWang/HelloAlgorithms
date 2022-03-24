@@ -16,30 +16,28 @@ public class PopulatingNextRightPointersInEachNodeSecond {
             Node firstNode = root;
 
             while (firstNode != null) {
-                Node currNodeAtLevel = firstNode;
+                Node currAtLevel = firstNode;
 
-                while (currNodeAtLevel != null) {
-                    if (currNodeAtLevel.left != null) {
-                        if (currNodeAtLevel.right != null) {
-                            currNodeAtLevel.left.next = currNodeAtLevel.right;
+                while (currAtLevel != null) {
+                    if (currAtLevel.left != null) {
+                        if (currAtLevel.right != null) {
+                            currAtLevel.left.next = currAtLevel.right;
 
                         } else {
-                            currNodeAtLevel.left.next = getClosestChild(currNodeAtLevel.next);
+                            currAtLevel.left.next = getClosestChild(currAtLevel.next);
 
                         }
                     }
 
-                    if (currNodeAtLevel.right != null) {
-                        currNodeAtLevel.right.next = getClosestChild(currNodeAtLevel.next);
+                    if (currAtLevel.right != null) {
+                        currAtLevel.right.next = getClosestChild(currAtLevel.next);
 
                     }
 
-                    currNodeAtLevel = currNodeAtLevel.next;
-
+                    currAtLevel = currAtLevel.next;
                 }
 
-                firstNode = getNextFirstNode(firstNode);
-
+                firstNode = getNextLevelFirst(firstNode);
             }
 
             return root;
@@ -50,6 +48,10 @@ public class PopulatingNextRightPointersInEachNodeSecond {
                 return null;
             }
 
+            return getNextLevelFirst(node);
+        }
+
+        private Node getNextLevelFirst(Node node) {
             while (node != null) {
                 if (node.left != null) {
                     return node.left;
@@ -65,22 +67,5 @@ public class PopulatingNextRightPointersInEachNodeSecond {
             return null;
         }
 
-        private Node getNextFirstNode(Node node) {
-            while (node != null) {
-                if (node.left != null) {
-                    return node.left;
-
-                }
-
-                if (node.right != null) {
-                    return node.right;
-
-                }
-
-                node = node.next;
-            }
-
-            return null;
-        }
     }
 }
