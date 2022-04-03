@@ -9,6 +9,7 @@ public class BinarySearch {
 
     static class Solution1 {
         /**
+         * LeetCode704
          * find the index of given target in nums
          * @param nums
          * @param target
@@ -52,31 +53,46 @@ public class BinarySearch {
 
     static class Solution2 {
         /**
+         * Leetcode74
          * apply binary search in 2d space
          * @param matrix
          * @param target
          * @return
          */
-        public static boolean binarySearch2D(int[][] matrix, int target) {
+        public boolean searchMatrix(int[][] matrix, int target) {
+            if (matrix == null || matrix.length == 0
+                    || matrix[0] == null || matrix[0].length == 0) {
+                return false;
+            }
+
             int row = matrix.length;
             int col = matrix[0].length;
 
             int left = 0, right = row * col - 1;
 
-            while (left <= right) {
+            while (left + 1 < right) {
                 int mid = left + (right - left) / 2;
-                int r = mid / col;
-                int c = mid % col;
 
-                if (target == matrix[r][c]) {
+                int currX = mid / col;
+                int currY = mid % col;
+
+                if (target == matrix[currX][currY]) {
                     return true;
 
-                } else if (target < matrix[r][c]) {
-                    right = mid - 1;
+                }
+
+                if (target > matrix[currX][currY]) {
+                    left = mid + 1;
 
                 } else {
-                    left = mid + 1;
+                    right = mid - 1;
+
                 }
+            }
+
+            if (matrix[left / col][left % col] == target
+                    || matrix[right / col][right % col] == target) {
+                return true;
             }
 
             return false;
@@ -85,12 +101,14 @@ public class BinarySearch {
 
     static class Solution3 {
         /**
+         * LintCode459
          * find an element in the array that is closest to the target
          * @param nums
          * @param target
          * @return
          */
         public static int binarySearch(int[] nums, int target) {
+            // write your code here
             if (nums == null || nums.length == 0) {
                 return -1;
             }
@@ -102,28 +120,28 @@ public class BinarySearch {
 
                 if (target == nums[mid]) {
                     return mid;
+                }
 
-                } else if (target < nums[mid]) {
-                    left = mid;
+                if (target < nums[mid]) {
+                    right = mid;
 
                 } else {
-                    right = mid;
+                    left = mid;
 
                 }
             }
 
             if (Math.abs(nums[left] - target) < Math.abs(nums[right] - target)) {
                 return left;
-
-            } else {
-                return right;
-
             }
+
+            return right;
         }
     }
 
     static class Solution4 {
         /**
+         * LintCode14
          * @param nums: The integer array.
          * @param target: Target to find.
          * @return: The first position of target. Position starts from 0.
@@ -164,9 +182,10 @@ public class BinarySearch {
 
     static class Solution5 {
         /**
+         * LintCode458
          * @param nums: An integer array sorted in ascending order
          * @param target: An integer
-         * @return: An integer
+         * @return: The last position of target. Position starts from 0.
          */
         public int lastPosition(int[] nums, int target) {
             // write your code here
@@ -205,61 +224,54 @@ public class BinarySearch {
     static class Solution6 {
         public class Solution {
             /**
-             * @param A: an integer array
+             * LeetCode658
+             * @param arr: an integer array
              * @param target: An integer
              * @param k: An integer
              * @return: an integer array
              */
-            public int[] kClosestNumbers(int[] A, int target, int k) {
-                // write your code here
-                if (A == null || A.length == 0 || k <= 0 || k > A.length) {
-                    return new int[0];
-                }
-
+            public List<Integer> findClosestElements(int[] arr, int k, int target) {
                 List<Integer> res = new ArrayList<>();
 
-                int start = 0, end = A.length - 1;
+                if (arr == null || arr.length == 0 || k <= 0 || k > arr.length) {
+                    return res;
+                }
 
-                while (start + 1 < end) {
-                    int mid = start + (end - start) / 2;
+                int left = 0, right = arr.length - 1;
 
-                    if (target <= A[mid]) {
-                        end = mid;
+                while (left + 1 < right) {
+                    int mid = left + (right - left) / 2;
+
+                    if (target <= arr[mid]) {
+                        right = mid;
 
                     } else {
-                        start = mid;
+                        left = mid;
 
                     }
                 }
 
-                while (k > 0 && start >= 0 && end < A.length) {
-                    if (Math.abs(A[start] - target) <= Math.abs(A[end] - target)) {
-                        res.add(A[start]);
-                        start--;
-
-                    } else {
-                        res.add(A[end]);
-                        end++;
-
+                while (right - left - 1 < k) {
+                    if (left == -1) {
+                        right++;
+                        continue;
                     }
 
-                    k--;
+                    if (right == arr.length || (Math.abs(arr[left] - target)
+                            <= Math.abs(arr[right] - target))) {
+                        left--;
 
+                    } else {
+                        right++;
+
+                    }
                 }
 
-                while (k > 0 && start >= 0) {
-                    res.add(A[start]);
-                    start--;
-                    k--;
+                for (int i = left + 1; i < right; i++) {
+                    res.add(arr[i]);
                 }
 
-                while (k > 0 && end < A.length) {
-                    res.add(A[end]);
-                    end++;
-                    k--;
-                }
-
-                return res.stream().mapToInt(i->i).toArray();
+                return res;
             }
         }
     }
