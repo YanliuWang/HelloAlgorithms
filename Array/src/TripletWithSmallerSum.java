@@ -12,7 +12,7 @@ public class TripletWithSmallerSum {
 
     public static int searchTriplets(int[] arr, int target) {
         int count = 0;
-        // TODO: Write your code here
+
         if (arr == null || arr.length == 0) {
             return 0;
         }
@@ -59,10 +59,5 @@ public class TripletWithSmallerSum {
         }
 
         return count;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(TripletWithSmallerSum.searchTriplets(new int[] { -1, 0, 2, 3 }, 3));
-        System.out.println(TripletWithSmallerSum.searchTriplets(new int[] { -1, 4, 2, 1, 3 }, 5));
     }
 }

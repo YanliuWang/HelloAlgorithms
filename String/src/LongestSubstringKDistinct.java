@@ -12,7 +12,6 @@ class LongestSubstringKDistinct {
                 return 0;
             }
 
-            // TODO: Write your code here
             Map<Character, Integer> window = new HashMap<>();
 
             int left = 0, right = 0;

@@ -1,17 +1,19 @@
+import java.util.Random;
+
 /**
  * LeetCode215
  * @author yanliu
  * @create 2021-10-10-12:15 PM
  */
 public class KthLargestElement {
-    class Solution {
+    static class Solution {
         /**
          * @param k: An integer
          * @param nums: An array
          * @return: the Kth largest element
          * average time complexity is T(n) = O(n) + T(n / 2) == O(n)
          */
-        public int kthLargestElement(int k, int[] nums) {
+        public static int kthLargestElement(int[] nums, int k) {
             // write your code here
             if (nums == null || nums.length == 0) {
                 return -1;
@@ -20,7 +22,7 @@ public class KthLargestElement {
             return quickSelect(nums, 0, nums.length - 1, k);
         }
 
-        private int quickSelect(int[] nums, int start, int end, int k) {
+        private static int quickSelect(int[] nums, int start, int end, int k) {
             if (start == end) {
                 // in case of array out of bounds
                 return nums[start];
@@ -28,6 +30,11 @@ public class KthLargestElement {
 
             int left = start, right = end;
             int pivot = nums[start + (end - start) / 2];
+
+//            Random rand = new Random();
+            // int pivot = nums[start + (end - start) / 2];
+//            int pivot_index = left + rand.nextInt(right - left);
+//            int pivot = nums[pivot_index];
 
             while (left <= right) {
                 while (left <= right && nums[left] > pivot) {
@@ -58,5 +65,6 @@ public class KthLargestElement {
             // if the partition element is the k-th element
             return nums[right + 1];
         }
+
     }
 }
