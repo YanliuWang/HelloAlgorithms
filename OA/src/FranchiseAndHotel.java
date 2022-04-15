@@ -30,7 +30,6 @@ public class FranchiseAndHotel {
                 }
             }
 
-
             int res = 0;
 
             Set<Integer> visited = new HashSet<>();
@@ -56,8 +55,8 @@ public class FranchiseAndHotel {
         }
 
         public static void main(String[] args) {
-            int[] f = new int[]{1, 2, 3, 1, 2, 3};
-            int[] cafe = new int[]{0, 0, 1, 0, 0, 1};
+            int[] f = new int[]{1, 2, 1};
+            int[] cafe = new int[]{0, 1, 0};
 
             System.out.println(solution(f, cafe));
         }

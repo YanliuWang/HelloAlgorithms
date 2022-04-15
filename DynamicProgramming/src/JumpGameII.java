@@ -1,6 +1,7 @@
 import java.util.Arrays;
 
 /**
+ * LeetCode45
  * @author yanliu
  * @create 2022-01-16-3:24 PM
  */
@@ -45,13 +46,38 @@ public class JumpGameII {
             dp[n - 1] = 0;
 
             for (int start = n - 2; start >= 0; start--) {
-                for (int jumpLen = 1; jumpLen <= nums[start]; jumpLen++) {
-                    dp[start] = Math.min(dp[start],
-                            1 + dp[Math.min(n - 1, start + jumpLen)]);
+                int furthest = Math.min(n - 1, start + nums[start]);
+
+                for (int next = start + 1; next <= furthest; next++) {
+                    dp[start] = Math.min(dp[start], 1 + dp[next]);
                 }
             }
 
             return dp[0];
+        }
+    }
+
+    static class Solution3 {
+        public int jump(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int currEnd = 0;
+            int farthest = 0;
+            int n = nums.length;
+            int jump = 0;
+
+            for (int currStart = 0; currStart < n - 1; currStart++) {
+                farthest = Math.max(farthest, currStart + nums[currStart]);
+
+                if (currStart == currEnd) {
+                    currEnd = farthest;
+                    jump++;
+                }
+            }
+
+            return jump;
         }
     }
 }

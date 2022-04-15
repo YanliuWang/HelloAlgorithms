@@ -9,18 +9,17 @@ public class JumpGameI {
      */
     static class Solution1 {
         public boolean canJump(int[] nums) {
-            int len = nums.length;
-            int max = 0;
-
-            for (int i = 0; i <= max; i++) {
-                max = Math.max(max, i + nums[i]);
-
-                if (i >= len - 1) {
-                    return true;
+            int n = nums.length;
+            int farthest = 0;
+            for (int i = 0; i < n - 1; i++) {
+                // 不断计算能跳到的最远距离
+                farthest = Math.max(farthest, i + nums[i]);
+                // 可能碰到了 0，卡住跳不动了
+                if (farthest == i) {
+                    return false;
                 }
             }
-
-            return false;
+            return farthest >= n - 1;
         }
     }
 
@@ -104,9 +103,9 @@ public class JumpGameI {
             dp[n - 1] = true;
 
             for (int i = n - 2; i >= 0; i--) {
-                int furthest = Math.min(n - 1, i + nums[i]);
+                int farthest = Math.min(n - 1, i + nums[i]);
 
-                for (int j = i + 1; j <= furthest; j++) {
+                for (int j = i + 1; j <= farthest; j++) {
                     if (dp[j]) {
                         dp[i] = true;
                         break;
