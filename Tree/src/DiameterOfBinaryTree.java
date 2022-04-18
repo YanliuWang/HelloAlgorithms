@@ -1,9 +1,10 @@
 /**
+ * LeetCode543
  * @author yanliu
  * @create 2021-01-25-20:52
  */
 public class DiameterOfBinaryTree {
-    public class Solution {
+    static class Solution1 {
         /**
          * @param root: a root of binary tree
          * @return: return a integer
@@ -28,6 +29,33 @@ public class DiameterOfBinaryTree {
             int maxChain = 1 + Math.max(left[1], right[1]);
 
             return new int[]{maxDiameter, maxChain};
+        }
+    }
+
+    static class Solution2 {
+        private int res = 0;
+
+        public int diameterOfBinaryTree(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+
+            dfs(root);
+
+            return res;
+        }
+
+        private int dfs(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+
+            int left = dfs(root.left);
+            int right = dfs(root.right);
+
+            res = Math.max(res, left + right);
+
+            return Math.max(left, right) + 1;
         }
     }
 }

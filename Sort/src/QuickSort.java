@@ -1,3 +1,4 @@
+import java.util.Random;
 
 /**
  * @author yanliu
@@ -78,8 +79,15 @@ public class QuickSort {
 
             int left = start, right = end;
 
+
+            int pivot;
             // 1. select the middle number as the pivot
-            int pivot = A[start + (end - start) / 2];
+            pivot = A[left + (right - left) / 2];
+
+            // 1. select the random number between [left,right] as the pivot
+//            Random rand = new Random();
+//            pivot = A[left + rand.nextInt(right - left)];
+
 
             // 2. left <= right not left < right
             while (left <= right) {
