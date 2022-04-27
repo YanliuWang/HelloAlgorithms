@@ -1,30 +1,26 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
+ * LeetCode743
  * @author yanliu
- * @create 2021-11-13-8:56 PM
+ * @create 2022-04-26-11:14 AM
  */
 public class NetworkDelayTime {
-    static class Solution {
-        // used for dijkstra algorithm
-        class State {
-            public int id;
-            public int distFromStart;
-
-            public State(int id, int distFromStart) {
-                this.id = id;
-                this.distFromStart = distFromStart;
-            }
-        }
-
+    static class Solution1 {
         public int networkDelayTime(int[][] times, int n, int k) {
-            List<int[]>[] graph = new ArrayList[n + 1];
+            if (times == null || times.length == 0
+                    || times[0] == null || times[0].length == 0) {
+                return 0;
+            }
+
+            if (k <= 0 || k > n) {
+                return 0;
+            }
 
             // construct the graph
-            for (int i = 0; i < n + 1; i++) {
+            List<int[]>[] graph = new ArrayList[n + 1];
+
+            for (int i = 0; i <= n; i++) {
                 graph[i] = new ArrayList<>();
             }
 
@@ -36,73 +32,197 @@ public class NetworkDelayTime {
                 graph[from].add(new int[]{to, weight});
             }
 
-            // use the shortest path algorithm
-            int[] distTo = dijkstra(graph, k);
+            Map<Integer, Integer> nodeToDelay = new HashMap<>();
+            Queue<int[]> queue = new LinkedList<>();
 
-            // get the node with max distance from all nodes in the shortest path array
-            int res = 0;
-            for (int i = 1; i < distTo.length; i++) {
-                if (distTo[i] == Integer.MAX_VALUE) {
-                    return -1;
-                }
-
-                res = Math.max(res, distTo[i]);
-            }
-
-            return res;
-        }
-
-        private int[] dijkstra(List<int[]>[] graph, int s) {
-            int[] distTo = new int[graph.length];
-
-            // initialize the minimum distance array
-            for (int i = 0; i < distTo.length; i++) {
-                distTo[i] = Integer.MAX_VALUE;
-            }
-
-            // set the start distance to 0
-            distTo[s] = 0;
-
-            // use priority queue to get the min value every time
-            PriorityQueue<State> queue =
-                    new PriorityQueue<>(distTo.length, new Comparator<State>() {
-                        public int compare(State o1, State o2) {
-                            return o1.distFromStart - o2.distFromStart;
-                        }
-                    });
-
-            // put the start point to our priority queue
-            queue.add(new State(s, 0));
+            queue.offer(new int[]{k, 0});
+            nodeToDelay.put(k, 0);
 
             while (!queue.isEmpty()) {
-                State curr = queue.poll();
-                int currId = curr.id;
-                int currDistFromStart = curr.distFromStart;
+                int[] curr = queue.poll();
 
-                // do not update
-                if (currDistFromStart > distTo[currId]) {
-                    continue;
-                }
+                List<int[]> neighbours = graph[curr[0]];
 
-                // current node is equal to the minimum node
-                // distTo[currId] = currDisFromStart;
+                for (int[] neighbour : neighbours) {
+                    int nextNode = neighbour[0];
+                    int distToNextNode = neighbour[1] + curr[1];
 
-                // update the neighbors if necessary
-                for (int[] neighbor : graph[currId]) {
-                    int nextNodeId = neighbor[0];
-                    int weight = neighbor[1];
-
-                    int distToNextNode = weight + distTo[currId];
-
-                    if (distTo[nextNodeId] > distToNextNode) {
-                        distTo[nextNodeId] = distToNextNode;
-
-                        queue.offer(new State(nextNodeId, distToNextNode));
+                    if (!nodeToDelay.containsKey(nextNode)
+                            || nodeToDelay.get(nextNode) > distToNextNode) {
+                        nodeToDelay.put(nextNode, distToNextNode);
+                        queue.offer(new int[]{nextNode, distToNextNode});
                     }
                 }
             }
 
-            return distTo;
+            if (nodeToDelay.size() != n) {
+                return -1;
+            }
+
+            int delay = Integer.MIN_VALUE;
+
+            for (Integer node : nodeToDelay.keySet()) {
+                delay = Math.max(delay, nodeToDelay.get(node));
+            }
+
+            return delay;
+        }
+    }
+
+    static class Solution2 {
+        class Node {
+            int id;
+            int distFromStart;
+
+            public Node(int id, int distFromStart) {
+                this.id = id;
+                this.distFromStart = distFromStart;
+            }
+        }
+
+        public int networkDelayTime(int[][] times, int n, int k) {
+            if (times == null || times.length == 0
+                    || times[0] == null || times[0].length == 0) {
+                return 0;
+            }
+
+            if (k <= 0 || k > n) {
+                return 0;
+            }
+
+            // construct the graph
+            List<List<Node>> graph = new ArrayList<>();
+
+            for (int i = 0; i <= n; i++) {
+                graph.add(new ArrayList<>());
+            }
+
+            for (int[] time : times) {
+                graph.get(time[0]).add(new Node(time[1], time[2]));
+            }
+
+            Map<Integer, Integer> nodeToDelay = new HashMap<>();
+            Queue<Node> queue = new LinkedList<>();
+
+            queue.offer(new Node(k, 0));
+            nodeToDelay.put(k, 0);
+
+            while (!queue.isEmpty()) {
+                Node curr = queue.poll();
+
+                List<Node> neighbours = graph.get(curr.id);
+
+                for (Node neighbour : neighbours) {
+                    int v = neighbour.id;
+                    int w = neighbour.distFromStart + curr.distFromStart;
+
+                    if (!nodeToDelay.containsKey(v)
+                            || nodeToDelay.get(v) > w) {
+                        nodeToDelay.put(v, w);
+                        queue.offer(new Node(v, w));
+                    }
+                }
+            }
+
+            if (nodeToDelay.size() != n) {
+                return -1;
+            }
+
+            int delay = Integer.MIN_VALUE;
+
+            for (Integer node : nodeToDelay.keySet()) {
+                delay = Math.max(delay, nodeToDelay.get(node));
+            }
+
+            return delay;
+        }
+    }
+
+    /**
+     * 1. using adjacent list to construct the graph
+     * 2. using dijkstra to traverse the graph
+     */
+    static class Solution3 {
+        class Node {
+            int id;
+            int distFromStart;
+
+            public Node(int id, int distFromStart) {
+                this.id = id;
+                this.distFromStart = distFromStart;
+            }
+        }
+
+        public int networkDelayTime(int[][] times, int n, int k) {
+            if (times == null || times.length == 0 || times[0] == null || times[0].length == 0) {
+                return 0;
+            }
+
+            // construct the graph
+            List<int[]>[] graph = new ArrayList[n + 1];
+            for (int i = 1; i <= n; i++) {
+                graph[i] = new ArrayList<>();
+            }
+
+            for (int[] edge : times) {
+                int from = edge[0];
+                int to = edge[1];
+                int weight = edge[2];
+
+                graph[from].add(new int[]{to, weight});
+            }
+
+            int[] dist = Dijkstra(graph, n, k);
+
+            int delay = 0;
+
+            for (int u = 1; u <= n; u++) {
+                if (dist[u] == Integer.MAX_VALUE) {
+                    return -1;
+                }
+
+                delay = Math.max(delay, dist[u]);
+            }
+
+            return delay;
+
+        }
+
+        private int[] Dijkstra(List<int[]>[] graph, int n, int start) {
+            int[] dist = new int[n + 1];
+            Arrays.fill(dist, Integer.MAX_VALUE);
+
+            PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> {
+                return o1.distFromStart - o2.distFromStart;
+            });
+
+            pq.offer(new Node(start, 0));
+            dist[start] = 0;
+
+            while (!pq.isEmpty()) {
+                Node curr = pq.poll();
+                int currId = curr.id;
+                int distFromStart = curr.distFromStart;
+
+                if (dist[currId] < distFromStart) {
+                    continue;
+                }
+
+                List<int[]> neighbours = graph[currId];
+
+                for (int[] neighbour : neighbours) {
+                    int nextId = neighbour[0];
+                    int distToNext = distFromStart + neighbour[1];
+
+                    if (dist[nextId] > distToNext) {
+                        dist[nextId] = distToNext;
+                        pq.offer(new Node(nextId, distToNext));
+                    }
+                }
+            }
+
+            return dist;
+
         }
     }
 }

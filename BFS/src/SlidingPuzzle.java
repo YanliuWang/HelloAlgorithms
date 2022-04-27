@@ -6,7 +6,7 @@ import java.util.*;
  * @create 2022-04-22-10:26 PM
  */
 public class SlidingPuzzle {
-    static class Solution {
+    static class Solution1 {
         private int[] dx = {-1, 0, 0, 1};
         private int[] dy = {0, 1, -1, 0};
 
@@ -86,7 +86,6 @@ public class SlidingPuzzle {
             int zeroCol = zeroPos % col;
 
             for (int i = 0; i < 4; i++) {
-                arr = curr.toCharArray();
                 int nextX = zeroRow + dx[i];
                 int nextY = zeroCol + dy[i];
 
@@ -100,6 +99,7 @@ public class SlidingPuzzle {
 
                 res.add(new String(arr));
 
+                arr = curr.toCharArray();
             }
 
             return res;
@@ -109,6 +109,85 @@ public class SlidingPuzzle {
             char tmp = arr[i];
             arr[i] = arr[j];
             arr[j] = tmp;
+        }
+    }
+
+    static class Solution2 {
+        private int[] dx = {-1, 0, 0, 1};
+        private int[] dy = {0, 1, -1, 0};
+
+        public int slidingPuzzle(int[][] board) {
+            if (board == null || board.length == 0
+                    || board[0] == null || board[0].length == 0) {
+                return 0;
+            }
+
+            int x = -1;
+            int y = -1;
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    sb.append(board[i][j]);
+
+                    if (board[i][j] == 0) {
+                        x = i;
+                        y = j;
+                    }
+
+                }
+            }
+
+            String start = sb.toString();
+            String end = "123450";
+
+            if (start.equals(end)) {
+                return 0;
+            }
+
+            Map<String, Integer> memo = new HashMap<>();
+
+            dfs(start, x, y, 0, memo, board);
+
+            return memo.get(end) == null ? -1 : memo.get(end);
+        }
+
+        private void dfs(String curr,
+                         int x, int y, int step,
+                         Map<String, Integer> memo,
+                         int[][] board) {
+            Integer oldStep = memo.get(curr);
+
+            if (oldStep == null || oldStep > step) {
+                memo.put(curr, step);
+
+                for (int i = 0; i < 4; i++) {
+                    int nextX = x + dx[i];
+                    int nextY = y + dy[i];
+
+                    if (nextX < 0 || nextX >= board.length
+                            || nextY < 0 || nextY >= board[0].length) {
+                        continue;
+                    }
+
+                    char[] arr = curr.toCharArray();
+
+                    swap(arr, x, y, nextX, nextY, board[0].length);
+
+                    dfs(new String(arr), nextX, nextY, step + 1, memo, board);
+
+                    swap(arr, x, y, nextX, nextY, board[0].length);
+                }
+            }
+        }
+
+        private void swap(char[] arr, int x, int y, int nextX, int nextY, int col) {
+            int pos1 = x * col + y;
+            int pos2 = nextX * col + nextY;
+
+            char tmp = arr[pos1];
+            arr[pos1] = arr[pos2];
+            arr[pos2] = tmp;
         }
     }
 }
