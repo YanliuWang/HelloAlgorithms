@@ -1,4 +1,5 @@
-/**LintCode 32
+/**
+ * LintCode 32
  * @author yanliu
  * @create 2021-04-11-20:54
  */

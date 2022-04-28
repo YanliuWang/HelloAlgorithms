@@ -24,11 +24,7 @@ public class MeetingRoom {
 
             // using the min heap to get the earliest ending time
             PriorityQueue<Integer> minHeap = new PriorityQueue<>(intervals.length,
-                    new Comparator<Integer>() {
-                        public int compare(Integer a, Integer b) {
-                            return a - b;
-                        }
-                    });
+                    Comparator.comparingInt(a -> a));
 
             // put the first start meeting's ending time to min heap
             minHeap.add(intervals[0][1]);
