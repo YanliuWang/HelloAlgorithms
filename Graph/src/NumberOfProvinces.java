@@ -9,7 +9,7 @@ import java.util.Queue;
  * @create 2022-03-09-10:39 AM
  */
 public class NumberOfProvinces {
-    static class Solution1 {
+    class Solution1 {
         public int findCircleNum(int[][] isConnected) {
             int n = isConnected.length;
             boolean[] isVisited = new boolean[n];
@@ -47,7 +47,7 @@ public class NumberOfProvinces {
         }
     }
 
-    static class Solution2 {
+    class Solution2 {
         public int findCircleNum(int[][] isConnected) {
             int n = isConnected.length;
 
@@ -94,7 +94,7 @@ public class NumberOfProvinces {
         }
     }
 
-    static class Solution3 {
+    class Solution3 {
         class UnionFind {
             int[] parent;
             int[] weight;

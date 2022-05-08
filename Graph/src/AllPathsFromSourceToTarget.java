@@ -7,7 +7,7 @@ import java.util.List;
  * @create 2022-02-26-10:19 AM
  */
 public class AllPathsFromSourceToTarget {
-    static class Solution {
+   class Solution {
         public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
             List<List<Integer>> res = new ArrayList<>();
 

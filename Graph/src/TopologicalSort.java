@@ -5,7 +5,6 @@ import java.util.*;
  * @create 2021-10-31-6:15 PM
  */
 public class TopologicalSort {
-
      class DirectedGraphNode {
          int label;
          List<DirectedGraphNode> neighbors;

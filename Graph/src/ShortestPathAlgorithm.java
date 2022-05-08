@@ -9,14 +9,14 @@ public class ShortestPathAlgorithm {
     /**
      * Dijkstra's algorithm for adjacent matrix
      */
-    static class Solution1 {
+    class Solution1 {
         /**
          * print the shortest distance from src to each vertex
          * @param graph
          * @param src
          * @param vertices
          */
-        public static void dijkstra(int[][] graph, int src, int vertices) {
+        public void dijkstra(int[][] graph, int src, int vertices) {
             if (graph == null || graph.length == 0
                     || graph[0] == null || graph[0].length == 0) {
                 return;
@@ -60,7 +60,7 @@ public class ShortestPathAlgorithm {
          * @param sptSet shortest path
          * @return
          */
-        private static int minDistance(int[] dist, boolean[] sptSet, int vertices) {
+        private int minDistance(int[] dist, boolean[] sptSet, int vertices) {
             int minIdx = -1;
             int min = Integer.MAX_VALUE;
 
@@ -74,28 +74,10 @@ public class ShortestPathAlgorithm {
             return minIdx;
         }
 
-        private static void printSolution(int[] dist) {
+        private void printSolution(int[] dist) {
             for (int i = 0; i < dist.length; i++) {
                 System.out.println("the shortest distance src -> " + i + " is: " + dist[i]);
             }
         }
-
-        public static void main(String[] args) {
-            /* Let us create the example graph discussed above */
-            int graph[][] = new int[][] {
-                    { 0, 4, 0, 0, 0, 0, 0, 8, 0 },
-                    { 4, 0, 8, 0, 0, 0, 0, 11, 0 },
-                    { 0, 8, 0, 7, 0, 4, 0, 0, 2 },
-                    { 0, 0, 7, 0, 9, 14, 0, 0, 0 },
-                    { 0, 0, 0, 9, 0, 10, 0, 0, 0 },
-                    { 0, 0, 4, 14, 10, 0, 2, 0, 0 },
-                    { 0, 0, 0, 0, 0, 2, 0, 1, 6 },
-                    { 8, 11, 0, 0, 0, 0, 1, 0, 7 },
-                    { 0, 0, 2, 0, 0, 0, 6, 7, 0 }
-            };
-
-            dijkstra(graph, 0, 9);
-        }
-
     }
 }

@@ -8,7 +8,7 @@ public class CourseSchedule {
     /**
      * LeetCode210
      */
-    static class Solution1 {
+    class Solution1 {
         /*
          * @param numCourses: a total of n courses
          * @param prerequisites: a list of prerequisite pairs
@@ -71,7 +71,7 @@ public class CourseSchedule {
     /**
      * LeetCode207
      */
-    static class Solution2 {
+    class Solution2 {
         public boolean canFinish(int numCourses, int[][] prerequisites) {
             List<List<Integer>> graph = new ArrayList<>();
             int[] degrees = new int[numCourses];
@@ -122,7 +122,7 @@ public class CourseSchedule {
     /**
      * LeetCode630
      */
-    static class Solution3_1 {
+    class Solution3_1 {
         public int scheduleCourse(int[][] courses) {
             // sort the courses in ascending order
             // based on the last day
@@ -168,7 +168,7 @@ public class CourseSchedule {
         }
     }
 
-    static class Solution3_2 {
+    class Solution3_2 {
         public int scheduleCourse(int[][] courses) {
             Arrays.sort(courses, new Comparator<>() {
                 public int compare(int[] a, int[] b) {
@@ -213,7 +213,7 @@ public class CourseSchedule {
         }
     }
 
-    static class Solution3_3co {
+    class Solution3_3 {
         public int scheduleCourse(int[][] courses) {
             Arrays.sort(courses, new Comparator<>() {
                 public int compare(int[] a, int[] b) {

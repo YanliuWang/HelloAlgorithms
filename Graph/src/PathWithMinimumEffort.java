@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
  * @create 2022-04-26-8:21 PM
  */
 public class PathWithMinimumEffort {
-    static class Solution {
+    class Solution {
         class Node {
             int id;
             int distFromStart;

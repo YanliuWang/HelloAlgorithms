@@ -6,7 +6,7 @@ import java.util.*;
  * @create 2022-04-26-11:14 AM
  */
 public class NetworkDelayTime {
-    static class Solution1 {
+    class Solution1 {
         public int networkDelayTime(int[][] times, int n, int k) {
             if (times == null || times.length == 0
                     || times[0] == null || times[0].length == 0) {
@@ -69,7 +69,7 @@ public class NetworkDelayTime {
         }
     }
 
-    static class Solution2 {
+    class Solution2 {
         class Node {
             int id;
             int distFromStart;
@@ -142,7 +142,7 @@ public class NetworkDelayTime {
      * 1. using adjacent list to construct the graph
      * 2. using dijkstra to traverse the graph
      */
-    static class Solution3 {
+    class Solution3 {
         class Node {
             int id;
             int distFromStart;
