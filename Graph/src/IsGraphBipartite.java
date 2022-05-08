@@ -4,7 +4,7 @@
  * @create 2022-05-07-5:34 PM
  */
 public class IsGraphBipartite {
-    class Solution {
+    class Solution1 {
         public boolean isBipartite(int[][] graph) {
             int n = graph.length;
 
@@ -42,6 +42,45 @@ public class IsGraphBipartite {
 
             return true;
         }
-
     }
+
+
+    class Solution2 {
+        public boolean isBipartite(int[][] graph) {
+            int n = graph.length;
+
+            int[] colors = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                if (colors[i] == 0 && !dfs(i, 1, colors, graph)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private boolean dfs(int v, int color, int[] colors, int[][] graph) {
+            colors[v] = color;
+
+            for (int w : graph[v]) {
+                if (colors[w] == 0) {
+                    colors[w] = -color;
+
+                    if (!dfs(w, -color, colors, graph)) {
+                        return false;
+                    }
+
+                } else {
+                    if (colors[w] == colors[v]) {
+                        return false;
+
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+
 }
