@@ -1,22 +1,15 @@
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 
 /**
- * Question :
- *      You want to build a house on an empty land which reaches all buildings in the shortest amount of distance.
- *      You can only move up, down, left and right.
- *      You are given a 2D grid of values 0, 1 or 2,
- *      where: Each 0 marks an empty land which you can pass by freely.
- *             Each 1 marks a building which you cannot pass through.
- *             Each 2 marks an obstacle which you cannot pass through.
- * Note:
- *      There will be at least one building.
- *      If it is not possible to build such house according to the above rules, return -1
+ * LeetCode317
  * @author wyl
  * @create 2021-04-01-14:19
  */
 public class ShortestDistanceFromAllBuildings {
-    static class Building {
+    class Building {
         int x;
         int y;
 
@@ -27,7 +20,7 @@ public class ShortestDistanceFromAllBuildings {
 
     }
 
-    static class Solution {
+    class Solution1 {
         public int shortestDistance(int[][] grid) {
             if (grid == null || grid.length == 0 || grid[0].length == 0) {
                 return -1;
@@ -95,6 +88,107 @@ public class ShortestDistanceFromAllBuildings {
             }
 
             return shortest == Integer.MAX_VALUE ? -1 : shortest;
+        }
+
+    }
+
+    class Solution2 {
+        private int[] dx = new int[]{-1, 0, 0, 1};
+        private int[] dy = new int[]{0, -1, 1, 0};
+
+        public int shortestDistance(int[][] grid) {
+            if (grid == null || grid.length == 0
+                    || grid[0] == null || grid[0].length == 0) {
+                return -1;
+            }
+
+            int minDist = Integer.MAX_VALUE;
+            int houses = 0;
+
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[0].length; j++) {
+                    if (grid[i][j] == 1) {
+                        houses++;
+                    }
+                }
+            }
+
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[0].length; j++) {
+                    if (grid[i][j] == 0) {
+                        minDist = Math.min(minDist, bfs(i, j, grid, houses));
+                    }
+                }
+            }
+
+            return minDist == Integer.MAX_VALUE ? -1 : minDist;
+        }
+
+        private int bfs(int x, int y, int[][] grid, int houses) {
+            Queue<Integer> queue = new LinkedList<>();
+            Set<Integer> visited = new HashSet<>();
+
+            int row = grid.length;
+            int col = grid[0].length;
+            int start = x * col + y;
+
+            queue.offer(start);
+            visited.add(start);
+
+            int dist = 0;
+            int searchedHouses = 0;
+            int step = 0;
+
+            while (!queue.isEmpty() && searchedHouses != houses) {
+                int size = queue.size();
+
+                for (int i = 0; i < size; i++) {
+                    int curr = queue.poll();
+                    int currX = curr / col;
+                    int currY = curr % col;
+
+                    if (grid[currX][currY] == 1) {
+                        searchedHouses++;
+                        dist += step;
+                    }
+
+                    for (int dir = 0; dir < 4; dir++) {
+                        int nextX = currX + dx[dir];
+                        int nextY = currY + dy[dir];
+
+                        if (nextX < 0 || nextX >= row || nextY < 0 || nextY >= col) {
+                            continue;
+                        }
+
+                        if (visited.contains(nextX * col + nextY)) {
+                            continue;
+                        }
+
+                        if (grid[nextX][nextY] == 2) {
+                            continue;
+                        }
+
+                        queue.offer(nextX * col + nextY);
+                        visited.add(nextX * col + nextY);
+                    }
+
+                }
+
+            }
+
+            if (searchedHouses != houses) {
+                for (int i = 0; i < row; i++) {
+                    for (int j = 0; j < col; j++) {
+                        if (grid[i][j] == 0 && visited.contains(i * col + j)) {
+                            grid[i][j] = 2;
+                        }
+                    }
+                }
+
+                return Integer.MAX_VALUE;
+            }
+
+            return dist;
         }
 
     }
