@@ -4,7 +4,7 @@
  * @create 2020-10-16-15:28
  */
 public class MergeSortedList {
-    static class Solution {
+    class Solution {
         public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
             ListNode dummy = new ListNode(-1);
             ListNode tail = dummy;

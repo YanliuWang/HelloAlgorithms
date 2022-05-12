@@ -4,10 +4,10 @@
  * @create 2021-12-25-5:18 PM
  */
 public class SubtreeOfAnotherTree {
-    static class Solution {
+    class Solution {
         public boolean isSubtree(TreeNode root, TreeNode subRoot) {
             if (root == null) {
-                return false;
+                return subRoot == null;
             }
 
             if (isSame(root, subRoot)) {

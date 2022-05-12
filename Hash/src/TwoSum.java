@@ -7,7 +7,7 @@ import java.util.Map;
  * @create 2021-05-10-22:10
  */
 public class TwoSum {
-    static class Solution {
+    class Solution {
         public int[] twoSum(int[] nums, int target) {
             if (nums == null || nums.length == 0) {
                 return new int[0];

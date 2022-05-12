@@ -4,7 +4,7 @@
  * @create 2021-12-07-11:13 AM
  */
 public class BestTimeToBuyAndSellStock {
-    static class Solution {
+    class Solution {
         public int maxProfit(int[] prices) {
             int minPrice = Integer.MAX_VALUE, maxProfit = Integer.MIN_VALUE;
 

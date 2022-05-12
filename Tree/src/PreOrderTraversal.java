@@ -9,8 +9,7 @@ import java.util.List;
  * @create 2020-11-01-10:26
  */
 public class PreOrderTraversal {
-    static class Solution {
-
+    class Solution {
         public List<Integer> preOrderTraversal(TreeNode root) {
             // iteration
             List<Integer> res = new ArrayList<>();
@@ -31,30 +30,6 @@ public class PreOrderTraversal {
 
             return res;
 
-
-            // recursion
-//            List<Integer> res = new ArrayList<>();
-//
-//            _helper(root, res);
-//
-//            return res;
-
-        }
-
-        private void _helper(TreeNode root, List<Integer> res) {
-            if (root != null) {
-                res.add(root.val);
-
-                if (root.left != null) {
-                    _helper(root.left, res);
-
-                }
-
-                if (root.right != null) {
-                    _helper(root.right, res);
-
-                }
-            }
         }
     }
 

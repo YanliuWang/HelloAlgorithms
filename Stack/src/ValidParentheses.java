@@ -2,11 +2,12 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
+ * LeetCode20
  * @author yanliu
  * @create 2020-12-13-23:09
  */
 public class ValidParentheses {
-    static class Solution {
+    class Solution {
         public boolean isValid(String s) {
             if (s == null || s.length() == 0) {
                 return false;
@@ -34,13 +35,5 @@ public class ValidParentheses {
 
             return stack.isEmpty();
         }
-    }
-
-    public static void main(String[] args) {
-        String s1 = "()()[][]";
-        String s2 = "()()[[][";
-        System.out.println(s1 + ":" + new Solution().isValid(s1));
-        System.out.println(s2 + ":" + new Solution().isValid(s2));
-
     }
 }

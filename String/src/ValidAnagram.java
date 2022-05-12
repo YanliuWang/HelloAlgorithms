@@ -4,7 +4,7 @@
  * @create 2021-12-15-11:33 PM
  */
 public class ValidAnagram {
-    static class Solution1 {
+    class Solution {
         public boolean isAnagram(String s, String t) {
             if (s.length() != t.length()) {
                 return false;
@@ -31,13 +31,4 @@ public class ValidAnagram {
 
         }
     }
-
-    /**
-     * follow up: what is Unicode?
-     */
-    static class Solution2 {
-
-    }
-
-
 }
