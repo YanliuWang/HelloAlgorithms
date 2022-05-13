@@ -7,20 +7,21 @@ import java.util.Deque;
  * @create 2021-12-22-11:54 AM
  */
 public class RemoveKDigits {
-    static class Solution {
+    class Solution {
         public String removeKDigits(String num, int k) {
-            int len = num.length();
+            if (num == null || num.length() == 0) {
+                return "";
+            }
 
             Deque<Character> stack = new ArrayDeque<>();
 
-            for (int i = 0; i < len; i++) {
-                char ch = num.charAt(i);
-
-                while (k != 0 && !stack.isEmpty() && stack.peek() > ch) {
+            for (char ch : num.toCharArray()) {
+                while (!stack.isEmpty() && ch < stack.peek() && k > 0) {
                     stack.pop();
                     k--;
                 }
 
+                // prevent leading zero
                 if (stack.isEmpty() && ch == '0') {
                     continue;
                 }
@@ -28,18 +29,23 @@ public class RemoveKDigits {
                 stack.push(ch);
             }
 
-            StringBuilder sb = new StringBuilder();
-
+            // remove from top
             while (k > 0 && !stack.isEmpty()) {
                 stack.pop();
                 k--;
             }
 
-            while (!stack.isEmpty()) {
-                sb.append(stack.pollLast());
+            if (stack.isEmpty()) {
+                return "0";
             }
 
-            return sb.length() == 0 ? "0" : sb.toString();
+            StringBuilder res = new StringBuilder();
+
+            while (!stack.isEmpty()) {
+                res.insert(0, stack.pop());
+            }
+
+            return res.toString();
         }
     }
 }

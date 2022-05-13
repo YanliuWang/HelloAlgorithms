@@ -9,7 +9,7 @@ import java.util.Queue;
  * @create 2020-12-29-13:51
  */
 public class SurroundedRegions {
-    static class Solution1 {
+    class Solution1 {
         /**
          * using union-find data structure to solve the problem
          * @param board
@@ -81,7 +81,7 @@ public class SurroundedRegions {
     /**
      * use dfs to solve the problem
      */
-    static class Solution2 {
+    class Solution2 {
         private final int[] dx = new int[]{-1, 1, 0, 0};
         private final int[] dy = new int[]{0, 0, -1, 1};
 
@@ -151,7 +151,7 @@ public class SurroundedRegions {
         }
     }
 
-    static class Pos {
+    class Pos {
         int row;
         int col;
 
@@ -161,7 +161,7 @@ public class SurroundedRegions {
         }
     }
 
-    static class Solution3 {
+    class Solution3 {
         /**
          * using iterative dfs to solve the problem
          * @param board
@@ -239,7 +239,7 @@ public class SurroundedRegions {
         }
     }
 
-    static class Solution4 {
+    class Solution4 {
         public void solve(int[][] board) {
             if (board == null || board.length == 0) {
                 return;
