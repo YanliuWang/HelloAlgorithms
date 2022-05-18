@@ -11,7 +11,7 @@ public class PathSum {
     /**
      * LC112 : path sum I
      */
-    static class Solution1 {
+    class Solution1 {
         public boolean hasPathSum(TreeNode root, int sum) {
             if (root == null) {
                 return false;
@@ -33,7 +33,7 @@ public class PathSum {
     /**
      * LC113 : path sum II
      */
-    static class Solution2 {
+    class Solution2 {
         public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
             List<List<Integer>> res = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class PathSum {
     /**
      * LC437 : path sum III
      */
-    static class Solution3 {
+    class Solution3 {
         private int res = 0;
         private Map<Integer, Integer> sumToFreq = new HashMap<>();
 

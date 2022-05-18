@@ -4,35 +4,49 @@
  */
 public class MaxHeap<Key extends Comparable<Key>> {
     private Key[] heap;
-    private int N;
+    private int size;
 
     public MaxHeap(int capacity) {
         heap = (Key[]) new Comparable[capacity + 1];
-    }
-
-    public boolean isEmpty() {
-        return N == 0;
-    }
-
-    public void insert(Key key) {
-        heap[++N] = key;
-        swim(N);
+        size = 0;
     }
 
     public Key deleteMax() {
+        if (isEmpty()) {
+            return null;
+        }
+
         Key max = heap[1];
+        exchange(1, size);
 
-        exchange(1, N--);
+        heap[size] = null;
+        size--;
+
         sink(1);
-
-        heap[N + 1] = null;
 
         return max;
 
     }
 
+    public void insert(Key elem) {
+        if (isEmpty()) {
+            return;
+        }
+
+        heap[++size] = elem;
+        swim(size);
+    }
+
     public Key max() {
         return heap[1];
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public boolean isFull() {
+        return size == heap.length - 1;
     }
 
     private void swim(int k) {
@@ -44,15 +58,15 @@ public class MaxHeap<Key extends Comparable<Key>> {
     }
 
     private void sink(int k) {
-        while (2 * k <= N) {
+        while (k * 2 <= size) {
             int j = 2 * k;
 
             // get the maximum of the children
-            if (j < N && less(j, j + 1)) {
-                j++;
+            if (j + 1 <= size && less(j, j + 1)) {
+                j = j + 1;
             }
 
-            // break if parent is bigger than the child
+            // break if it is bigger than the maximum of the children
             if (!less(k, j)) {
                 break;
             }

@@ -50,10 +50,6 @@ public class TopKFrequentElements {
                 return new int[0];
             }
 
-            if (nums.length == k) {
-                return nums;
-            }
-
             Map<Integer, Integer> numToFreq = new HashMap<>();
             for (int num : nums) {
                 numToFreq.put(num, numToFreq.getOrDefault(num, 0) + 1);
@@ -113,11 +109,7 @@ public class TopKFrequentElements {
             } else if (start + k - 1 >= left) {
                 quickSelect(nums, left, end, k - (left - start), numToFreq);
 
-            } else {
-                return;
-
             }
-
 
         }
     }

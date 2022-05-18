@@ -11,7 +11,7 @@ public class BinaryTreePaths {
     /**
      * traverse
      */
-    static class Solution1 {
+    class Solution1 {
         public List<String> binaryTreePaths(TreeNode root) {
             List<String> paths = new LinkedList<>();
 
@@ -44,7 +44,7 @@ public class BinaryTreePaths {
     /**
      * divide and conquer
      */
-    static class Solution2 {
+    class Solution2 {
         public List<String> binaryTreePaths(TreeNode root) {
             List<String> res = new ArrayList<>();
 
@@ -71,5 +71,44 @@ public class BinaryTreePaths {
             return res;
         }
 
+    }
+
+    /**
+     * using StringBuilder
+     */
+    class Solution3 {
+        public List<String> binaryTreePaths(TreeNode root) {
+            List<String> res = new ArrayList<>();
+
+            if (root == null) {
+                return res;
+            }
+
+            dfs(root, new StringBuilder(), res);
+
+            return res;
+        }
+
+        private void dfs(TreeNode root, StringBuilder sb, List<String> res) {
+            if (root.left == null && root.right == null) {
+                sb.append(root.val);
+                res.add(sb.toString());
+                return;
+            }
+
+            if (root.left != null) {
+                String prev = sb.toString();
+                sb.append(root.val).append("->");
+
+                dfs(root.left, sb, res);
+
+                sb = new StringBuilder(prev);
+            }
+
+            if (root.right != null) {
+                sb.append(root.val).append("->");
+                dfs(root.right, sb, res);
+            }
+        }
     }
 }

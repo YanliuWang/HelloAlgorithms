@@ -51,7 +51,7 @@ public class ShortestDistanceFromAllBuildings {
                         while (!queue.isEmpty()) {
                             int size = queue.size();
 
-                            for (int k = 0; i < size; i++) {
+                            for (int k = 0; k < size; k++) {
                                 Building curr = queue.poll();
 
                                 for (int m = 0; m < 4; m++) {

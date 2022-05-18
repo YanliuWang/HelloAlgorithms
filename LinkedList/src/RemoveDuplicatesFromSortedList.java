@@ -6,7 +6,7 @@ public class RemoveDuplicatesFromSortedList {
     /**
      * LeetCode83
      */
-    static class Solution1 {
+    class Solution1 {
         public ListNode deleteDuplicates(ListNode head) {
             if (head == null || head.next == null) {
                 return head;

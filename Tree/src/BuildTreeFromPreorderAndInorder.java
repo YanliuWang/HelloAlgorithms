@@ -4,7 +4,7 @@
  * @create 2020-11-08-21:56
  */
 public class BuildTreeFromPreorderAndInorder {
-    static class Solution {
+    class Solution {
         public TreeNode buildTree(int[] preorder, int[] inorder) {
             if (preorder == null || inorder == null || preorder.length != inorder.length) {
                 return null;

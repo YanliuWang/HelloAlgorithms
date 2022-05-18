@@ -4,7 +4,7 @@
  * @create 2020-10-16-14:26
  */
 public class RemoveDuplicatesFromSortedArray {
-    static class Solution1 {
+    class Solution1 {
         public int removeDuplicates(int[] nums) {
             if (nums == null || nums.length == 0) {
                 return 0;
@@ -29,7 +29,7 @@ public class RemoveDuplicatesFromSortedArray {
         }
     }
 
-    static class Solution2 {
+    class Solution2 {
         public int removeDuplicates(int[] nums) {
             int slow = 0;
             int fast = 0;

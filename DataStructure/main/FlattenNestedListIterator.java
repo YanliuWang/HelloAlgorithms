@@ -12,7 +12,6 @@ public class FlattenNestedListIterator {
 
         public NestedInteger(Integer val) {
             this.val = val;
-
         }
 
         public NestedInteger(List<NestedInteger> list) {
@@ -29,7 +28,6 @@ public class FlattenNestedListIterator {
 
         public List<NestedInteger> getList() {
             return list;
-
         }
     }
 

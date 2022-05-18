@@ -9,7 +9,7 @@ import java.util.Queue;
  * @create 2022-03-16-11:29 PM
  */
 public class BinaryTreeRightSideView {
-    static class Solution1 {
+    class Solution1 {
         public List<Integer> rightSideView(TreeNode root) {
             List<Integer> res = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class BinaryTreeRightSideView {
         }
     }
 
-    static class Solution2 {
+    class Solution2 {
         private int depth = 0;
 
         public List<Integer> rightSideView(TreeNode root) {
@@ -71,6 +71,34 @@ public class BinaryTreeRightSideView {
             dfs(root.left, res);
 
             depth--;
+        }
+    }
+
+    class Solution3 {
+        public List<Integer> rightSideView(TreeNode root) {
+            List<Integer> res = new ArrayList<>();
+
+            if (root == null) {
+                return res;
+            }
+
+            dfs(root, 0, res);
+
+            return res;
+        }
+
+        private void dfs(TreeNode root, int depth, List<Integer> res) {
+            if (root == null) {
+                return;
+            }
+
+            if (res.size() == depth) {
+                res.add(root.val);
+            }
+
+            dfs(root.right, depth + 1, res);
+            dfs(root.left, depth + 1, res);
+
         }
     }
 }

@@ -1,7 +1,7 @@
 import java.util.PriorityQueue;
 
 /**
- * LintCode 5
+ * LeetCode215
  * @author yanliu
  * @create 2021-04-17-11:37
  */
