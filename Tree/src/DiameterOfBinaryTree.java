@@ -4,7 +4,7 @@
  * @create 2021-01-25-20:52
  */
 public class DiameterOfBinaryTree {
-    static class Solution1 {
+    class Solution1 {
         /**
          * @param root: a root of binary tree
          * @return: return a integer
@@ -32,7 +32,7 @@ public class DiameterOfBinaryTree {
         }
     }
 
-    static class Solution2 {
+    class Solution2 {
         private int res = 0;
 
         public int diameterOfBinaryTree(TreeNode root) {
@@ -45,6 +45,11 @@ public class DiameterOfBinaryTree {
             return res;
         }
 
+        /**
+         * return the length of path from current node to leaf
+         * @param root
+         * @return
+         */
         private int dfs(TreeNode root) {
             if (root == null) {
                 return 0;

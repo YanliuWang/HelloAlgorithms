@@ -4,7 +4,7 @@
  * @create 2021-12-03-10:01 AM
  */
 public class MaxAreaOfIsland {
-    static class Solution {
+    class Solution1 {
         private int[] dx = new int[]{-1, 0, 1, 0};
         private int[] dy = new int[]{0, 1, 0, -1};
 

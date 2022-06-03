@@ -4,7 +4,7 @@
  * @create 2021-12-02-10:48 PM
  */
 public class NumberOfClosedIslands {
-    static class Solution {
+    class Solution1 {
         public int closedIsland(int[][] grid) {
             int row = grid.length;
             int col = grid[0].length;

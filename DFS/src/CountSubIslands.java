@@ -4,7 +4,7 @@
  * @create 2021-12-03-1:14 PM
  */
 public class CountSubIslands {
-    static class Solution1 {
+    class Solution1 {
         private int[] dx = new int[]{-1, 0, 1, 0};
         private int[] dy = new int[]{0, 1, 0, -1};
 
@@ -48,7 +48,53 @@ public class CountSubIslands {
         }
     }
 
-    static class Solution2 {
+    class Solution2 {
+        private int[] dx = {-1, 0, 0, 1};
+        private int[] dy = {0, 1, -1, 0};
 
+        public int countSubIslands(int[][] grid1, int[][] grid2) {
+            int m = grid1.length;
+            int n = grid1[0].length;
+            int res = 0;
+
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (grid1[i][j] == 0 && grid2[i][j] == 1) {
+                        dfs(grid2, i, j);
+                    }
+                }
+            }
+
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (grid2[i][j] == 1) {
+                        dfs(grid2, i, j);
+                        res++;
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        private void dfs(int[][] grid, int x, int y) {
+            if (grid[x][y] != 1) {
+                return;
+            }
+
+            grid[x][y] = 0;
+
+            for (int i = 0; i < 4; i++) {
+                int nextX = x + dx[i];
+                int nextY = y + dy[i];
+
+                if (nextX < 0 || nextX >= grid.length
+                        || nextY < 0 || nextY >= grid[0].length) {
+                    continue;
+                }
+
+                dfs(grid, nextX, nextY);
+            }
+        }
     }
 }
