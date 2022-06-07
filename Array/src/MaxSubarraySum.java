@@ -41,8 +41,39 @@ public class MaxSubarraySum {
         }
     }
 
+    /**
+     * using Kadane's Algorithm
+     */
     static class Solution2 {
-        public int maxSubArray(int[] nums) {
+        public int maxSubarraySum(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int maxEndingHere = nums[0];
+            int maxSoFar = nums[0];
+
+            for (int i = 1; i < nums.length; i++) {
+                if (maxEndingHere < 0) {
+                    maxEndingHere = nums[i];
+
+                } else {
+                    maxEndingHere += nums[i];
+
+                }
+
+                if (maxSoFar < maxEndingHere) {
+                    maxSoFar = maxEndingHere;
+                }
+
+            }
+
+            return maxSoFar;
+
+        }
+    }
+    static class Solution3 {
+        public int maxSubarraySum(int[] nums) {
             int[] dp = new int[nums.length];
 
             dp[0] = nums[0];

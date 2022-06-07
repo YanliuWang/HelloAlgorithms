@@ -6,7 +6,7 @@ import java.util.Deque;
  * @author yanliu
  * @create 2022-01-04-1:19 PM
  */
-public class MaxSlidingWindow {
+public class SlidingWindowMaximum {
     static class Solution {
         public int[] maxSlidingWindow(int[] nums, int k) {
             Deque<Integer> deque = new ArrayDeque<>();
