@@ -5,6 +5,7 @@
 public class StrStr {
     /**
      * O(n^2) solution
+     * n is the length of needle
      */
     class Solution1 {
         public int strStr(String haystack, String needle) {
@@ -55,8 +56,11 @@ public class StrStr {
          * @param target: A target string
          * @return: An integer as index
          */
-        public int strStr2(String source, String target) {
+        public int strStr(String source, String target) {
             // write your code here
+            if (source == null && target == null) {
+                return 0;
+            }
 
             // except boundary situations
             if (source == null || target == null) {
