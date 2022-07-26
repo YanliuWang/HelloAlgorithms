@@ -56,10 +56,10 @@ public class FindMinimumInRotatedSortedArray {
                     return nums[mid];
                 }
 
-                if (nums[mid] > nums[0]) {
+                if (nums[mid] >= nums[0]) {
                     start = mid + 1;
 
-                } else if (nums[mid] < nums[0]) {
+                } else {
                     end = mid - 1;
                 }
             }
