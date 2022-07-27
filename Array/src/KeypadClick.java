@@ -1,3 +1,4 @@
+import java.sql.Array;
 import java.util.*;
 
 /**
@@ -7,45 +8,45 @@ import java.util.*;
  */
 public class KeypadClick {
     static class Solution {
-        public int findCount(String text) {
-            if (text == null || text.length() == 0) {
+        public int getKeypadClick(String s) {
+            if (s == null || s.length() == 0) {
                 return 0;
             }
 
-            Map<Character, Integer> charToCount = new HashMap<>();
-            int len = text.length();
+            Map<Character, Integer> charToFreq = new HashMap<>();
 
-            for (int i = 0; i < len; i++) {
-                char curr = text.charAt(i);
-                charToCount.put(curr, charToCount.getOrDefault(curr, 0) + 1);
+            for (char ch : s.toCharArray()) {
+                charToFreq.put(ch, charToFreq.getOrDefault(ch, 0) + 1);
             }
 
-            List<Map.Entry<Character, Integer>> list = new LinkedList<>(charToCount.entrySet());
+            List<Map.Entry<Character, Integer>> list = new ArrayList<>(charToFreq.entrySet());
 
-            // sort the list based on the frequency
-            Collections.sort(list, new Comparator<Map.Entry<Character, Integer>>() {
+            // sort the entry list based on the frequency of each character
+            Collections.sort(list, new Comparator<>() {
                 @Override
                 public int compare(Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) {
-                    return (o2.getValue()).compareTo(o1.getValue());
+                    return o2.getValue().compareTo(o1.getValue());
                 }
             });
 
-            int count = 0;
+            int clicks = 0;
+
             for (int i = 0; i < list.size(); i++) {
-                int digit = i / 9 + 1;
-//                System.out.println("char is: " + list.get(i).getKey() + " freq is: " + list.get(i).getValue() + " digit is: " + digit);
-                count += digit * list.get(i).getValue();
+                int click = i / 9 + 1;
+                System.out.println("char is: " + list.get(i).getKey() + " freq is: " + list.get(i).getValue() + " click is: " + click);
+                clicks += click * list.get(i).getValue();
             }
 
-            return count;
+            return clicks;
 
-        }
-
-        public static void main(String[] args) {
-            Solution solution = new Solution();
-            String text = "abacadefghibj";
-
-            System.out.println(solution.findCount(text));
         }
     }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        String text = "abacadefghibj";
+
+        System.out.println(solution.getKeypadClick(text));
+    }
+
 }

@@ -12,9 +12,8 @@ public class LongestPalindromicSubstring {
                 return "";
             }
 
-            // n start point and n end point
-            for (int length = s.length(); length >= 1; length--) {
-                for (int start = 0; start + length <= s.length(); start++) {
+            for (int length = s.length(); length > 0; length--) {
+                for (int start = 0; start + length < s.length(); start++) {
                     if (isPalindrome(s, start, start + length - 1)) {
                         return s.substring(start, start + length);
                     }
@@ -30,7 +29,7 @@ public class LongestPalindromicSubstring {
                 right--;
             }
 
-            return left >= right;
+            return left == right;
         }
     }
 
