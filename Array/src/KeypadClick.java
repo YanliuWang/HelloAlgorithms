@@ -1,4 +1,3 @@
-import java.sql.Array;
 import java.util.*;
 
 /**
@@ -7,7 +6,7 @@ import java.util.*;
  * @create 2022-05-05-9:35 AM
  */
 public class KeypadClick {
-    static class Solution {
+    static class Solution1 {
         public int getKeypadClick(String s) {
             if (s == null || s.length() == 0) {
                 return 0;
@@ -42,8 +41,34 @@ public class KeypadClick {
         }
     }
 
+    static class Solution2 {
+        public int minimumKeypresses(String s) {
+            if (s == null || s.length() == 0) {
+                return 0;
+            }
+
+            Integer[] freq = new Integer[26];
+            Arrays.fill(freq, 0);
+
+            for (char ch : s.toCharArray()) {
+                freq[ch - 'a']++;
+            }
+
+            Arrays.sort(freq, (x, y) -> y - x);
+
+            int presses = 0;
+
+            for (int i = 0; i < freq.length; i++) {
+                presses += (freq[i] * (i / 9 + 1));
+            }
+
+            return presses;
+        }
+
+    }
+
     public static void main(String[] args) {
-        Solution solution = new Solution();
+        Solution1 solution = new Solution1();
         String text = "abacadefghibj";
 
         System.out.println(solution.getKeypadClick(text));

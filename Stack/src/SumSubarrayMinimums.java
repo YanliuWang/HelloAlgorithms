@@ -8,12 +8,13 @@ import java.util.Deque;
  */
 public class SumSubarrayMinimums {
     static class Solution1 {
+        private final int MOD = 1000_000_007;
+
         public int sumSubarrayMinimums(int[] arr) {
             if (arr == null || arr.length == 0) {
                 return Integer.MAX_VALUE;
             }
 
-            int MOD = 1000_000_007;
             int N = arr.length;
             Deque<Integer> monoStack = new ArrayDeque<>();
 
