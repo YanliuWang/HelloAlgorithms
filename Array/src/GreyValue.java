@@ -19,6 +19,8 @@ public class GreyValue {
 
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < col; j++) {
+                    // black -> 1
+                    // white -> -1
                     int grey = arr[i][j] == 0 ? -1 : 1;
                     rowsGrey[i] += grey;
                     colsGrey[j] += grey;

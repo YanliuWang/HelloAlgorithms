@@ -22,6 +22,9 @@ public class ParseLogs {
 
             for (int i = 0; i < logs.size(); i++) {
                 String curr = logs.get(i);
+                // arr[0] is operation
+                // arr[1] is username
+                // arr[2] is password
                 String[] arr = curr.split("\\s+");
 
                 String operation = arr[0];
