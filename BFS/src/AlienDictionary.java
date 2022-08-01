@@ -7,8 +7,7 @@ import java.util.*;
  */
 public class AlienDictionary {
     static class Solution1 {
-        public String
-        alienOrder(String[] words) {
+        public String alienOrder(String[] words) {
             if (words == null || words.length == 0) {
                 return "";
             }

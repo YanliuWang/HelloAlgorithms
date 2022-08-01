@@ -47,6 +47,7 @@ public class KeypadClick {
                 return 0;
             }
 
+            // using the array as hashmap
             Integer[] freq = new Integer[26];
             Arrays.fill(freq, 0);
 
@@ -54,6 +55,7 @@ public class KeypadClick {
                 freq[ch - 'a']++;
             }
 
+            // sort the arr in descending order
             Arrays.sort(freq, (x, y) -> y - x);
 
             int presses = 0;
