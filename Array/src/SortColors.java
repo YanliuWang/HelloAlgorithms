@@ -4,7 +4,48 @@
  * @create 2021-11-16-11:47 AM
  */
 public class SortColors {
-    static class Solution {
+    static class Solution1 {
+        /**
+         * @param nums: A list of integer which is 0, 1 or 2
+         * @return: nothing
+         */
+        public void sortColors(int[] nums) {
+            // write your code here
+            if (nums == null || nums.length == 0) {
+                return;
+            }
+
+            // [0, p1) -> all 0s
+            // [p1, p2) -> all 1s
+            // [p2, p3] -> no idea
+            // (p3, nums.length - 1]
+            int p1 = 0, p2 = 0, p3 = nums.length - 1;
+
+            while (p2 <= p3) {
+                if (nums[p2] == 0) {
+                    swap(nums, p1, p2);
+                    p1++;
+                    p2++;
+
+                } else if (nums[p2] == 2) {
+                    swap(nums, p2, p3);
+                    p3--;
+
+                } else {
+                    p2++;
+
+                }
+            }
+
+        }
+
+        private void swap(int[] nums, int p1, int p2) {
+            int tmp = nums[p1];
+            nums[p1] = nums[p2];
+            nums[p2] = tmp;
+        }
+    }
+    static class Solution2 {
         public void sortColors(int[] nums) {
             if (nums == null || nums.length == 0) {
                 return;
