@@ -18,7 +18,7 @@ public class SortColors {
             // [0, p1) -> all 0s
             // [p1, p2) -> all 1s
             // [p2, p3] -> no idea
-            // (p3, nums.length - 1]
+            // (p3, nums.length - 1] -> all 2s
             int p1 = 0, p2 = 0, p3 = nums.length - 1;
 
             while (p2 <= p3) {

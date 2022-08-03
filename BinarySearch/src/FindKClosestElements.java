@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * LeetCode658
  * @author yanliu
  * @create 2022-02-14-5:20 PM
  */
@@ -14,59 +15,49 @@ public class FindKClosestElements {
                 return res;
             }
 
-            int left = 0, right = arr.length - 1;
-            int index = 0;
+            int start = 0, end = arr.length - 1;
 
-            while (left + 1 < right) {
-                int mid = left + (right - left) / 2;
+            while (start + 1 < end) {
+                int mid = start + (end - start) / 2;
 
-                if (arr[mid] == x) {
-                    index = mid;
-                    break;
-
-                } else if (arr[mid] > x) {
-                    right = mid;
+                if (arr[mid] <= x) {
+                    start = mid;
 
                 } else {
-                    left = mid;
+                    end = mid - 1;
 
                 }
             }
 
-            // get the closest number
-            if (left + 1 == right) {
-                if (Math.abs(arr[left] - x) <= Math.abs(arr[right] - x)) {
-                    index = left;
+            int left = 0;
 
-                } else {
-                    index = right;
+            if (arr[end] <= x) {
+                left = end;
 
-                }
+            } else if (arr[start] <= x) {
+                left = start;
+
             }
 
-            left = index;
-            right = index + 1;
+            int right = left + 1;
 
-            while (left >= 0 && right < arr.length && k > 0) {
-                if (Math.abs(arr[left] - x) <= Math.abs(arr[right] - x)) {
+            while (right - left - 1 < k) {
+                if (left == -1) {
+                    right++;
+
+                } else if (right == arr.length) {
                     left--;
 
                 } else {
-                    right++;
+                    if (x - arr[left] <= arr[right] - x) {
+                        left--;
+
+                    } else {
+                        right++;
+
+                    }
 
                 }
-
-                k--;
-            }
-
-            while (left >= 0 && k > 0) {
-                left--;
-                k--;
-            }
-
-            while (right < arr.length && k > 0) {
-                right++;
-                k--;
             }
 
             for (int i = left + 1; i < right; i++) {
@@ -74,8 +65,6 @@ public class FindKClosestElements {
             }
 
             return res;
-
-
         }
     }
 
