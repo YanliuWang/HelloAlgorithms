@@ -13,31 +13,40 @@ public class BinaryTreePaths {
      */
     class Solution1 {
         public List<String> binaryTreePaths(TreeNode root) {
-            List<String> paths = new LinkedList<>();
+            List<String> res = new ArrayList<>();
 
-            constructPaths(root, "", paths);
+            if (root == null) {
+                return res;
+            }
 
-            return paths;
+            dfs(root, new StringBuilder(), res);
+
+            return res;
         }
 
-        private void constructPaths(TreeNode root, String currSeq, List<String> paths) {
-            if (root == null) {
+        private void dfs(TreeNode root, StringBuilder sb, List<String> res) {
+            if (root.left == null && root.right == null) {
+                sb.append(root.val);
+                res.add(sb.toString());
                 return;
             }
 
-            // get a deep copy values instead of reference
-            StringBuilder sb = new StringBuilder(currSeq);
             sb.append(root.val);
+            int prevLen = sb.length();
 
-            if (root.left == null && root.right == null) {
-                paths.add(sb.toString());
-
-            } else {
+            if (root.left != null) {
                 sb.append("->");
-
-                constructPaths(root.left, currSeq, paths);
-                constructPaths(root.right, currSeq, paths);
+                dfs(root.left, sb, res);
+                // remove the left choices
+                // return to root val
+                sb.delete(prevLen, sb.length());
             }
+
+            if (root.right != null) {
+                sb.append("->");
+                dfs(root.right, sb, res);
+            }
+
         }
     }
 
@@ -96,13 +105,15 @@ public class BinaryTreePaths {
                 return;
             }
 
-            if (root.left != null) {
-                String prev = sb.toString();
-                sb.append(root.val).append("->");
+            sb.append(root.val);
+            String prev = sb.toString();
 
+            if (root.left != null) {
+                sb.append(root.val).append("->");
                 dfs(root.left, sb, res);
 
                 sb = new StringBuilder(prev);
+
             }
 
             if (root.right != null) {

@@ -94,13 +94,15 @@ public class MergeSort {
             mergeSort(A, 0, A.length - 1, temp);
         }
 
+        // 1. 递归的定义：对 A 元素从 start 到 end 进行排序
         private void mergeSort(int[] A, int start, int end, int[] temp) {
+            // 2. 递归的出口: A 中元素要么为 0 个，要么为 1 个，退出
             if (start >= end) {
                 return;
             }
 
+            // 3. 递归的拆解
             int mid = start + (end - start) / 2;
-
             mergeSort(A, start, mid, temp);
             mergeSort(A, mid + 1, end, temp);
 

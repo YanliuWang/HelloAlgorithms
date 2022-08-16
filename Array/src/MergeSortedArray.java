@@ -38,6 +38,20 @@
  * @create 2020-10-16-15:31
  */
 public class MergeSortedArray {
+    class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        public TreeNode(int val) {
+            this.val = val;
+        }
+
+        public TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
     static class Solution {
         public void merge(int[] nums1, int m, int[] nums2, int n) {
             if (nums1 == null || nums1.length == 0 ||
@@ -45,7 +59,7 @@ public class MergeSortedArray {
                 return;
             }
 
-            int i = m-1, j = n-1, k = m+n-1;
+            int i = m - 1, j = n - 1, k = m + n - 1;
 
             while (i >= 0 && j >= 0) {
                 if (nums1[i] > nums2[j]) {
@@ -61,6 +75,7 @@ public class MergeSortedArray {
             while (j >= 0) {
                 nums1[k--] = nums2[j--];
             }
+
         }
     }
 }

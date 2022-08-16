@@ -22,8 +22,9 @@ public class SearchInRotatedSortedArray {
                     return mid;
                 }
 
-                if (nums[mid] >= nums[0]) {
-                    if (target >= nums[0] && target < nums[mid]) {
+                if (nums[mid] >= nums[left]) {
+                    // the first half [left, mid - 1] is sorted
+                    if (target >= nums[left] && target < nums[mid]) {
                         right = mid - 1;
 
                     } else {
@@ -32,7 +33,8 @@ public class SearchInRotatedSortedArray {
                     }
 
                 } else {
-                    if (target > nums[mid] && target < nums[0]) {
+                    // the second half [mid + 1, right]
+                    if (target > nums[mid] && target <= nums[right]) {
                         left = mid + 1;
 
                     } else {
@@ -123,7 +125,11 @@ public class SearchInRotatedSortedArray {
                 }
 
                 // we can not conclude which side is sorted
-                // move the left -> right since target != nums[mid] && target != nums[left]
+                // the first half could be out of order
+                // [3 1 2 3 3 3 3]
+                // move the left -> right
+                // 1. since target != nums[mid] && target != nums[left]
+                // 2. decrease the search scope
                 if (nums[mid] == nums[left]) {
                     left++;
 
