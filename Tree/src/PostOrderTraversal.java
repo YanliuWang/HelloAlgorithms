@@ -78,11 +78,10 @@ public class PostOrderTraversal {
                 curr = newNode.node;
 
                 if (!newNode.isRightChildVisited) {
-                    stack.push(newNode);
-                    curr = curr.right;
-
                     // visit the right child
                     newNode.isRightChildVisited = true;
+                    stack.push(newNode);
+                    curr = curr.right;
 
                 } else {
                     res.add(curr.val);

@@ -7,7 +7,7 @@ import java.util.Deque;
  * @create 2021-11-11-10:26 AM
  */
 public class IsValidBST {
-    static class Solution {
+    static class Solution1 {
         public boolean isValidBST(TreeNode root) {
             if (root == null) {
                 return true;
@@ -64,6 +64,28 @@ public class IsValidBST {
             }
 
             return true;
+        }
+    }
+
+    static class Solution3 {
+        public boolean isValidBST(TreeNode root) {
+            if (root == null) {
+                return true;
+            }
+
+            return isValidBST(root.left, Long.MIN_VALUE, root.val) && isValidBST(root.right, root.val, Long.MAX_VALUE);
+        }
+
+        private boolean isValidBST(TreeNode node, long min, long max) {
+            if (node == null) {
+                return true;
+            }
+
+            if (node.val <= min || node.val >= max) {
+                return false;
+            }
+
+            return isValidBST(node.left, min, node.val) && isValidBST(node.right, node.val, max);
         }
     }
 }

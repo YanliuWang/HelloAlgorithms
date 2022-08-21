@@ -66,6 +66,15 @@ public class FindKClosestElements {
 
             return res;
         }
+
+        public static void main(String[] args) {
+            Solution1 solution1 = new Solution1();
+
+            int[] arr = {1, 2, 3};
+            int x = 2;
+            int k = 3;
+            System.out.println(solution1.findClosestElements(arr, k, x));
+        }
     }
 
     static class Solution2 {
