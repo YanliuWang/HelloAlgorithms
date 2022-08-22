@@ -211,4 +211,123 @@ public class AlienDictionary {
             return true;
         }
     }
+
+    static class Solution3 {
+        /**
+         * @param words: a list of words
+         * @return: a string which is correct order
+         */
+        public String alienOrder(String[] words) {
+            // Write your code here
+            if (words == null || words.length == 0) {
+                return "";
+            }
+
+            Map<Character, Set<Character>> graph = buildGraph(words);
+
+            if (graph == null) {
+                return "";
+            }
+
+            Map<Character, Integer> inDegree = getInDegree(graph);
+
+            PriorityQueue<Character> pq = new PriorityQueue<>();
+
+            for (Character node : inDegree.keySet()) {
+                if (inDegree.get(node) == 0) {
+                    pq.offer(node);
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            while (!pq.isEmpty()) {
+                char node = pq.poll();
+                sb.append(node);
+
+                for (Character adj : graph.get(node)) {
+                    inDegree.put(adj, inDegree.get(adj) - 1);
+
+                    if (inDegree.get(adj) == 0) {
+                        pq.offer(adj);
+                    }
+                }
+            }
+
+            return sb.length() == graph.keySet().size() ? sb.toString() : "";
+        }
+
+        private Map<Character, Set<Character>> buildGraph(String[] words) {
+            Map<Character, Set<Character>> graph = new HashMap<>();
+
+            for (String word : words) {
+                for (int i = 0; i < word.length(); i++) {
+                    char curr = word.charAt(i);
+
+                    if (!graph.containsKey(curr)) {
+                        graph.put(curr, new HashSet<>());
+                    }
+
+                }
+            }
+
+            for (int i = 0; i < words.length - 1; i++) {
+                int idx = findFirstDiff(words[i], words[i + 1]);
+
+                if (idx == -1) {
+                    return null;
+                }
+
+                if (idx == Math.min(words[i].length(), words[i + 1].length())) {
+                    continue;
+                }
+
+                char prev = words[i].charAt(idx);
+                char next = words[i + 1].charAt(idx);
+
+                graph.get(prev).add(next);
+            }
+
+            return graph;
+        }
+
+        private Map<Character, Integer> getInDegree(Map<Character, Set<Character>> graph) {
+            Map<Character, Integer> inDegree = new HashMap<>();
+
+            for (Character node : graph.keySet()) {
+                if (!inDegree.containsKey(node)) {
+                    inDegree.put(node, 0);
+                }
+            }
+
+            for (Character node : graph.keySet()) {
+                for (Character adj : graph.get(node)) {
+                    inDegree.put(adj, inDegree.get(adj) + 1);
+                }
+            }
+
+            return inDegree;
+        }
+
+        private int findFirstDiff(String str1, String str2) {
+            int idx = 0;
+
+            while (idx < str1.length() && idx < str2.length()) {
+                if (str1.charAt(idx) != str2.charAt(idx)) {
+                    break;
+                }
+
+                idx++;
+
+            }
+
+            if (idx == Math.min(str1.length(), str2.length())) {
+                if (str1.length() > str2.length()) {
+                    return -1;
+                }
+            }
+
+            return idx;
+        }
+    }
 }

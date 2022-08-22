@@ -1,11 +1,12 @@
 import java.util.*;
 
 /**
+ * 判断是否有多个拓扑排序
  * @author yanliu
  * @create 2021-10-31-9:18 PM
  */
 public class SequenceReconstruction {
-    class Solution {
+    public class Solution {
         /**
          * @param org: a permutation of the integers from 1 to n
          * @param seqs: a list of sequences
@@ -13,16 +14,21 @@ public class SequenceReconstruction {
          */
         public boolean sequenceReconstruction(int[] org, int[][] seqs) {
             // write your code here
-            Map<Integer, Set<Integer>> graph = getGraph(seqs);
+            if (org == null || org.length == 0) {
+                return true;
+            }
 
-            List<Integer> topoOrder = topologicalSort(graph);
+            Map<Integer, Set<Integer>> graph = buildGraph(seqs);
+            Map<Integer, Integer> nodeToIndegree = getIndegree(graph);
 
-            if (topoOrder == null || topoOrder.size() != org.length) {
+            int[] seq = topoSort(graph, nodeToIndegree);
+
+            if (seq.length != org.length) {
                 return false;
             }
 
-            for (int i = 0; i < org.length; i++) {
-                if (org[i] != topoOrder.get(i)) {
+            for (int i = 0; i < seq.length; i++) {
+                if (seq[i] != org[i]) {
                     return false;
                 }
             }
@@ -30,7 +36,7 @@ public class SequenceReconstruction {
             return true;
         }
 
-        private Map<Integer, Set<Integer>> getGraph(int[][] seqs) {
+        private Map<Integer, Set<Integer>> buildGraph(int[][] seqs) {
             Map<Integer, Set<Integer>> graph = new HashMap<>();
 
             for (int[] seq : seqs) {
@@ -41,8 +47,6 @@ public class SequenceReconstruction {
                 }
             }
 
-
-
             for (int[] seq : seqs) {
                 for (int i = 1; i < seq.length; i++) {
                     graph.get(seq[i - 1]).add(seq[i]);
@@ -52,52 +56,54 @@ public class SequenceReconstruction {
             return graph;
         }
 
-        private List<Integer> topologicalSort(Map<Integer, Set<Integer>> graph) {
-            Map<Integer, Integer> indegrees = getIndegrees(graph);
-            Queue<Integer> queue = new ArrayDeque<>();
-            List<Integer> res = new ArrayList<>();
+        private Map<Integer, Integer> getIndegree(Map<Integer, Set<Integer>> graph) {
+            Map<Integer, Integer> nodeToIndegree = new HashMap<>();
 
             for (Integer node : graph.keySet()) {
-                // add the zero-indegree node
-                if (!indegrees.containsKey(node)) {
-                    queue.offer(node);
-                }
-
-                if (queue.size() > 1) {
-                    return null;
+                if (!nodeToIndegree.containsKey(node)) {
+                    nodeToIndegree.put(node, 0);
                 }
             }
 
+            for (Integer node : graph.keySet()) {
+                for (Integer adj : graph.get(node)) {
+                    nodeToIndegree.put(adj, nodeToIndegree.get(adj) + 1);
+                }
+            }
+
+            return nodeToIndegree;
+        }
+
+        private int[] topoSort(Map<Integer, Set<Integer>> graph, Map<Integer, Integer> nodeToIndegree) {
+            Queue<Integer> queue = new ArrayDeque<>();
+
+            for (Integer node : nodeToIndegree.keySet()) {
+                if (nodeToIndegree.get(node) == 0) {
+                    queue.offer(node);
+                }
+            }
+
+            int[] res = new int[nodeToIndegree.size()];
+            int idx = 0;
+
             while (!queue.isEmpty()) {
-                Integer curr = queue.poll();
-                res.add(curr);
+                if (queue.size() > 1) {
+                    return new int[0];
+                }
 
-                for (Integer next : graph.get(curr)) {
-                    indegrees.put(next, indegrees.get(next) - 1);
+                int node = queue.poll();
+                res[idx++] = node;
 
-                    if (indegrees.get(next) == 0) {
-                        queue.offer(next);
+                for (Integer adj : graph.get(node)) {
+                    nodeToIndegree.put(adj, nodeToIndegree.get(adj) - 1);
 
-                        if (queue.size() > 1) {
-                            return null;
-                        }
+                    if (nodeToIndegree.get(adj) == 0) {
+                        queue.offer(adj);
                     }
                 }
             }
 
             return res;
-        }
-
-        private Map<Integer, Integer> getIndegrees(Map<Integer, Set<Integer>> graph) {
-            Map<Integer, Integer> indegrees = new HashMap<>();
-
-            for (Integer node : graph.keySet()) {
-                for (Integer next : graph.get(node)) {
-                    indegrees.put(next, indegrees.getOrDefault(next, 0) + 1);
-                }
-            }
-
-            return indegrees;
         }
     }
 }
