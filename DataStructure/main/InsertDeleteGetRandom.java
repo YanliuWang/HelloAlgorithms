@@ -6,14 +6,14 @@ import java.util.*;
  * @create 2021-08-12-12:41
  */
 public class InsertDeleteGetRandom {
-    public class RandomizedSet {
+    public static class RandomizedSet {
         private List<Integer> array;
         private Random rand;
         private Map<Integer, Integer> numToIndex;
 
 
         public RandomizedSet() {
-            // do intialization if necessary
+            // do initialization if necessary
             array = new ArrayList<>();
             numToIndex = new HashMap<>();
             rand = new Random();
@@ -68,5 +68,15 @@ public class InsertDeleteGetRandom {
             // write your code here
             return array.get(rand.nextInt(array.size()));
         }
+    }
+
+    public static void main(String[] args) {
+        RandomizedSet randomizedSet = new RandomizedSet();
+
+        System.out.println(randomizedSet.insert(1));
+        System.out.println(randomizedSet.insert(1));
+        System.out.println(randomizedSet.remove(1));
+        System.out.println(randomizedSet.remove(1));
+
     }
 }

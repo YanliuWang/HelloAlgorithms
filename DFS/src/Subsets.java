@@ -71,6 +71,8 @@ public class Subsets {
 
             Arrays.sort(nums);
 
+            // 1. select the element behind the current index to avoid duplicate
+            // 2. select duplicate numbers in an order to avoid duplicate
             getSubsets(nums, 0, new ArrayList<>(), results);
 
             return results;
@@ -80,8 +82,10 @@ public class Subsets {
             results.add(new ArrayList<>(subset));
 
             for (int i = startIdx; i < nums.length; i++) {
-                // only the number that we first time meet can be used
-                // the second time we meet it, we ignore
+                // 上一个数是 startIdx - 1
+                // 当前的树是 i > startIdx
+                // startIdx ~ i - 1 的数字都没有被放到 subset 里
+                // nums[i - 1] 就没有别放到 subset 里
                 if (i > 0 && nums[i] == nums[i - 1] && i > startIdx) {
                     continue;
                 }
