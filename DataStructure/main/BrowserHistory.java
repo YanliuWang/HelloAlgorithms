@@ -14,12 +14,12 @@ public class BrowserHistory {
         future = new ArrayDeque<>();
 
         history.push(homepage);
-        future.clear();
     }
 
     public void visit(String url) {
         history.push(url);
-        future.clear();
+
+        future = new ArrayDeque<>();
     }
 
     public String back(int steps) {
