@@ -18,36 +18,25 @@ public class MergeIntervals {
 
         // sort the intervals based on the start of each interval
         Arrays.sort(intervals, new Comparator<int[]>() {
-           public int compare(int[] a, int[] b) {
-               return a[0] - b[0];
+           public int compare(int[] o1, int[] o2) {
+               return o1[0] - o2[0];
            }
         });
 
-        int[] newInterval = intervals[0];
-        res.add(newInterval);
+        int[] prev = intervals[0];
+        res.add(prev);
 
-        for (int[] interval : intervals) {
-            // if the interval.start <= newInterval.end
-            // merge the interval
-            if (interval[0] <= newInterval[1]) {
-                newInterval[1] = Math.max(interval[1], newInterval[1]);
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i][0] <= prev[1]) {
+                prev[1] = Math.max(intervals[i][1], prev[1]);
 
             } else {
-                newInterval = interval;
-                res.add(newInterval);
+                prev = intervals[i];
+                res.add(prev);
+
             }
         }
 
         return res.toArray(new int[res.size()][2]);
-    }
-
-    public static void main(String[] args) {
-        String s = "/a/b/c";
-
-        String[] arr = s.split("/");
-
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(i + ":" + arr[i]);
-        }
     }
 }
