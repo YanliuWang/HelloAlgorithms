@@ -46,32 +46,39 @@ public class MeetingRoom {
 
     static class Solution2 {
         public int minMeetingRooms(int[][] intervals) {
-            int N = intervals.length;
-            int[] start = new int[N];
-            int[] end = new int[N];
-
-            for (int i = 0; i < N; i++) {
-                start[i] = intervals[i][0];
-                end[i] = intervals[i][1];
+            if (intervals == null || intervals.length == 0
+                    || intervals[0] == null ||intervals[0].length == 0) {
+                return 0;
             }
 
-            // sort the start time and end time
-            Arrays.sort(start);
-            Arrays.sort(end);
+            int[] starts = new int[intervals.length];
+            int[] ends = new int[intervals.length];
 
-            int earliestEndTime = 0;
-            int numOfRooms = 1;
+            for (int i = 0; i < intervals.length; i++) {
+                starts[i] = intervals[i][0];
+                ends[i] = intervals[i][1];
+            }
 
-            for (int i = 1; i < N; i++) {
-                if (start[i] < end[earliestEndTime]) {
-                    numOfRooms++;
+            Arrays.sort(starts);
+            Arrays.sort(ends);
+
+            int res = 0;
+            int startPtr = 0, endPtr = 0;
+
+            while (startPtr < intervals.length) {
+                if (starts[startPtr] >= ends[endPtr]) {
+                    startPtr++;
+                    endPtr++;
+
+
                 } else {
-                    earliestEndTime++;
+                    res++;
+                    startPtr++;
+
                 }
             }
 
-            return numOfRooms;
-
+            return res;
         }
     }
 }
