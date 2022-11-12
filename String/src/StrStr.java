@@ -30,7 +30,7 @@ public class StrStr {
                         break;
                     }
 
-                }
+                } 
 
                 if (isEqual) {
                     return sourceStart;
